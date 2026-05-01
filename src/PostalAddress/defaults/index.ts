@@ -1,5 +1,10 @@
 import type { PostalAddress } from 'schema-dts'
 import type { ISO31661Alpha2 } from '@sovereignbase/utils'
+import {
+  additionalType,
+  addressCountry,
+  addressLocality,
+} from '../../.shared/index.js'
 
 type SchemaOrgPostalAddressRaw = Extract<
   PostalAddress,
@@ -14,9 +19,11 @@ export type SchemaOrgPostalAddress = Partial<
 >
 
 export const defaults = {
-  additionalType: '',
-  addressCountry: '' as ISO31661Alpha2,
-  addressLocality: '',
+  '@id': '',
+  '@type': 'PostalAddress',
+  additionalType,
+  addressCountry,
+  addressLocality,
   addressRegion: '',
   alternateName: '',
   areaServed: '',
