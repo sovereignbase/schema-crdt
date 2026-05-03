@@ -71,7 +71,7 @@
     "@sovereignbase/convergent-replicated-set": "^0.0.0",
     "@sovereignbase/convergent-replicated-struct": "^1.1.5",
     "@sovereignbase/convergent-replicated-text": "^1.0.3",
-    "@sovereignbase/cryptosuite": "^2.2.1",
+    "@sovereignbase/cryptosuite": "^2.2.2",
     "@sovereignbase/utils": "^1.2.0",
     "jsonld": "^9.0.0",
     "schema-dts": "^2.0.0"

@@ -1,12 +1,12 @@
-export type PackageNameErrorCode = 'EXAMPLE_ERROR_CODE'
+export type SchemaCRDTErrorCode = 'EXAMPLE_ERROR_CODE'
 
-export class PackageNameError extends Error {
-  readonly code: PackageNameErrorCode
+export class SchemaCRDTError extends Error {
+  readonly code: SchemaCRDTErrorCode
 
-  constructor(code: PackageNameErrorCode, message?: string) {
+  constructor(code: SchemaCRDTErrorCode, message?: string) {
     const detail = message ?? code
-    super(`{@z-base/package-name} ${detail}`)
+    super(`{@sovereignbase/schema-crdt} ${detail}`)
     this.code = code
-    this.name = 'PackageNameError'
+    this.name = 'SchemaCRDTError'
   }
 }
