@@ -33,7 +33,6 @@ export const defaults = {
   url: '' as string,
 } as const
 
-// "about" is legacy
 type MissingKeys = Exclude<keyof SchemaOrgThing, keyof typeof defaults>
 
 type ExtraKeys = Exclude<keyof typeof defaults, keyof SchemaOrgThing>
