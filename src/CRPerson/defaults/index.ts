@@ -1,5 +1,6 @@
 import { CRList } from '@sovereignbase/convergent-replicated-list'
 import type { Person } from 'schema-dts'
+import { award, additionalName } from '../../.shared/index.js'
 
 type SchemaOrgPersonRaw = Extract<Person, { '@type': 'Person' }>
 export type SchemaOrgPerson = Partial<
@@ -7,8 +8,8 @@ export type SchemaOrgPerson = Partial<
 >
 
 export const defaults = {
-  award: new CRList<string>().toJSON(),
-  additionalName: new CRList<string>().toJSON(),
+  award,
+  additionalName,
   address: new CRList<string>().toJSON(),
   affiliation: '',
   agentInteractionStatistic: '',

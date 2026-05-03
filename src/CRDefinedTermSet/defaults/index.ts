@@ -4,6 +4,9 @@ import {
   alternateName,
   description,
   disambiguatingDescription,
+  name,
+  sameAs,
+  subjectOf,
 } from '../../.shared/index.js'
 import type { CRStructSnapshot } from '@sovereignbase/convergent-replicated-struct'
 
@@ -133,15 +136,15 @@ export const defaults = {
   identifier: '' as string,
   image: '',
   mainEntityOfPage: '',
-  name: '',
+  name,
   owner: '',
   potentialAction: '',
-  sameAs: '',
-  subjectOf: '',
-  url: '',
+  sameAs,
+  subjectOf,
+  url: '' as string,
 } as const
 
-// "awards" | "encodings" | "fileFormat" | "isBasedOnUrl" | "reviews" are legacy
+// "awards" | "displayLocation" | "encodingFormat" | "encodings" | "fileFormat" | "interpretedAsClaim" | "isBasedOnUrl" | "reviews" are legacy
 type MissingKeys = Exclude<keyof SchemaOrgDefinedTermSet, keyof typeof defaults>
 
 type ExtraKeys = Exclude<keyof typeof defaults, keyof SchemaOrgDefinedTermSet>

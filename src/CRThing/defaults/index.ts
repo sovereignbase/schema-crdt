@@ -1,4 +1,4 @@
-import type { DefinedTerm } from 'schema-dts'
+import type { Thing } from 'schema-dts'
 import {
   additionalType,
   alternateName,
@@ -11,15 +11,13 @@ import {
 } from '../../.shared/index.js'
 import type { CRStructSnapshot } from '@sovereignbase/convergent-replicated-struct'
 
-type SchemaOrgDefinedTermRaw = Extract<DefinedTerm, { '@type': 'DefinedTerm' }>
+type SchemaOrgThingRaw = Extract<Thing, { '@type': 'Thing' }>
 
-export type SchemaOrgDefinedTerm = Partial<SchemaOrgDefinedTermRaw>
+export type SchemaOrgThing = Partial<SchemaOrgThingRaw>
 
 export const defaults = {
   '@id': '' as string,
-  '@type': 'DefinedTerm',
-  inDefinedTermSet: '',
-  termCode: '' as string,
+  '@type': 'Thing',
   additionalType,
   alternateName,
   description,
@@ -36,8 +34,8 @@ export const defaults = {
 } as const
 
 // "about" is legacy
-type MissingKeys = Exclude<keyof SchemaOrgDefinedTerm, keyof typeof defaults>
+type MissingKeys = Exclude<keyof SchemaOrgThing, keyof typeof defaults>
 
-type ExtraKeys = Exclude<keyof typeof defaults, keyof SchemaOrgDefinedTerm>
+type ExtraKeys = Exclude<keyof typeof defaults, keyof SchemaOrgThing>
 
-export type CRDefinedTermSnapshot = CRStructSnapshot<Partial<typeof defaults>>
+export type CRThingSnapshot = CRStructSnapshot<Partial<typeof defaults>>
