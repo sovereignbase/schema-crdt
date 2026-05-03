@@ -2,8 +2,10 @@ import type { ImageObject } from 'schema-dts'
 import {
   additionalType,
   alternateName,
+  caption,
   description,
   disambiguatingDescription,
+  embeddedTextCaption,
 } from '../../.shared/index.js'
 
 type SchemaOrgImageObjectRaw = Extract<ImageObject, { '@type': 'ImageObject' }>
@@ -13,8 +15,8 @@ export type SchemaOrgImageObject = Partial<SchemaOrgImageObjectRaw>
 export const defaults = {
   '@id': '' as string,
   '@type': 'ImageObject',
-  caption: '',
-  embeddedTextCaption: '',
+  caption,
+  embeddedTextCaption,
   exifData: '',
   representativeOfPage: false as boolean,
   associatedArticle: '',
@@ -161,7 +163,7 @@ export const defaults = {
   url: '',
 } as const
 
-// "containedIn" | "events" | "map" | "maps" | "photos" | "reviews" are legacy
+// "awards" | "encodings" | "fileFormat" | "isBasedOnUrl" | "reviews" are legacy
 type MissingKeys = Exclude<keyof SchemaOrgImageObject, keyof typeof defaults>
 
 type ExtraKeys = Exclude<keyof typeof defaults, keyof SchemaOrgImageObject>

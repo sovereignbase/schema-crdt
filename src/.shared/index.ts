@@ -16,5 +16,7 @@ export const additionalType: CRSetSnapshot<string> = crSetSnapshot
 export const addressCountry: ISO31661Alpha2 = 'AD'
 export const addressLocality: string = ''
 export const alternateName: CRSetSnapshot<string> = crSetSnapshot
+export const caption: CRTextSnapshot = crTextSnapshot
 export const description: CRTextSnapshot = crTextSnapshot
 export const disambiguatingDescription: CRTextSnapshot = crTextSnapshot
+export const embeddedTextCaption: CRTextSnapshot = crTextSnapshot
