@@ -4,6 +4,7 @@ import {
   alternateName,
   description,
   disambiguatingDescription,
+  embeddedTextCaption,
 } from '../../.shared/index.js'
 import type { CRStructSnapshot } from '@sovereignbase/convergent-replicated-struct'
 
