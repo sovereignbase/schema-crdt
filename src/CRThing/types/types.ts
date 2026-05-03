@@ -16,9 +16,9 @@ type SchemaOrgThingRaw = Extract<Thing, { '@type': 'Thing' }>
 
 type SchemaOrgThing = Partial<SchemaOrgThingRaw>
 
-export type CRThingDefaultShape = {
+export type CRThingDefaultShape<T = 'Thing'> = {
   '@id': OpaqueIdentifier
-  '@type': 'Thing'
+  '@type': T
   additionalType: CRSetSnapshot<string>
   alternateName: CRSetSnapshot<string>
   description: CRTextSnapshot
@@ -43,9 +43,9 @@ type MissingKeys = Exclude<keyof SchemaOrgThing, keyof CRThingSnapshot>
 
 type ExtraKeys = Exclude<keyof CRThingSnapshot, keyof SchemaOrgThing>
 
-export type CRThingState = {
+export type CRThingState<T = 'Thing'> = {
   '@id': Readonly<OpaqueIdentifier>
-  '@type': Readonly<'Thing'>
+  '@type': Readonly<T>
   additionalType: Readonly<CRSet<string>>
   alternateName: Readonly<CRSet<string>>
   description: Readonly<CRText>

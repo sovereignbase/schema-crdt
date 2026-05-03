@@ -18,12 +18,12 @@ import {
   subjectOf,
 } from '../.shared/index.js'
 
-export class CRThing implements CRThingState {
+export class CRThing<T = 'Thing'> implements CRThingState<T> {
   declare private readonly state: CRStruct<CRThingDefaultShape, true>
   declare private readonly eventTarget: EventTarget
 
   declare public readonly '@id': OpaqueIdentifier
-  declare public readonly '@type': 'Thing'
+  declare public readonly '@type': T
   declare public readonly 'additionalType': Readonly<CRSet<string>>
   declare public readonly 'alternateName': Readonly<CRSet<string>>
   declare public readonly 'description': Readonly<CRText>
