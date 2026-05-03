@@ -1,11 +1,11 @@
 import { CRStruct } from '@sovereignbase/convergent-replicated-struct'
 import { CRText } from '@sovereignbase/convergent-replicated-text'
 import { CRSet } from '@sovereignbase/convergent-replicated-set'
-import { Cryptographic } from '@sovereignbase/cryptosuite'
+import { Cryptographic, OpaqueIdentifier } from '@sovereignbase/cryptosuite'
 
 import type {
+  CRThingDefaultShape,
   CRThingSnapshot,
-  CRThingSnapshotShape,
   CRThingState,
 } from './types/types.js'
 import {
@@ -19,9 +19,27 @@ import {
 } from '../.shared/index.js'
 
 export class CRThing implements CRThingState {
-  private readonly state: CRStruct<CRThingSnapshotShape>
+  declare private readonly state: CRStruct<CRThingDefaultShape, true>
+  declare private readonly eventTarget: EventTarget
+
+  declare public readonly '@id': OpaqueIdentifier
+  declare public readonly '@type': 'Thing'
+  declare public readonly 'additionalType': Readonly<CRSet<string>>
+  declare public readonly 'alternateName': Readonly<CRSet<string>>
+  declare public readonly 'description': Readonly<CRText>
+  declare public readonly 'disambiguatingDescription': Readonly<CRText>
+  declare public readonly 'identifier': string
+  declare public 'image': string
+  declare public 'mainEntityOfPage': string
+  declare public readonly 'name': Readonly<CRText>
+  declare public 'owner': string
+  declare public 'potentialAction': string
+  declare public readonly 'sameAs': Readonly<CRSet<string>>
+  declare public readonly 'subjectOf': Readonly<CRSet<string>>
+  declare public 'url': string
+
   constructor(snapshot?: CRThingSnapshot) {
-    const defaults = {
+    const defaults: CRThingDefaultShape = {
       '@id': '',
       '@type': 'Thing',
       additionalType,
@@ -38,9 +56,20 @@ export class CRThing implements CRThingState {
       subjectOf,
       url: '',
     }
-    this.state = new CRStruct(defaults, snapshot)
 
     Object.defineProperties(this, {
+      state: {
+        value: new CRStruct(defaults, snapshot, true),
+        enumerable: false,
+        configurable: false,
+        writable: false,
+      },
+      eventTarget: {
+        value: new EventTarget(),
+        enumerable: false,
+        configurable: false,
+        writable: false,
+      },
       '@id': {
         value: this.state['@id'] ?? Cryptographic.identifier.generate(),
         enumerable: true,
@@ -138,6 +167,24 @@ export class CRThing implements CRThingState {
         configurable: true,
         writable: true,
       },
+    })
+
+    let stateTimeout: ReturnType<typeof setTimeout> | undefined
+    this.state.addEventListener('change', () => {
+      clearTimeout(stateTimeout)
+
+      stateTimeout = setTimeout(() => {}, 500)
+    })
+
+    this.additionalType.addEventListener('snapshot', ({}) => {})
+
+    let descriptionTimeout: ReturnType<typeof setTimeout> | undefined
+    this.description.addEventListener('change', () => {
+      clearTimeout(descriptionTimeout)
+
+      descriptionTimeout = setTimeout(() => {
+        this.state.description = this.description.toJSON()
+      }, 500)
     })
   }
 }

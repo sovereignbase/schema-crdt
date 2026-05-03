@@ -10,7 +10,7 @@ import type {
   CRSet,
 } from '@sovereignbase/convergent-replicated-set'
 
-import type { PartialExcept } from '../../.types/index.js'
+import type { CRStructPartialSnapshot } from '../../.types/index.js'
 
 type SchemaOrgThingRaw = Extract<Thing, { '@type': 'Thing' }>
 
@@ -33,8 +33,10 @@ export type CRThingDefaultShape = {
   subjectOf: CRSetSnapshot<string>
   url: string
 }
-export type CRThingSnapshot = CRStructSnapshot<
-  PartialExcept<CRThingDefaultShape, '@id' | '@type' | 'identifier'>
+
+export type CRThingSnapshot = CRStructPartialSnapshot<
+  CRThingDefaultShape,
+  '@id' | '@type' | 'identifier'
 >
 
 type MissingKeys = Exclude<keyof SchemaOrgThing, keyof CRThingSnapshot>
@@ -44,17 +46,17 @@ type ExtraKeys = Exclude<keyof CRThingSnapshot, keyof SchemaOrgThing>
 export type CRThingState = {
   '@id': Readonly<OpaqueIdentifier>
   '@type': Readonly<'Thing'>
-  additionalType?: Readonly<CRSet<string>>
-  alternateName?: Readonly<CRSet<string>>
-  description?: Readonly<CRText>
-  disambiguatingDescription?: CRText
+  additionalType: Readonly<CRSet<string>>
+  alternateName: Readonly<CRSet<string>>
+  description: Readonly<CRText>
+  disambiguatingDescription: Readonly<CRText>
   identifier: Readonly<OpaqueIdentifier>
-  image?: string
-  mainEntityOfPage?: string
-  name?: Readonly<CRText>
-  owner?: string
-  potentialAction?: string
-  sameAs?: Readonly<CRSet<string>>
-  subjectOf?: Readonly<CRSet<string>>
-  url?: string
+  image: string
+  mainEntityOfPage: string
+  name: Readonly<CRText>
+  owner: string
+  potentialAction: string
+  sameAs: Readonly<CRSet<string>>
+  subjectOf: Readonly<CRSet<string>>
+  url: string
 }
