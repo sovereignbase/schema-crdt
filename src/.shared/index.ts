@@ -2,6 +2,7 @@ import {
   CRSet,
   type CRSetSnapshot,
 } from '@sovereignbase/convergent-replicated-set'
+import { CRStruct } from '@sovereignbase/convergent-replicated-struct'
 import {
   CRText,
   type CRTextSnapshot,
@@ -16,4 +17,4 @@ export const addressCountry: ISO31661Alpha2 = 'AD'
 export const addressLocality: string = ''
 export const alternateName: CRSetSnapshot<string> = crSetSnapshot
 export const description: CRTextSnapshot = crTextSnapshot
-export const disambiguatingDescription: CRTextSnapshot = crSetSnapshot
+export const disambiguatingDescription: CRTextSnapshot = crTextSnapshot
