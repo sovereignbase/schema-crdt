@@ -1,6 +1,5 @@
 import type { Thing } from 'schema-dts'
 import type { OpaqueIdentifier } from '@sovereignbase/cryptosuite'
-import type { CRStructSnapshot } from '@sovereignbase/convergent-replicated-struct'
 import type {
   CRTextSnapshot,
   CRText,
@@ -10,7 +9,11 @@ import type {
   CRSet,
 } from '@sovereignbase/convergent-replicated-set'
 
-import type { CRStructPartialSnapshot } from '../../.types/index.js'
+import type {
+  CRStructPartialSnapshot,
+  SchemaOrgText,
+  SchemaOrgURL,
+} from '../../.types/types.js'
 
 type SchemaOrgThingRaw = Extract<Thing, { '@type': 'Thing' }>
 
@@ -19,19 +22,19 @@ type SchemaOrgThing = Partial<SchemaOrgThingRaw>
 export type CRThingDefaultShape<T = 'Thing'> = {
   '@id': OpaqueIdentifier
   '@type': T
-  additionalType: CRSetSnapshot<string>
-  alternateName: CRSetSnapshot<string>
+  additionalType: CRSetSnapshot<SchemaOrgURL | SchemaOrgText>
+  alternateName: CRSetSnapshot<SchemaOrgText>
   description: CRTextSnapshot
   disambiguatingDescription: CRTextSnapshot
   identifier: OpaqueIdentifier
   image: string
-  mainEntityOfPage: string
+  mainEntityOfPage: SchemaOrgURL
   name: CRTextSnapshot
   owner: string
   potentialAction?: string
-  sameAs: CRSetSnapshot<string>
+  sameAs: CRSetSnapshot<SchemaOrgURL>
   subjectOf: CRSetSnapshot<string>
-  url: string
+  url: SchemaOrgURL
 }
 
 export type CRThingSnapshot = CRStructPartialSnapshot<

@@ -26,13 +26,14 @@ import {
 import type {
   SchemaCRDTEventListenerFor,
   SchemaCRDTEventMap,
+  SchemaCRDTPropertyEventMap,
 } from '../.types/index.js'
 
 export class CRThing<
   T = 'Thing',
   S extends Record<string, unknown> = CRThingDefaultShape,
 > implements CRThingState<T> {
-  declare private readonly state: CRStruct<CRThingDefaultShape, true>
+  declare private readonly state: CRStruct<CRThingDefaultShape>
   declare private readonly eventTarget: EventTarget
 
   declare public readonly '@id': OpaqueIdentifier
@@ -52,6 +53,8 @@ export class CRThing<
   declare public 'url': string
 
   constructor(snapshot?: CRThingSnapshot) {
+    const id = snapshot?.['@id']?.value || Cryptographic.identifier.generate()
+
     const defaults: CRThingDefaultShape = {
       '@id': '',
       '@type': 'Thing',
@@ -70,8 +73,10 @@ export class CRThing<
       url: '',
     }
 
-    const state = new CRStruct(defaults, snapshot, true)
-    const id = state['@id'] || Cryptographic.identifier.generate()
+    const state = new CRStruct(
+      defaults,
+      snapshot as CRStructSnapshot<CRThingDefaultShape> | undefined
+    )
 
     Object.defineProperties(this, {
       state: {
@@ -213,29 +218,48 @@ export class CRThing<
 
     for (const type of eventTypes) {
       this.state.addEventListener(type, (event: Event) => {
-        const detail = (event as CustomEvent<unknown>).detail
+        const detail = (
+          event as CustomEvent<
+            SchemaCRDTEventMap<CRThingDefaultShape>[typeof type]
+          >
+        ).detail
         if (typeof detail === 'object' && detail !== null) {
-          const filtered: Record<string, unknown> = {}
+          const filtered =
+            {} as SchemaCRDTEventMap<CRThingDefaultShape>[typeof type]
 
           for (const [key, value] of Object.entries(
-            detail as Record<string, unknown>
+            detail as Record<
+              string,
+              SchemaCRDTEventMap<CRThingDefaultShape>[typeof type]
+            >
           )) {
             if (!isRouted(key)) {
-              filtered[key] = value
+              ;(
+                filtered as Record<
+                  string,
+                  SchemaCRDTEventMap<CRThingDefaultShape>[typeof type]
+                >
+              )[key] = value
             }
           }
 
-          if (Object.keys(filtered).length === 0) {
+          if (Object.keys(filtered as Record<string, never>).length === 0) {
             return
           }
 
           void this.eventTarget.dispatchEvent(
-            new CustomEvent(type, { detail: filtered })
+            new CustomEvent<SchemaCRDTEventMap<S>[typeof type]>(type, {
+              detail: filtered as SchemaCRDTEventMap<S>[typeof type],
+            })
           )
           return
         }
 
-        void this.eventTarget.dispatchEvent(new CustomEvent(type, { detail }))
+        void this.eventTarget.dispatchEvent(
+          new CustomEvent<SchemaCRDTEventMap<S>[typeof type]>(type, {
+            detail: detail as SchemaCRDTEventMap<S>[typeof type],
+          })
+        )
       })
     }
 
@@ -257,8 +281,12 @@ export class CRThing<
       for (const type of eventTypes) {
         eventSource.addEventListener(type, (event) => {
           void this.eventTarget.dispatchEvent(
-            new CustomEvent(type, {
-              detail: { [key]: (event as CustomEvent<unknown>).detail },
+            new CustomEvent<SchemaCRDTEventMap<S>[typeof type]>(type, {
+              detail: {
+                [key]: (
+                  event as CustomEvent<SchemaCRDTPropertyEventMap[typeof type]>
+                ).detail,
+              } as SchemaCRDTEventMap<S>[typeof type],
             })
           )
         })
@@ -351,7 +379,9 @@ export class CRThing<
    */
   snapshot(): void {
     void this.eventTarget.dispatchEvent(
-      new CustomEvent('snapshot', { detail: this.toJSON() })
+      new CustomEvent<SchemaCRDTEventMap<S>['snapshot']>('snapshot', {
+        detail: this.toJSON(),
+      })
     )
   }
 
