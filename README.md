@@ -1,11 +1,11 @@
-[![npm version](https://img.shields.io/npm/v/@sovereignbase/package-name)](https://www.npmjs.com/package/@sovereignbase/package-name)
-[![CI](https://github.com/sovereignbase/package-name/actions/workflows/ci.yaml/badge.svg?branch=master)](https://github.com/sovereignbase/package-name/actions/workflows/ci.yaml)
-[![codecov](https://codecov.io/gh/sovereignbase/package-name/branch/master/graph/badge.svg)](https://codecov.io/gh/sovereignbase/package-name)
-[![license](https://img.shields.io/npm/l/@sovereignbase/package-name)](LICENSE)
+[![npm version](https://img.shields.io/npm/v/@sovereignbase/schema-crdt)](https://www.npmjs.com/package/@sovereignbase/schema-crdt)
+[![CI](https://github.com/sovereignbase/schema-crdt/actions/workflows/ci.yaml/badge.svg?branch=master)](https://github.com/sovereignbase/schema-crdt/actions/workflows/ci.yaml)
+[![codecov](https://codecov.io/gh/sovereignbase/schema-crdt/branch/master/graph/badge.svg)](https://codecov.io/gh/sovereignbase/schema-crdt)
+[![license](https://img.shields.io/npm/l/@sovereignbase/schema-crdt)](LICENSE)
 
 1. Title
 
-# package-name
+# schema-crdt
 
 2. Description
 

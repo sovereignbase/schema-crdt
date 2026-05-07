@@ -1,7 +1,7 @@
 {
   "type": "module",
   "license": "Apache-2.0",
-  "name": "@sovereignbase/package-name",
+  "name": "@sovereignbase/schema-crdt",
   "version": "0.0.0",
   "description": "",
   "keywords": [
@@ -71,7 +71,7 @@
     "@sovereignbase/bytecodec": "^1.7.0",
     "@sovereignbase/convergent-replicated-list": "^1.0.8",
     "@sovereignbase/convergent-replicated-map": "^1.0.2",
-    "@sovereignbase/convergent-replicated-set": "^0.0.0",
+    "@sovereignbase/convergent-replicated-set": "^1.0.0",
     "@sovereignbase/convergent-replicated-struct": "^1.2.1",
     "@sovereignbase/convergent-replicated-text": "^1.0.3",
     "@sovereignbase/cryptosuite": "^2.2.2",
@@ -82,10 +82,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sovereignbase/package-name.git"
+    "url": "git+https://github.com/sovereignbase/schema-crdt.git"
   },
   "bugs": {
-    "url": "https://github.com/sovereignbase/package-name/issues"
+    "url": "https://github.com/sovereignbase/schema-crdt/issues"
   },
-  "homepage": "https://github.com/sovereignbase/package-name#readme"
+  "homepage": "https://sovereignbase.dev/schema-crdt"
 }
