@@ -1,4 +1,9 @@
-import { CRStruct } from '@sovereignbase/convergent-replicated-struct'
+import {
+  CRStruct,
+  type CRStructAck,
+  type CRStructDelta,
+  type CRStructSnapshot,
+} from '@sovereignbase/convergent-replicated-struct'
 import { CRText } from '@sovereignbase/convergent-replicated-text'
 import { CRSet } from '@sovereignbase/convergent-replicated-set'
 import { Cryptographic, OpaqueIdentifier } from '@sovereignbase/cryptosuite'
@@ -25,7 +30,7 @@ import type {
 
 export class CRThing<
   T = 'Thing',
-  S = CRThingDefaultShape,
+  S extends Record<string, unknown> = CRThingDefaultShape,
 > implements CRThingState<T> {
   declare private readonly state: CRStruct<CRThingDefaultShape, true>
   declare private readonly eventTarget: EventTarget
@@ -65,11 +70,12 @@ export class CRThing<
       url: '',
     }
 
-    const id = this.state['@id'] ?? Cryptographic.identifier.generate()
+    const state = new CRStruct(defaults, snapshot, true)
+    const id = state['@id'] || Cryptographic.identifier.generate()
 
     Object.defineProperties(this, {
       state: {
-        value: new CRStruct(defaults, snapshot, true),
+        value: state,
         enumerable: false,
         configurable: false,
         writable: false,
@@ -87,36 +93,32 @@ export class CRThing<
         writable: false,
       },
       '@type': {
-        value: 'Thing',
+        value: state['@type'] ?? defaults['@type'],
         enumerable: true,
         configurable: false,
         writable: false,
       },
       additionalType: {
-        value: new CRSet(
-          this.state['additionalType'] ?? defaults['additionalType']
-        ),
+        value: new CRSet(state['additionalType'] ?? defaults['additionalType']),
         enumerable: true,
         configurable: true,
         writable: false,
       },
       alternateName: {
-        value: new CRSet(
-          this.state['alternateName'] ?? defaults['alternateName']
-        ),
+        value: new CRSet(state['alternateName'] ?? defaults['alternateName']),
         enumerable: true,
         configurable: true,
         writable: false,
       },
       description: {
-        value: new CRText(this.state['description'] ?? defaults['description']),
+        value: new CRText(state['description'] ?? defaults['description']),
         enumerable: true,
         configurable: true,
         writable: false,
       },
       disambiguatingDescription: {
         value: new CRText(
-          this.state['disambiguatingDescription'] ??
+          state['disambiguatingDescription'] ??
             defaults['disambiguatingDescription']
         ),
         enumerable: true,
@@ -130,84 +132,138 @@ export class CRThing<
         writable: false,
       },
       image: {
-        value: this.state['image'] ?? defaults['image'],
         enumerable: true,
         configurable: true,
-        writable: true,
+        get(): string {
+          return state['image'] ?? defaults['image']
+        },
+        set(value: string): void {
+          state['image'] = value
+        },
       },
       mainEntityOfPage: {
-        value: this.state['mainEntityOfPage'] ?? defaults['mainEntityOfPage'],
         enumerable: true,
         configurable: true,
-        writable: true,
+        get(): string {
+          return state['mainEntityOfPage'] ?? defaults['mainEntityOfPage']
+        },
+        set(value: string): void {
+          state['mainEntityOfPage'] = value
+        },
       },
       name: {
-        value: new CRText(this.state['name'] ?? defaults['name']),
+        value: new CRText(state['name'] ?? defaults['name']),
         enumerable: true,
         configurable: true,
         writable: false,
       },
       owner: {
-        value: this.state['owner'] ?? defaults['owner'],
         enumerable: true,
         configurable: true,
-        writable: true,
+        get(): string {
+          return state['owner'] ?? defaults['owner']
+        },
+        set(value: string): void {
+          state['owner'] = value
+        },
       },
       potentialAction: {
-        value: this.state['potentialAction'] ?? defaults['potentialAction'],
         enumerable: true,
         configurable: true,
-        writable: true,
-        get() {
-          return this.state['potentialAction']
+        get(): string {
+          return state['potentialAction'] ?? defaults['potentialAction'] ?? ''
         },
-        set(value) {
-          this.state['potentialAction'] = value
+        set(value: string): void {
+          state['potentialAction'] = value
         },
       },
       sameAs: {
-        value: new CRSet(this.state['sameAs'] ?? defaults['sameAs']),
+        value: new CRSet(state['sameAs'] ?? defaults['sameAs']),
         enumerable: true,
         configurable: true,
         writable: false,
       },
       subjectOf: {
-        value: new CRSet(this.state['subjectOf'] ?? defaults['subjectOf']),
+        value: new CRSet(state['subjectOf'] ?? defaults['subjectOf']),
         enumerable: true,
         configurable: true,
         writable: false,
       },
       url: {
-        value: this.state['url'] ?? defaults['url'],
         enumerable: true,
         configurable: true,
-        writable: true,
         get(): string {
-          return this.state['url']
+          return state['url'] ?? defaults['url']
         },
         set(value: string): void {
-          this.state['url'] = value
+          state['url'] = value
         },
       },
     })
 
-    let stateTimeout: ReturnType<typeof setTimeout> | undefined
-    this.state.addEventListener('change', () => {
-      clearTimeout(stateTimeout)
+    const eventTypes = ['delta', 'change', 'snapshot', 'ack'] as const
+    const isRouted = (key: string): boolean => {
+      const value = this[key as keyof this] as unknown
+      return (
+        typeof value === 'object' &&
+        value !== null &&
+        'addEventListener' in value
+      )
+    }
 
-      stateTimeout = setTimeout(() => {}, 500)
-    })
+    for (const type of eventTypes) {
+      this.state.addEventListener(type, (event: Event) => {
+        const detail = (event as CustomEvent<unknown>).detail
+        if (typeof detail === 'object' && detail !== null) {
+          const filtered: Record<string, unknown> = {}
 
-    this.additionalType.addEventListener('snapshot', ({}) => {})
+          for (const [key, value] of Object.entries(
+            detail as Record<string, unknown>
+          )) {
+            if (!isRouted(key)) {
+              filtered[key] = value
+            }
+          }
 
-    let descriptionTimeout: ReturnType<typeof setTimeout> | undefined
-    this.description.addEventListener('change', () => {
-      clearTimeout(descriptionTimeout)
+          if (Object.keys(filtered).length === 0) {
+            return
+          }
 
-      descriptionTimeout = setTimeout(() => {
-        this.state.description = this.description.toJSON()
-      }, 500)
-    })
+          void this.eventTarget.dispatchEvent(
+            new CustomEvent(type, { detail: filtered })
+          )
+          return
+        }
+
+        void this.eventTarget.dispatchEvent(new CustomEvent(type, { detail }))
+      })
+    }
+
+    for (const key of this.state.keys<keyof CRThingDefaultShape>()) {
+      const value = this[key as keyof this] as unknown
+
+      if (
+        typeof value !== 'object' ||
+        value === null ||
+        !('addEventListener' in value)
+      ) {
+        continue
+      }
+
+      const eventSource = value as {
+        addEventListener(type: string, listener: EventListener): void
+      }
+
+      for (const type of eventTypes) {
+        eventSource.addEventListener(type, (event) => {
+          void this.eventTarget.dispatchEvent(
+            new CustomEvent(type, {
+              detail: { [key]: (event as CustomEvent<unknown>).detail },
+            })
+          )
+        })
+      }
+    }
   }
 
   /**
@@ -215,19 +271,47 @@ export class CRThing<
    *
    * @param crStructDelta - The partial serializable field delta to merge.
    */
-  merge(crStructDelta: CRStructDelta<T>): void {
-    const result = __merge<T>(crStructDelta, this.__state)
+  merge(
+    crStructDelta: CRStructDelta<S> | Partial<Record<keyof S, unknown>>
+  ): void {
+    for (const [key, value] of Object.entries(crStructDelta)) {
+      const target = this[key as keyof this] as unknown
+
+      if (typeof target === 'object' && target !== null && 'merge' in target) {
+        const delta =
+          typeof value === 'object' &&
+          value !== null &&
+          'uuidv7' in value &&
+          'value' in value
+            ? (value as { value: unknown }).value
+            : value
+
+        void (target as { merge(delta: unknown): void }).merge(delta)
+        continue
+      }
+
+      void this.state.merge({
+        [key]: value,
+      } as CRStructDelta<CRThingDefaultShape>)
+    }
   }
 
   /**
    * Emits the current acknowledgement frontier for each field.
    */
   acknowledge(): void {
-    const ack = __acknowledge<T>(this.__state)
-    if (ack) {
-      void this.__eventTarget.dispatchEvent(
-        new CustomEvent('ack', { detail: ack })
-      )
+    void this.state.acknowledge()
+
+    for (const key of this.state.keys<keyof CRThingDefaultShape>()) {
+      const value = this[key as keyof this] as unknown
+
+      if (
+        typeof value === 'object' &&
+        value !== null &&
+        'acknowledge' in value
+      ) {
+        void (value as { acknowledge(): void }).acknowledge()
+      }
     }
   }
 
@@ -236,20 +320,39 @@ export class CRThing<
    *
    * @param frontiers - A collection of acknowledgement frontiers to compact against.
    */
-  garbageCollect(frontiers: Array<CRStructAck<T>>): void {
-    void __garbageCollect<T>(frontiers, this.__state)
+  garbageCollect(frontiers: Array<CRStructAck<S>>): void {
+    void this.state.garbageCollect(
+      frontiers as unknown as Array<CRStructAck<CRThingDefaultShape>>
+    )
+
+    for (const key of this.state.keys<keyof CRThingDefaultShape>()) {
+      const value = this[key as keyof this] as unknown
+
+      if (
+        typeof value !== 'object' ||
+        value === null ||
+        !('garbageCollect' in value)
+      ) {
+        continue
+      }
+
+      const routedFrontiers = frontiers
+        .map((frontier) => frontier[key as keyof typeof frontier])
+        .filter((frontier) => frontier !== undefined)
+
+      void (
+        value as { garbageCollect(frontiers: Array<unknown>): void }
+      ).garbageCollect(routedFrontiers)
+    }
   }
 
   /**
    * Emits the current serializable snapshot of the replica state.
    */
   snapshot(): void {
-    const snapshot = __snapshot<T>(this.__state)
-    if (snapshot) {
-      void this.__eventTarget.dispatchEvent(
-        new CustomEvent('snapshot', { detail: snapshot })
-      )
-    }
+    void this.eventTarget.dispatchEvent(
+      new CustomEvent('snapshot', { detail: this.toJSON() })
+    )
   }
 
   /**
@@ -257,26 +360,36 @@ export class CRThing<
    *
    * @returns The field keys in the current replica.
    */
-  keys<K extends keyof T>(): Array<K> {
-    return Object.keys(this.__state.entries) as Array<K>
+  keys<K extends keyof S>(): Array<K> {
+    return this.state.keys() as Array<K>
   }
 
   /**
    * Resets every field in the replica back to its default value.
    */
   clear(): void {
-    const result = __delete(this.__state)
-    if (result) {
-      const { delta, change } = result
-      if (delta) {
-        void this.__eventTarget.dispatchEvent(
-          new CustomEvent('delta', { detail: delta })
-        )
+    void this.state.clear()
+
+    for (const key of this.state.keys<keyof CRThingDefaultShape>()) {
+      const value = this[key as keyof this] as unknown
+
+      if (typeof value !== 'object' || value === null) {
+        continue
       }
-      if (change) {
-        void this.__eventTarget.dispatchEvent(
-          new CustomEvent('change', { detail: change })
-        )
+
+      if ('clear' in value) {
+        void (value as { clear(): void }).clear()
+        continue
+      }
+
+      if ('removeAfter' in value && 'size' in value) {
+        const text = value as {
+          removeAfter(index: number, count: number): void
+          size: number
+        }
+        if (text.size > 0) {
+          void text.removeAfter(0, text.size)
+        }
       }
     }
   }
@@ -286,11 +399,24 @@ export class CRThing<
    *
    * @returns The current field values keyed by field name.
    */
-  clone(): T {
-    const out = {} as T
-    for (const [key, entry] of Object.entries(this.__state.entries)) {
-      out[key as keyof T] = structuredClone(entry.value as T[keyof T])
+  clone(): S {
+    const out = {} as S
+
+    for (const key of this.keys<keyof S>()) {
+      const value = this[key as keyof this] as unknown
+
+      if (typeof value === 'object' && value !== null && 'toJSON' in value) {
+        out[key] = structuredClone(
+          (value as { toJSON(): unknown }).toJSON()
+        ) as S[keyof S]
+        continue
+      }
+
+      out[key] = structuredClone(
+        this.state[key as keyof CRThingDefaultShape]
+      ) as S[keyof S]
     }
+
     return out
   }
 
@@ -299,10 +425,8 @@ export class CRThing<
    *
    * @returns The current field values.
    */
-  values<K extends keyof T>(): Array<T[K]> {
-    return Object.values(this.__state.entries).map((entry) =>
-      structuredClone(entry.value)
-    ) as Array<T[K]>
+  values<K extends keyof S>(): Array<S[K]> {
+    return Object.values(this.clone()) as Array<S[K]>
   }
 
   /**
@@ -310,11 +434,8 @@ export class CRThing<
    *
    * @returns The current field entries.
    */
-  entries<K extends keyof T>(): Array<[K, T[K]]> {
-    return Object.entries(this.__state.entries).map(([key, entry]) => [
-      key as K,
-      structuredClone(entry.value as T[K]),
-    ])
+  entries<K extends keyof S>(): Array<[K, S[K]]> {
+    return Object.entries(this.clone()) as Array<[K, S[K]]>
   }
 
   /**
@@ -322,8 +443,27 @@ export class CRThing<
    *
    * Called automatically by `JSON.stringify`.
    */
-  toJSON(): CRStructSnapshot<T> {
-    return __snapshot<T>(this.__state)
+  toJSON(): CRStructSnapshot<S> {
+    const snapshot = this.state.toJSON()
+
+    for (const key of this.state.keys<keyof CRThingDefaultShape>()) {
+      const value = this[key as keyof this] as unknown
+
+      if (typeof value === 'object' && value !== null && 'toJSON' in value) {
+        const entry = snapshot[key]
+
+        if (!entry) {
+          continue
+        }
+
+        ;(snapshot as Record<string, unknown>)[key] = {
+          ...entry,
+          value: (value as { toJSON(): unknown }).toJSON(),
+        }
+      }
+    }
+
+    return snapshot as unknown as CRStructSnapshot<S>
   }
   /**
    * Attempts to return the current snapshot as a serialized JSON string.
@@ -334,21 +474,21 @@ export class CRThing<
   /**
    * Returns the Node.js console inspection representation.
    */
-  [Symbol.for('nodejs.util.inspect.custom')](): CRStructSnapshot<T> {
+  [Symbol.for('nodejs.util.inspect.custom')](): CRStructSnapshot<S> {
     return this.toJSON()
   }
   /**
    * Returns the Deno console inspection representation.
    */
-  [Symbol.for('Deno.customInspect')](): CRStructSnapshot<T> {
+  [Symbol.for('Deno.customInspect')](): CRStructSnapshot<S> {
     return this.toJSON()
   }
   /**
    * Iterates over the current live field entries.
    */
-  *[Symbol.iterator](): IterableIterator<[keyof T, T[keyof T]]> {
-    for (const [key, entry] of Object.entries(this.__state.entries)) {
-      yield [key, structuredClone(entry.value)]
+  *[Symbol.iterator](): IterableIterator<[keyof S, S[keyof S]]> {
+    for (const entry of this.entries()) {
+      yield entry
     }
   }
 
