@@ -8,11 +8,7 @@ import { CRText } from '@sovereignbase/convergent-replicated-text'
 import { CRSet } from '@sovereignbase/convergent-replicated-set'
 import { Cryptographic, OpaqueIdentifier } from '@sovereignbase/cryptosuite'
 
-import type {
-  CRThingDefaultShape,
-  CRThingSnapshot,
-  CRThingState,
-} from './types/types.js'
+import type { CRThingDefaultShape, CRThingState } from './types/types.js'
 import {
   additionalType,
   alternateName,
@@ -27,14 +23,15 @@ import type {
   SchemaCRDTEventListenerFor,
   SchemaCRDTEventMap,
   SchemaCRDTPropertyEventMap,
-} from '../.types/index.js'
+} from '../.types/types.js'
 
 export class CRThing<
   Type = 'Thing',
-  Shape extends Record<string, unknown> = CRThingDefaultShape,
-  Snapshot = CRThingSnapshot,
+  Shape extends Record<string, unknown> = CRThingDefaultShape<Type>,
+  Snapshot extends Partial<CRStructSnapshot<CRThingDefaultShape<Type>>> =
+    Partial<CRStructSnapshot<CRThingDefaultShape<Type>>>,
 > implements CRThingState<Type> {
-  declare private readonly state: CRStruct<CRThingDefaultShape>
+  declare private readonly state: CRStruct<CRThingDefaultShape<Type>, true>
   declare private readonly eventTarget: EventTarget
 
   declare public readonly '@id': OpaqueIdentifier
@@ -54,9 +51,9 @@ export class CRThing<
   declare public 'url': string
 
   constructor(snapshot?: Snapshot) {
-    const defaults: CRThingDefaultShape = {
+    const defaults: CRThingDefaultShape<Type> = {
       '@id': '',
-      '@type': 'Thing',
+      '@type': 'Thing' as Type,
       additionalType,
       alternateName,
       description,
@@ -218,24 +215,25 @@ export class CRThing<
       this.state.addEventListener(type, (event: Event) => {
         const detail = (
           event as CustomEvent<
-            SchemaCRDTEventMap<CRThingDefaultShape>[typeof type]
+            SchemaCRDTEventMap<CRThingDefaultShape<Type>>[typeof type]
           >
         ).detail
         if (typeof detail === 'object' && detail !== null) {
-          const filtered =
-            {} as SchemaCRDTEventMap<CRThingDefaultShape>[typeof type]
+          const filtered = {} as SchemaCRDTEventMap<
+            CRThingDefaultShape<Type>
+          >[typeof type]
 
           for (const [key, value] of Object.entries(
             detail as Record<
               string,
-              SchemaCRDTEventMap<CRThingDefaultShape>[typeof type]
+              SchemaCRDTEventMap<CRThingDefaultShape<Type>>[typeof type]
             >
           )) {
             if (!isRouted(key)) {
               ;(
                 filtered as Record<
                   string,
-                  SchemaCRDTEventMap<CRThingDefaultShape>[typeof type]
+                  SchemaCRDTEventMap<CRThingDefaultShape<Type>>[typeof type]
                 >
               )[key] = value
             }
@@ -246,22 +244,22 @@ export class CRThing<
           }
 
           void this.eventTarget.dispatchEvent(
-            new CustomEvent<SchemaCRDTEventMap<S>[typeof type]>(type, {
-              detail: filtered as SchemaCRDTEventMap<S>[typeof type],
+            new CustomEvent<SchemaCRDTEventMap<Shape>[typeof type]>(type, {
+              detail: filtered as SchemaCRDTEventMap<Shape>[typeof type],
             })
           )
           return
         }
 
         void this.eventTarget.dispatchEvent(
-          new CustomEvent<SchemaCRDTEventMap<S>[typeof type]>(type, {
-            detail: detail as SchemaCRDTEventMap<S>[typeof type],
+          new CustomEvent<SchemaCRDTEventMap<Shape>[typeof type]>(type, {
+            detail: detail as SchemaCRDTEventMap<Shape>[typeof type],
           })
         )
       })
     }
 
-    for (const key of this.state.keys<keyof CRThingDefaultShape>()) {
+    for (const key of this.state.keys<keyof CRThingDefaultShape<Type>>()) {
       const value = this[key as keyof this] as unknown
 
       if (
@@ -279,12 +277,12 @@ export class CRThing<
       for (const type of eventTypes) {
         eventSource.addEventListener(type, (event) => {
           void this.eventTarget.dispatchEvent(
-            new CustomEvent<SchemaCRDTEventMap<S>[typeof type]>(type, {
+            new CustomEvent<SchemaCRDTEventMap<Shape>[typeof type]>(type, {
               detail: {
                 [key]: (
                   event as CustomEvent<SchemaCRDTPropertyEventMap[typeof type]>
                 ).detail,
-              } as SchemaCRDTEventMap<S>[typeof type],
+              } as SchemaCRDTEventMap<Shape>[typeof type],
             })
           )
         })
@@ -298,7 +296,7 @@ export class CRThing<
    * @param crStructDelta - The partial serializable field delta to merge.
    */
   merge(
-    crStructDelta: CRStructDelta<S> | Partial<Record<keyof S, unknown>>
+    crStructDelta: CRStructDelta<Shape> | Partial<Record<keyof Shape, unknown>>
   ): void {
     for (const [key, value] of Object.entries(crStructDelta)) {
       const target = this[key as keyof this] as unknown
@@ -318,7 +316,7 @@ export class CRThing<
 
       void this.state.merge({
         [key]: value,
-      } as CRStructDelta<CRThingDefaultShape>)
+      } as CRStructDelta<CRThingDefaultShape<Type>>)
     }
   }
 
@@ -328,7 +326,7 @@ export class CRThing<
   acknowledge(): void {
     void this.state.acknowledge()
 
-    for (const key of this.state.keys<keyof CRThingDefaultShape>()) {
+    for (const key of this.state.keys<keyof CRThingDefaultShape<Type>>()) {
       const value = this[key as keyof this] as unknown
 
       if (
@@ -346,12 +344,12 @@ export class CRThing<
    *
    * @param frontiers - A collection of acknowledgement frontiers to compact against.
    */
-  garbageCollect(frontiers: Array<CRStructAck<S>>): void {
+  garbageCollect(frontiers: Array<CRStructAck<Shape>>): void {
     void this.state.garbageCollect(
       frontiers as unknown as Array<CRStructAck<CRThingDefaultShape>>
     )
 
-    for (const key of this.state.keys<keyof CRThingDefaultShape>()) {
+    for (const key of this.state.keys<keyof CRThingDefaultShape<Type>>()) {
       const value = this[key as keyof this] as unknown
 
       if (
@@ -377,7 +375,7 @@ export class CRThing<
    */
   snapshot(): void {
     void this.eventTarget.dispatchEvent(
-      new CustomEvent<SchemaCRDTEventMap<S>['snapshot']>('snapshot', {
+      new CustomEvent<SchemaCRDTEventMap<Shape>['snapshot']>('snapshot', {
         detail: this.toJSON(),
       })
     )
@@ -388,7 +386,7 @@ export class CRThing<
    *
    * @returns The field keys in the current replica.
    */
-  keys<K extends keyof S>(): Array<K> {
+  keys<K extends keyof Shape>(): Array<K> {
     return this.state.keys() as Array<K>
   }
 
@@ -398,7 +396,7 @@ export class CRThing<
   clear(): void {
     void this.state.clear()
 
-    for (const key of this.state.keys<keyof CRThingDefaultShape>()) {
+    for (const key of this.state.keys<keyof CRThingDefaultShape<Type>>()) {
       const value = this[key as keyof this] as unknown
 
       if (typeof value !== 'object' || value === null) {
@@ -427,22 +425,22 @@ export class CRThing<
    *
    * @returns The current field values keyed by field name.
    */
-  clone(): S {
-    const out = {} as S
+  clone(): Shape {
+    const out = {} as Shape
 
-    for (const key of this.keys<keyof S>()) {
+    for (const key of this.keys<keyof Shape>()) {
       const value = this[key as keyof this] as unknown
 
       if (typeof value === 'object' && value !== null && 'toJSON' in value) {
         out[key] = structuredClone(
           (value as { toJSON(): unknown }).toJSON()
-        ) as S[keyof S]
+        ) as Shape[keyof Shape]
         continue
       }
 
       out[key] = structuredClone(
         this.state[key as keyof CRThingDefaultShape]
-      ) as S[keyof S]
+      ) as Shape[keyof Shape]
     }
 
     return out
@@ -453,8 +451,8 @@ export class CRThing<
    *
    * @returns The current field values.
    */
-  values<K extends keyof S>(): Array<S[K]> {
-    return Object.values(this.clone()) as Array<S[K]>
+  values<K extends keyof Shape>(): Array<Shape[K]> {
+    return Object.values(this.clone()) as Array<Shape[K]>
   }
 
   /**
@@ -462,8 +460,8 @@ export class CRThing<
    *
    * @returns The current field entries.
    */
-  entries<K extends keyof S>(): Array<[K, S[K]]> {
-    return Object.entries(this.clone()) as Array<[K, S[K]]>
+  entries<K extends keyof Shape>(): Array<[K, Shape[K]]> {
+    return Object.entries(this.clone()) as Array<[K, Shape[K]]>
   }
 
   /**
@@ -471,10 +469,10 @@ export class CRThing<
    *
    * Called automatically by `JSON.stringify`.
    */
-  toJSON(): CRStructSnapshot<S> {
+  toJSON(): CRStructSnapshot<Shape> {
     const snapshot = this.state.toJSON()
 
-    for (const key of this.state.keys<keyof CRThingDefaultShape>()) {
+    for (const key of this.state.keys<keyof CRThingDefaultShape<Type>>()) {
       const value = this[key as keyof this] as unknown
 
       if (typeof value === 'object' && value !== null && 'toJSON' in value) {
@@ -491,7 +489,7 @@ export class CRThing<
       }
     }
 
-    return snapshot as unknown as CRStructSnapshot<S>
+    return snapshot as unknown as CRStructSnapshot<Shape>
   }
   /**
    * Attempts to return the current snapshot as a serialized JSON string.
@@ -502,19 +500,19 @@ export class CRThing<
   /**
    * Returns the Node.js console inspection representation.
    */
-  [Symbol.for('nodejs.util.inspect.custom')](): CRStructSnapshot<S> {
+  [Symbol.for('nodejs.util.inspect.custom')](): CRStructSnapshot<Shape> {
     return this.toJSON()
   }
   /**
    * Returns the Deno console inspection representation.
    */
-  [Symbol.for('Deno.customInspect')](): CRStructSnapshot<S> {
+  [Symbol.for('Deno.customInspect')](): CRStructSnapshot<Shape> {
     return this.toJSON()
   }
   /**
    * Iterates over the current live field entries.
    */
-  *[Symbol.iterator](): IterableIterator<[keyof S, S[keyof S]]> {
+  *[Symbol.iterator](): IterableIterator<[keyof Shape, Shape[keyof Shape]]> {
     for (const entry of this.entries()) {
       yield entry
     }
@@ -527,9 +525,9 @@ export class CRThing<
    * @param listener - The listener to register.
    * @param options - Listener registration options.
    */
-  addEventListener<K extends keyof SchemaCRDTEventMap<S>>(
+  addEventListener<K extends keyof SchemaCRDTEventMap<Shape>>(
     type: K,
-    listener: SchemaCRDTEventListenerFor<S, K> | null,
+    listener: SchemaCRDTEventListenerFor<Shape, K> | null,
     options?: boolean | AddEventListenerOptions
   ): void {
     this.eventTarget.addEventListener(
@@ -546,9 +544,9 @@ export class CRThing<
    * @param listener - The listener to remove.
    * @param options - Listener removal options.
    */
-  removeEventListener<K extends keyof SchemaCRDTEventMap<S>>(
+  removeEventListener<K extends keyof SchemaCRDTEventMap<Shape>>(
     type: K,
-    listener: SchemaCRDTEventListenerFor<S, K> | null,
+    listener: SchemaCRDTEventListenerFor<Shape, K> | null,
     options?: boolean | EventListenerOptions
   ): void {
     this.eventTarget.removeEventListener(
