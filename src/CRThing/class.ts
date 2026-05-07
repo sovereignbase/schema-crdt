@@ -73,10 +73,7 @@ export class CRThing<
       url: '',
     }
 
-    const state = new CRStruct(
-      defaults,
-      snapshot as CRStructSnapshot<CRThingDefaultShape> | undefined
-    )
+    const state = new CRStruct(defaults, snapshot, true)
 
     Object.defineProperties(this, {
       state: {
