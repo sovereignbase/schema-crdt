@@ -6,17 +6,17 @@ import type {
   CRIntangibleState,
 } from './types/types.js'
 
-export class CRIntangible
-  extends CRThing<
-    'Intangible',
-    CRIntangibleDefaultShape,
-    CRIntangibleSnapshot
-  >
-  implements CRIntangibleState
+export class CRIntangible<
+  Type = 'Intangible',
+  Shape extends Record<string, unknown> = CRIntangibleDefaultShape<Type>,
+  Snapshot extends CRIntangibleSnapshot<Type> = CRIntangibleSnapshot<Type>,
+>
+  extends CRThing<Type, Shape, Snapshot>
+  implements CRIntangibleState<Type>
 {
-  declare public readonly '@type': 'Intangible'
+  declare public readonly '@type': Type
 
-  constructor(snapshot?: CRIntangibleSnapshot) {
+  constructor(snapshot?: Snapshot) {
     super(snapshot)
   }
 }

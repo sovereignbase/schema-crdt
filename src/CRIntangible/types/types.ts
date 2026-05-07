@@ -10,10 +10,11 @@ type SchemaOrgIntangibleRaw = Extract<Intangible, { '@type': 'Intangible' }>
 
 type SchemaOrgIntangible = Partial<SchemaOrgIntangibleRaw>
 
-export type CRIntangibleDefaultShape = CRThingDefaultShape<'Intangible'>
+export type CRIntangibleDefaultShape<Type = 'Intangible'> =
+  CRThingDefaultShape<Type>
 
-export type CRIntangibleSnapshot = CRStructPartialSnapshot<
-  CRIntangibleDefaultShape,
+export type CRIntangibleSnapshot<Type = 'Intangible'> = CRStructPartialSnapshot<
+  CRIntangibleDefaultShape<Type>,
   '@id' | '@type' | 'identifier'
 >
 
@@ -24,4 +25,4 @@ type MissingKeys = Exclude<
 
 type ExtraKeys = Exclude<keyof CRIntangibleSnapshot, keyof SchemaOrgIntangible>
 
-export type CRIntangibleState = CRThingState<'Intangible'>
+export type CRIntangibleState<Type = 'Intangible'> = CRThingState<Type>
