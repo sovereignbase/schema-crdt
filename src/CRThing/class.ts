@@ -30,14 +30,15 @@ import type {
 } from '../.types/index.js'
 
 export class CRThing<
-  T = 'Thing',
-  S extends Record<string, unknown> = CRThingDefaultShape,
-> implements CRThingState<T> {
+  Type = 'Thing',
+  Shape extends Record<string, unknown> = CRThingDefaultShape,
+  Snapshot = CRThingSnapshot,
+> implements CRThingState<Type> {
   declare private readonly state: CRStruct<CRThingDefaultShape>
   declare private readonly eventTarget: EventTarget
 
   declare public readonly '@id': OpaqueIdentifier
-  declare public readonly '@type': T
+  declare public readonly '@type': Type
   declare public readonly 'additionalType': Readonly<CRSet<string>>
   declare public readonly 'alternateName': Readonly<CRSet<string>>
   declare public readonly 'description': Readonly<CRText>
@@ -52,9 +53,7 @@ export class CRThing<
   declare public readonly 'subjectOf': Readonly<CRSet<string>>
   declare public 'url': string
 
-  constructor(snapshot?: CRThingSnapshot) {
-    const id = snapshot?.['@id']?.value || Cryptographic.identifier.generate()
-
+  constructor(snapshot?: Snapshot) {
     const defaults: CRThingDefaultShape = {
       '@id': '',
       '@type': 'Thing',
@@ -74,6 +73,8 @@ export class CRThing<
     }
 
     const state = new CRStruct(defaults, snapshot, true)
+
+    const id = state['identifier'] ?? Cryptographic.identifier.generate()
 
     Object.defineProperties(this, {
       state: {
