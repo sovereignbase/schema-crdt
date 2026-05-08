@@ -19,8 +19,14 @@ export class CRIntangible<
 {
   declare public readonly '@type': Type
 
-  constructor(snapshot?: Snapshot, defaultShape?: Partial<Shape>) {
-    super(snapshot, defaultShape)
+  constructor(
+    snapshot?: Snapshot,
+    defaultShape?: Partial<Shape>,
+    crdtProperties?: Partial<
+      Record<Extract<keyof Shape, string>, 'text' | 'set' | 'list' | 'map'>
+    >
+  ) {
+    super(snapshot, defaultShape, crdtProperties)
   }
 }
 

@@ -4,8 +4,22 @@ import {
   type CRStructDelta,
   type CRStructSnapshot,
 } from '@sovereignbase/convergent-replicated-struct'
-import { CRText } from '@sovereignbase/convergent-replicated-text'
-import { CRSet } from '@sovereignbase/convergent-replicated-set'
+import {
+  CRText,
+  type CRTextSnapshot,
+} from '@sovereignbase/convergent-replicated-text'
+import {
+  CRSet,
+  type CRSetSnapshot,
+} from '@sovereignbase/convergent-replicated-set'
+import {
+  CRList,
+  type CRListSnapshot,
+} from '@sovereignbase/convergent-replicated-list'
+import {
+  CRMap,
+  type CRMapSnapshot,
+} from '@sovereignbase/convergent-replicated-map'
 import { Cryptographic, OpaqueIdentifier } from '@sovereignbase/cryptosuite'
 
 import type { CRThingDefaultShape, CRThingState } from './types/types.js'
@@ -51,7 +65,13 @@ export class CRThing<
   declare public readonly 'subjectOf': Readonly<CRSet<string>>
   declare public 'url': string
 
-  constructor(snapshot?: Snapshot, defaultShape?: Partial<Shape>) {
+  constructor(
+    snapshot?: Snapshot,
+    defaultShape?: Partial<Shape>,
+    crdtProperties?: Partial<
+      Record<Extract<keyof Shape, string>, 'text' | 'set' | 'list' | 'map'>
+    >
+  ) {
     const defaults = {
       '@id': '',
       '@type': 'Thing' as Type,
@@ -210,6 +230,28 @@ export class CRThing<
         continue
       }
 
+      const crdtProperty = crdtProperties?.[key]
+
+      if (crdtProperty) {
+        const value = state[key] ?? defaults[key]
+        const nested =
+          crdtProperty === 'text'
+            ? new CRText(value as CRTextSnapshot)
+            : crdtProperty === 'set'
+              ? new CRSet(value as CRSetSnapshot<unknown>)
+              : crdtProperty === 'list'
+                ? new CRList(value as CRListSnapshot<unknown>)
+                : new CRMap(value as CRMapSnapshot<string, unknown>)
+
+        Object.defineProperty(this, key, {
+          value: nested,
+          enumerable: true,
+          configurable: true,
+          writable: false,
+        })
+        continue
+      }
+
       Object.defineProperty(this, key, {
         enumerable: true,
         configurable: true,
@@ -365,29 +407,32 @@ export class CRThing<
    *
    * @param frontiers - A collection of acknowledgement frontiers to compact against.
    */
-  garbageCollect(frontiers: Array<CRStructAck<Shape>>): void {
-    void this.state.garbageCollect(
-      frontiers as unknown as Array<CRStructAck<Shape>>
-    )
-
-    for (const key of this.state.keys<keyof Shape>()) {
-      const value = this[key as keyof this] as unknown
-
-      if (
-        typeof value !== 'object' ||
-        value === null ||
-        !('garbageCollect' in value)
-      ) {
+  garbageCollect(frontiers: Array<SchemaCRDTEventMap<Shape>['ack']>): void {
+    for (const frontier of frontiers) {
+      if (typeof frontier !== 'object' || frontier === null) {
         continue
       }
 
-      const routedFrontiers = frontiers
-        .map((frontier) => frontier[key as keyof typeof frontier])
-        .filter((frontier) => frontier !== undefined)
+      for (const [key, ack] of Object.entries(
+        frontier as Partial<Record<Extract<keyof Shape, string>, unknown>>
+      )) {
+        const target = this[key as keyof this] as unknown
 
-      void (
-        value as { garbageCollect(frontiers: Array<unknown>): void }
-      ).garbageCollect(routedFrontiers)
+        if (
+          typeof target === 'object' &&
+          target !== null &&
+          'garbageCollect' in target
+        ) {
+          void (
+            target as { garbageCollect(frontiers: Array<unknown>): void }
+          ).garbageCollect([ack])
+          continue
+        }
+
+        if (typeof ack === 'string') {
+          void this.state.garbageCollect([{ [key]: ack } as CRStructAck<Shape>])
+        }
+      }
     }
   }
 
@@ -416,29 +461,6 @@ export class CRThing<
    */
   clear(): void {
     void this.state.clear()
-
-    for (const key of this.state.keys<keyof Shape>()) {
-      const value = this[key as keyof this] as unknown
-
-      if (typeof value !== 'object' || value === null) {
-        continue
-      }
-
-      if ('clear' in value) {
-        void (value as { clear(): void }).clear()
-        continue
-      }
-
-      if ('removeAfter' in value && 'size' in value) {
-        const text = value as {
-          removeAfter(index: number, count: number): void
-          size: number
-        }
-        if (text.size > 0) {
-          void text.removeAfter(0, text.size)
-        }
-      }
-    }
   }
 
   /**
@@ -447,24 +469,7 @@ export class CRThing<
    * @returns The current field values keyed by field name.
    */
   clone(): Shape {
-    const out = {} as Shape
-
-    for (const key of this.keys<keyof Shape>()) {
-      const value = this[key as keyof this] as unknown
-
-      if (typeof value === 'object' && value !== null && 'toJSON' in value) {
-        out[key] = structuredClone(
-          (value as { toJSON(): unknown }).toJSON()
-        ) as Shape[keyof Shape]
-        continue
-      }
-
-      out[key] = structuredClone(
-        this.state[key as keyof Shape]
-      ) as Shape[keyof Shape]
-    }
-
-    return out
+    return this.state.clone()
   }
 
   /**
@@ -473,7 +478,7 @@ export class CRThing<
    * @returns The current field values.
    */
   values<K extends keyof Shape>(): Array<Shape[K]> {
-    return Object.values(this.clone()) as Array<Shape[K]>
+    return this.state.values<K>()
   }
 
   /**
@@ -482,7 +487,7 @@ export class CRThing<
    * @returns The current field entries.
    */
   entries<K extends keyof Shape>(): Array<[K, Shape[K]]> {
-    return Object.entries(this.clone()) as Array<[K, Shape[K]]>
+    return this.state.entries<K>()
   }
 
   /**
@@ -491,26 +496,7 @@ export class CRThing<
    * Called automatically by `JSON.stringify`.
    */
   toJSON(): CRStructSnapshot<Shape> {
-    const snapshot = this.state.toJSON()
-
-    for (const key of this.state.keys<Extract<keyof Shape, string>>()) {
-      const value = this[key as keyof this] as unknown
-
-      if (typeof value === 'object' && value !== null && 'toJSON' in value) {
-        const entry = snapshot[key]
-
-        if (!entry) {
-          continue
-        }
-
-        ;(snapshot as Record<string, unknown>)[key] = {
-          ...entry,
-          value: (value as { toJSON(): unknown }).toJSON(),
-        }
-      }
-    }
-
-    return snapshot as unknown as CRStructSnapshot<Shape>
+    return this.state.toJSON()
   }
   /**
    * Attempts to return the current snapshot as a serialized JSON string.
