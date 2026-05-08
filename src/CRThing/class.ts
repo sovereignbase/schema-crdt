@@ -27,11 +27,12 @@ import type {
 
 export class CRThing<
   Type = 'Thing',
-  Shape extends Record<string, unknown> = CRThingDefaultShape<Type>,
-  Snapshot extends Partial<CRStructSnapshot<CRThingDefaultShape<Type>>> =
-    Partial<CRStructSnapshot<CRThingDefaultShape<Type>>>,
+  Shape extends CRThingDefaultShape<Type> = CRThingDefaultShape<Type>,
+  Snapshot extends Partial<CRStructSnapshot<Shape>> = Partial<
+    CRStructSnapshot<Shape>
+  >,
 > implements CRThingState<Type> {
-  declare private readonly state: CRStruct<CRThingDefaultShape<Type>, true>
+  declare private readonly state: CRStruct<Shape, true>
   declare private readonly eventTarget: EventTarget
 
   declare public readonly '@id': OpaqueIdentifier
@@ -50,8 +51,8 @@ export class CRThing<
   declare public readonly 'subjectOf': Readonly<CRSet<string>>
   declare public 'url': string
 
-  constructor(snapshot?: Snapshot) {
-    const defaults: CRThingDefaultShape<Type> = {
+  constructor(snapshot?: Snapshot, defaultShape?: Partial<Shape>) {
+    const defaults = {
       '@id': '',
       '@type': 'Thing' as Type,
       additionalType,
@@ -67,7 +68,8 @@ export class CRThing<
       sameAs,
       subjectOf,
       url: '',
-    }
+      ...defaultShape,
+    } as Shape
 
     const state = new CRStruct(defaults, snapshot, true)
 
@@ -201,6 +203,25 @@ export class CRThing<
       },
     })
 
+    for (const key of Object.keys(defaults) as Array<
+      Extract<keyof Shape, string>
+    >) {
+      if (Object.hasOwn(this, key)) {
+        continue
+      }
+
+      Object.defineProperty(this, key, {
+        enumerable: true,
+        configurable: true,
+        get(): Shape[typeof key] {
+          return (state[key] ?? defaults[key]) as Shape[typeof key]
+        },
+        set(value: Shape[typeof key]): void {
+          ;(state as Record<string, unknown>)[key] = value
+        },
+      })
+    }
+
     const eventTypes = ['delta', 'change', 'snapshot', 'ack'] as const
     const isRouted = (key: string): boolean => {
       const value = this[key as keyof this] as unknown
@@ -259,7 +280,7 @@ export class CRThing<
       })
     }
 
-    for (const key of this.state.keys<keyof CRThingDefaultShape<Type>>()) {
+    for (const key of this.state.keys<Extract<keyof Shape, string>>()) {
       const value = this[key as keyof this] as unknown
 
       if (
@@ -316,7 +337,7 @@ export class CRThing<
 
       void this.state.merge({
         [key]: value,
-      } as CRStructDelta<CRThingDefaultShape<Type>>)
+      } as CRStructDelta<Shape>)
     }
   }
 
@@ -326,7 +347,7 @@ export class CRThing<
   acknowledge(): void {
     void this.state.acknowledge()
 
-    for (const key of this.state.keys<keyof CRThingDefaultShape<Type>>()) {
+    for (const key of this.state.keys<Extract<keyof Shape, string>>()) {
       const value = this[key as keyof this] as unknown
 
       if (
@@ -346,10 +367,10 @@ export class CRThing<
    */
   garbageCollect(frontiers: Array<CRStructAck<Shape>>): void {
     void this.state.garbageCollect(
-      frontiers as unknown as Array<CRStructAck<CRThingDefaultShape>>
+      frontiers as unknown as Array<CRStructAck<Shape>>
     )
 
-    for (const key of this.state.keys<keyof CRThingDefaultShape<Type>>()) {
+    for (const key of this.state.keys<keyof Shape>()) {
       const value = this[key as keyof this] as unknown
 
       if (
@@ -396,7 +417,7 @@ export class CRThing<
   clear(): void {
     void this.state.clear()
 
-    for (const key of this.state.keys<keyof CRThingDefaultShape<Type>>()) {
+    for (const key of this.state.keys<keyof Shape>()) {
       const value = this[key as keyof this] as unknown
 
       if (typeof value !== 'object' || value === null) {
@@ -439,7 +460,7 @@ export class CRThing<
       }
 
       out[key] = structuredClone(
-        this.state[key as keyof CRThingDefaultShape]
+        this.state[key as keyof Shape]
       ) as Shape[keyof Shape]
     }
 
@@ -472,7 +493,7 @@ export class CRThing<
   toJSON(): CRStructSnapshot<Shape> {
     const snapshot = this.state.toJSON()
 
-    for (const key of this.state.keys<keyof CRThingDefaultShape<Type>>()) {
+    for (const key of this.state.keys<Extract<keyof Shape, string>>()) {
       const value = this[key as keyof this] as unknown
 
       if (typeof value === 'object' && value !== null && 'toJSON' in value) {

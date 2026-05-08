@@ -1,23 +1,27 @@
+import type { CRStructSnapshot } from '@sovereignbase/convergent-replicated-struct'
+
 import { CRIntangible } from '../CRIntangible/class.js'
 
 import type {
   CRStructuredValueDefaultShape,
-  CRStructuredValueSnapshot,
   CRStructuredValueState,
 } from './types/types.js'
 
-export class CRStructuredValue
-  extends CRIntangible<
-    'StructuredValue',
-    CRStructuredValueDefaultShape,
-    CRStructuredValueSnapshot
-  >
-  implements CRStructuredValueState
+export class CRStructuredValue<
+  Type = 'StructuredValue',
+  Shape extends CRStructuredValueDefaultShape<Type> =
+    CRStructuredValueDefaultShape<Type>,
+  Snapshot extends Partial<CRStructSnapshot<Shape>> = Partial<
+    CRStructSnapshot<Shape>
+  >,
+>
+  extends CRIntangible<Type, Shape, Snapshot>
+  implements CRStructuredValueState<Type>
 {
-  declare public readonly '@type': 'StructuredValue'
+  declare public readonly '@type': Type
 
-  constructor(snapshot?: CRStructuredValueSnapshot) {
-    super(snapshot)
+  constructor(snapshot?: Snapshot, defaultShape?: Partial<Shape>) {
+    super(snapshot, defaultShape)
   }
 }
 

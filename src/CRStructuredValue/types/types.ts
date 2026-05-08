@@ -13,13 +13,14 @@ type SchemaOrgStructuredValueRaw = Extract<
 
 type SchemaOrgStructuredValue = Partial<SchemaOrgStructuredValueRaw>
 
-export type CRStructuredValueDefaultShape =
-  CRIntangibleDefaultShape<'StructuredValue'>
+export type CRStructuredValueDefaultShape<Type = 'StructuredValue'> =
+  CRIntangibleDefaultShape<Type>
 
-export type CRStructuredValueSnapshot = CRStructPartialSnapshot<
-  CRStructuredValueDefaultShape,
-  '@id' | '@type' | 'identifier'
->
+export type CRStructuredValueSnapshot<Type = 'StructuredValue'> =
+  CRStructPartialSnapshot<
+    CRStructuredValueDefaultShape<Type>,
+    '@id' | '@type' | 'identifier'
+  >
 
 type MissingKeys = Exclude<
   keyof SchemaOrgStructuredValue,
@@ -31,4 +32,5 @@ type ExtraKeys = Exclude<
   keyof SchemaOrgStructuredValue
 >
 
-export type CRStructuredValueState = CRIntangibleState<'StructuredValue'>
+export type CRStructuredValueState<Type = 'StructuredValue'> =
+  CRIntangibleState<Type>
