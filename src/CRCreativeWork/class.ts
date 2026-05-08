@@ -1,10 +1,9 @@
 import type { CRStructSnapshot } from '@sovereignbase/convergent-replicated-struct'
-import { CRSet } from '@sovereignbase/convergent-replicated-set'
 
 import { CRThing } from '../CRThing/class.js'
+import { crSetSnapshot } from '../.shared/index.js'
 
 import type {
-  CRCreativeWorkAbout,
   CRCreativeWorkDefaultShape,
   CRCreativeWorkState,
 } from './types/types.js'
@@ -34,7 +33,7 @@ export class CRCreativeWork<
       snapshot,
       {
         '@type': 'CreativeWork' as Type,
-        about: new CRSet<CRCreativeWorkAbout>().toJSON(),
+        about: crSetSnapshot,
         ...defaultShape,
       } as Partial<Shape>,
       {

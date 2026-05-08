@@ -1,12 +1,11 @@
 import type { CRStructSnapshot } from '@sovereignbase/convergent-replicated-struct'
-import { CRSet } from '@sovereignbase/convergent-replicated-set'
 
 import { CRThing } from '../CRThing/class.js'
+import { crSetSnapshot } from '../.shared/index.js'
 
 import type {
   CREnumerationDefaultShape,
   CREnumerationState,
-  CREnumerationSupersededBy,
 } from './types/types.js'
 
 export class CREnumeration<
@@ -34,7 +33,7 @@ export class CREnumeration<
       snapshot,
       {
         '@type': 'Enumeration' as Type,
-        supersededBy: new CRSet<CREnumerationSupersededBy>().toJSON(),
+        supersededBy: crSetSnapshot,
         ...defaultShape,
       } as Partial<Shape>,
       {

@@ -9,8 +9,8 @@ import {
 } from '@sovereignbase/convergent-replicated-text'
 import { ISO31661Alpha2 } from '@sovereignbase/utils'
 
-const crSetSnapshot = new CRSet().toJSON()
-const crTextSnapshot = new CRText().toJSON()
+export const crSetSnapshot = new CRSet().toJSON()
+export const crTextSnapshot = new CRText().toJSON()
 
 export const award: CRSetSnapshot<string> =
   crSetSnapshot as CRSetSnapshot<string>

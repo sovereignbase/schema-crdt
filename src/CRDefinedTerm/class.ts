@@ -1,13 +1,10 @@
 import type { CRStructSnapshot } from '@sovereignbase/convergent-replicated-struct'
-import { CRSet } from '@sovereignbase/convergent-replicated-set'
-import { CRText } from '@sovereignbase/convergent-replicated-text'
 
 import { CRThing } from '../CRThing/class.js'
+import { crSetSnapshot, crTextSnapshot } from '../.shared/index.js'
 
 import type {
-  CRDefinedTermAbout,
   CRDefinedTermDefaultShape,
-  CRDefinedTermSetReference,
   CRDefinedTermState,
 } from './types/types.js'
 
@@ -38,9 +35,9 @@ export class CRDefinedTerm<
       snapshot,
       {
         '@type': 'DefinedTerm' as Type,
-        about: new CRSet<CRDefinedTermAbout>().toJSON(),
-        inDefinedTermSet: new CRSet<CRDefinedTermSetReference>().toJSON(),
-        termCode: new CRText().toJSON(),
+        about: crSetSnapshot,
+        inDefinedTermSet: crSetSnapshot,
+        termCode: crTextSnapshot,
         ...defaultShape,
       } as Partial<Shape>,
       {
