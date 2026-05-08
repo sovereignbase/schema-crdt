@@ -1,4 +1,4 @@
-import type { DefinedTerm, DefinedTermSet, Thing } from 'schema-dts'
+import type { DefinedTerm, DefinedTermSet } from 'schema-dts'
 import type {
   CRSet,
   CRSetSnapshot,
@@ -10,6 +10,7 @@ import type {
 
 import type {
   CRThingDefaultShape,
+  CRThingSnapshot,
   CRThingState,
 } from '../../CRThing/types/types.js'
 import type {
@@ -22,7 +23,7 @@ type SchemaOrgDefinedTermRaw = Extract<DefinedTerm, { '@type': 'DefinedTerm' }>
 
 type SchemaOrgDefinedTerm = Partial<SchemaOrgDefinedTermRaw>
 
-export type CRDefinedTermAbout = Thing | CRIdReferenceValue
+export type CRDefinedTermAbout = CRThingSnapshot | CRIdReferenceValue
 
 export type CRDefinedTermSetReference =
   | DefinedTermSet
