@@ -1,4 +1,4 @@
-import type { Class, Enumeration, IdReference, Property } from 'schema-dts'
+import type { Class, Enumeration, Property } from 'schema-dts'
 import type {
   CRSet,
   CRSetSnapshot,
@@ -8,6 +8,7 @@ import type {
   CRThingDefaultShape,
   CRThingState,
 } from '../../CRThing/types/types.js'
+import type { CRIdReferenceValue } from '../../CRIdReference/types/types.js'
 import type { CRStructPartialSnapshot } from '../../.types/types.js'
 
 type SchemaOrgEnumerationRaw = Extract<Enumeration, { '@type': 'Enumeration' }>
@@ -18,7 +19,7 @@ export type CREnumerationSupersededBy =
   | Class
   | Enumeration
   | Property
-  | IdReference
+  | CRIdReferenceValue
 
 export type CREnumerationDefaultShape<Type = 'Enumeration'> = {
   supersededBy: CRSetSnapshot<CREnumerationSupersededBy>
