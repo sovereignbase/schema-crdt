@@ -8,6 +8,12 @@ import type {
   CRDefinedTermSetState,
 } from './types/types.js'
 
+/**
+ * CRDT-backed Schema.org DefinedTermSet.
+ *
+ * Schema.org: A set of defined terms, such as categories, a classification
+ * scheme, a glossary, dictionary or enumeration.
+ */
 export class CRDefinedTermSet<
   Type = 'DefinedTermSet',
   Shape extends CRDefinedTermSetDefaultShape<Type> =
@@ -19,7 +25,13 @@ export class CRDefinedTermSet<
   extends CRCreativeWork<Type, Shape, Snapshot>
   implements CRDefinedTermSetState<Type>
 {
+  /**
+   * Schema.org type name for this node.
+   */
   declare public readonly '@type': Type
+  /**
+   * Schema.org hasDefinedTerm: A DefinedTerm contained in this term set.
+   */
   declare public hasDefinedTerm: CRDefinedTermSetState['hasDefinedTerm']
 
   constructor(

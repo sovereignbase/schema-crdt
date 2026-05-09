@@ -19,14 +19,29 @@ type SchemaOrgDefinedTermSetRaw = Extract<
 
 type SchemaOrgDefinedTermSet = Partial<SchemaOrgDefinedTermSetRaw>
 
+/**
+ * Values accepted by Schema.org hasDefinedTerm.
+ */
 export type CRDefinedTermSetDefinedTerm =
   | CRDefinedTermSnapshot
   | CRIdReferenceValue
 
+/**
+ * Serializable CRDT shape for Schema.org DefinedTermSet.
+ *
+ * Schema.org: A set of defined terms, such as categories, a classification
+ * scheme, a glossary, dictionary or enumeration.
+ */
 export type CRDefinedTermSetDefaultShape<Type = 'DefinedTermSet'> = {
+  /**
+   * Schema.org hasDefinedTerm: A DefinedTerm contained in this term set.
+   */
   hasDefinedTerm: CRSetSnapshot<CRDefinedTermSetDefinedTerm>
 } & CRCreativeWorkDefaultShape<Type>
 
+/**
+ * Serializable CRDT snapshot for Schema.org DefinedTermSet.
+ */
 export type CRDefinedTermSetSnapshot<Type = 'DefinedTermSet'> =
   CRStructPartialSnapshot<
     CRDefinedTermSetDefaultShape<Type>,
@@ -43,6 +58,12 @@ type ExtraKeys = Exclude<
   keyof SchemaOrgDefinedTermSet
 >
 
+/**
+ * Runtime CRDT state surface for Schema.org DefinedTermSet.
+ */
 export type CRDefinedTermSetState<Type = 'DefinedTermSet'> = {
+  /**
+   * Schema.org hasDefinedTerm: A DefinedTerm contained in this term set.
+   */
   hasDefinedTerm: Readonly<CRSet<CRDefinedTermSetDefinedTerm>>
 } & CRCreativeWorkState<Type>

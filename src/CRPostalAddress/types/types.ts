@@ -17,16 +17,47 @@ type SchemaOrgPostalAddressRaw = Extract<
 
 type SchemaOrgPostalAddress = Partial<SchemaOrgPostalAddressRaw>
 
+/**
+ * Serializable CRDT shape for Schema.org PostalAddress.
+ *
+ * Schema.org: The mailing address.
+ */
 export type CRPostalAddressDefaultShape<Type = 'PostalAddress'> = {
+  /**
+   * Schema.org addressCountry: The country, recommended as ISO 3166-1 alpha-2.
+   */
   addressCountry: CRTextSnapshot
+  /**
+   * Schema.org addressLocality: The locality in which the street address is.
+   */
   addressLocality: CRTextSnapshot
+  /**
+   * Schema.org addressRegion: The region in which the locality is.
+   */
   addressRegion: CRTextSnapshot
+  /**
+   * Schema.org extendedAddress: An address extension such as an apartment
+   * number, C/O or alternative name.
+   */
   extendedAddress: CRTextSnapshot
+  /**
+   * Schema.org postalCode: The postal code.
+   */
   postalCode: CRTextSnapshot
+  /**
+   * Schema.org postOfficeBoxNumber: The post office box number for PO box
+   * addresses.
+   */
   postOfficeBoxNumber: CRTextSnapshot
+  /**
+   * Schema.org streetAddress: The street address.
+   */
   streetAddress: CRTextSnapshot
 } & CRContactPointDefaultShape<Type>
 
+/**
+ * Serializable CRDT snapshot for Schema.org PostalAddress.
+ */
 export type CRPostalAddressSnapshot<Type = 'PostalAddress'> =
   CRStructPartialSnapshot<
     CRPostalAddressDefaultShape<Type>,
@@ -43,12 +74,38 @@ type ExtraKeys = Exclude<
   keyof SchemaOrgPostalAddress
 >
 
+/**
+ * Runtime CRDT state surface for Schema.org PostalAddress.
+ */
 export type CRPostalAddressState<Type = 'PostalAddress'> = {
+  /**
+   * Schema.org addressCountry: The country, recommended as ISO 3166-1 alpha-2.
+   */
   addressCountry: Readonly<CRText>
+  /**
+   * Schema.org addressLocality: The locality in which the street address is.
+   */
   addressLocality: Readonly<CRText>
+  /**
+   * Schema.org addressRegion: The region in which the locality is.
+   */
   addressRegion: Readonly<CRText>
+  /**
+   * Schema.org extendedAddress: An address extension such as an apartment
+   * number, C/O or alternative name.
+   */
   extendedAddress: Readonly<CRText>
+  /**
+   * Schema.org postalCode: The postal code.
+   */
   postalCode: Readonly<CRText>
+  /**
+   * Schema.org postOfficeBoxNumber: The post office box number for PO box
+   * addresses.
+   */
   postOfficeBoxNumber: Readonly<CRText>
+  /**
+   * Schema.org streetAddress: The street address.
+   */
   streetAddress: Readonly<CRText>
 } & CRContactPointState<Type>

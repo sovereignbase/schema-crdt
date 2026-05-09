@@ -8,6 +8,12 @@ import type {
   CRStructuredValueState,
 } from './types/types.js'
 
+/**
+ * CRDT-backed Schema.org StructuredValue.
+ *
+ * Schema.org: A value with a more complex structure than a textual value or a
+ * reference to another thing.
+ */
 export class CRStructuredValue<
   Type = 'StructuredValue',
   Shape extends CRStructuredValueDefaultShape<Type> =
@@ -19,6 +25,9 @@ export class CRStructuredValue<
   extends CRIntangible<Type, Shape, Snapshot>
   implements CRStructuredValueState<Type>
 {
+  /**
+   * Schema.org type name for this node.
+   */
   declare public readonly '@type': Type
 
   constructor(

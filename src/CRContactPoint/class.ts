@@ -11,6 +11,11 @@ import type {
 } from './types/types.js'
 import type { SchemaOrgText } from '../.types/types.js'
 
+/**
+ * CRDT-backed Schema.org ContactPoint.
+ *
+ * Schema.org: A contact point, for example a customer complaints department.
+ */
 export class CRContactPoint<
   Type = 'ContactPoint',
   Shape extends CRContactPointDefaultShape<Type> =
@@ -22,16 +27,53 @@ export class CRContactPoint<
   extends CRStructuredValue<Type, Shape, Snapshot>
   implements CRContactPointState<Type>
 {
+  /**
+   * Schema.org type name for this node.
+   */
   declare public readonly '@type': Type
+  /**
+   * Schema.org areaServed: The geographic area where a service or offered item
+   * is provided.
+   */
   declare public areaServed: Readonly<CRSet<SchemaOrgText>>
+  /**
+   * Schema.org availableLanguage: A language someone may use with or at the
+   * item, service or place.
+   */
   declare public availableLanguage: Readonly<CRSet<SchemaOrgText>>
+  /**
+   * Schema.org contactOption: An option available on this contact point.
+   */
   declare public contactOption: Readonly<CRSet<SchemaOrgText>>
+  /**
+   * Schema.org contactType: The kind of contact point.
+   */
   declare public contactType: Readonly<CRText>
+  /**
+   * Schema.org email: Email address.
+   */
   declare public email: Readonly<CRText>
+  /**
+   * Schema.org faxNumber: The fax number.
+   */
   declare public faxNumber: Readonly<CRText>
+  /**
+   * Schema.org hoursAvailable: The hours during which this service or contact
+   * is available.
+   */
   declare public hoursAvailable: Readonly<CRSet<SchemaOrgText>>
+  /**
+   * Schema.org productSupported: The product or service this support contact
+   * point is related to.
+   */
   declare public productSupported: Readonly<CRSet<SchemaOrgText>>
+  /**
+   * Schema.org serviceArea: Superseded by areaServed.
+   */
   declare public serviceArea: Readonly<CRSet<SchemaOrgText>>
+  /**
+   * Schema.org telephone: The telephone number.
+   */
   declare public telephone: Readonly<CRText>
 
   constructor(

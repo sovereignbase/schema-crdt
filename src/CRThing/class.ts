@@ -41,6 +41,11 @@ import type {
 } from '../.types/types.js'
 import { SchemaCRDTError } from '../.errors/class.js'
 
+/**
+ * CRDT-backed Schema.org Thing.
+ *
+ * Schema.org: The most generic type of item.
+ */
 export class CRThing<
   Type = 'Thing',
   Shape extends CRThingDefaultShape<Type> = CRThingDefaultShape<Type>,
@@ -52,20 +57,68 @@ export class CRThing<
   declare private readonly eventTarget: EventTarget
   declare protected readonly formatValidators: SchemaCRDTFormatValidators<Shape>
 
+  /**
+   * JSON-LD identifier for this node.
+   */
   declare public readonly '@id': OpaqueIdentifier
+  /**
+   * Schema.org type name for this node.
+   */
   declare public readonly '@type': Type
+  /**
+   * Schema.org additionalType: An additional type for the item.
+   */
   declare public readonly 'additionalType': Readonly<CRSet<string>>
+  /**
+   * Schema.org alternateName: An alias for the item.
+   */
   declare public readonly 'alternateName': Readonly<CRSet<string>>
+  /**
+   * Schema.org description: A description of the item.
+   */
   declare public readonly 'description': Readonly<CRText>
+  /**
+   * Schema.org disambiguatingDescription: A short description used to
+   * disambiguate the item from other, similar items.
+   */
   declare public readonly 'disambiguatingDescription': Readonly<CRText>
+  /**
+   * Schema.org identifier represented by this package as an opaque identifier.
+   */
   declare public readonly 'identifier': string
+  /**
+   * Schema.org image: An image of the item.
+   */
   declare public 'image': string
+  /**
+   * Schema.org mainEntityOfPage: A page or other CreativeWork for which this
+   * thing is the main entity being described.
+   */
   declare public 'mainEntityOfPage': string
+  /**
+   * Schema.org name: The name of the item.
+   */
   declare public readonly 'name': Readonly<CRText>
+  /**
+   * Schema.org owner: A person or organization who owns this Thing.
+   */
   declare public 'owner': string
+  /**
+   * Schema.org potentialAction: A potential Action for this Thing.
+   */
   declare public 'potentialAction': string
+  /**
+   * Schema.org sameAs: URL of a reference Web page that unambiguously indicates
+   * the item's identity.
+   */
   declare public readonly 'sameAs': Readonly<CRSet<string>>
+  /**
+   * Schema.org subjectOf: A CreativeWork or Event about this Thing.
+   */
   declare public readonly 'subjectOf': Readonly<CRSet<string>>
+  /**
+   * Schema.org url: URL of the item.
+   */
   declare public 'url': string
 
   constructor(

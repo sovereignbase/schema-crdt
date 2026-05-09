@@ -8,6 +8,11 @@ import type {
   CREnumerationState,
 } from './types/types.js'
 
+/**
+ * CRDT-backed Schema.org Enumeration.
+ *
+ * Schema.org: Lists or enumerations.
+ */
 export class CREnumeration<
   Type = 'Enumeration',
   Shape extends CREnumerationDefaultShape<Type> =
@@ -19,7 +24,13 @@ export class CREnumeration<
   extends CRThing<Type, Shape, Snapshot>
   implements CREnumerationState<Type>
 {
+  /**
+   * Schema.org type name for this node.
+   */
   declare public readonly '@type': Type
+  /**
+   * Schema.org supersededBy: Relates a term to one that supersedes it.
+   */
   declare public supersededBy: CREnumerationState['supersededBy']
 
   constructor(

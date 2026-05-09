@@ -15,16 +15,30 @@ type SchemaOrgEnumerationRaw = Extract<Enumeration, { '@type': 'Enumeration' }>
 
 type SchemaOrgEnumeration = Partial<SchemaOrgEnumerationRaw>
 
+/**
+ * Values accepted by Schema.org supersededBy.
+ */
 export type CREnumerationSupersededBy =
   | Class
   | Enumeration
   | Property
   | CRIdReferenceValue
 
+/**
+ * Serializable CRDT shape for Schema.org Enumeration.
+ *
+ * Schema.org: Lists or enumerations.
+ */
 export type CREnumerationDefaultShape<Type = 'Enumeration'> = {
+  /**
+   * Schema.org supersededBy: Relates a term to one that supersedes it.
+   */
   supersededBy: CRSetSnapshot<CREnumerationSupersededBy>
 } & CRThingDefaultShape<Type>
 
+/**
+ * Serializable CRDT snapshot for Schema.org Enumeration.
+ */
 export type CREnumerationSnapshot<Type = 'Enumeration'> =
   CRStructPartialSnapshot<
     CREnumerationDefaultShape<Type>,
@@ -41,6 +55,12 @@ type ExtraKeys = Exclude<
   keyof SchemaOrgEnumeration
 >
 
+/**
+ * Runtime CRDT state surface for Schema.org Enumeration.
+ */
 export type CREnumerationState<Type = 'Enumeration'> = {
+  /**
+   * Schema.org supersededBy: Relates a term to one that supersedes it.
+   */
   supersededBy: Readonly<CRSet<CREnumerationSupersededBy>>
 } & CRThingState<Type>

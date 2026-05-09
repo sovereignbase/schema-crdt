@@ -8,6 +8,11 @@ import type {
   CRDefinedTermState,
 } from './types/types.js'
 
+/**
+ * CRDT-backed Schema.org DefinedTerm.
+ *
+ * Schema.org: A word, name, acronym, phrase, etc. with a formal definition.
+ */
 export class CRDefinedTerm<
   Type = 'DefinedTerm',
   Shape extends CRDefinedTermDefaultShape<Type> =
@@ -19,9 +24,22 @@ export class CRDefinedTerm<
   extends CRThing<Type, Shape, Snapshot>
   implements CRDefinedTermState<Type>
 {
+  /**
+   * Schema.org type name for this node.
+   */
   declare public readonly '@type': Type
+  /**
+   * Schema.org about: The subject matter of an object.
+   */
   declare public about: CRDefinedTermState['about']
+  /**
+   * Schema.org inDefinedTermSet: A DefinedTermSet that contains this term.
+   */
   declare public inDefinedTermSet: CRDefinedTermState['inDefinedTermSet']
+  /**
+   * Schema.org termCode: A code that identifies this DefinedTerm within a
+   * DefinedTermSet.
+   */
   declare public termCode: CRDefinedTermState['termCode']
 
   constructor(

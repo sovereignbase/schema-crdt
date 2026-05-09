@@ -23,20 +23,49 @@ type SchemaOrgGeoCoordinatesRaw = Extract<
 
 type SchemaOrgGeoCoordinates = Partial<SchemaOrgGeoCoordinatesRaw>
 
+/**
+ * Values accepted by Schema.org address.
+ */
 export type CRGeoCoordinatesAddress =
   | CRPostalAddressSnapshot
   | SchemaOrgText
   | CRIdReferenceValue
 
+/**
+ * Serializable CRDT shape for Schema.org GeoCoordinates.
+ *
+ * Schema.org: The geographic coordinates of a place or event.
+ */
 export type CRGeoCoordinatesDefaultShape<Type = 'GeoCoordinates'> = {
+  /**
+   * Schema.org address: Physical address of the item.
+   */
   address: CRSetSnapshot<CRGeoCoordinatesAddress>
+  /**
+   * Schema.org addressCountry: The country, recommended as ISO 3166-1 alpha-2.
+   */
   addressCountry: SchemaOrgText | CRIdReferenceValue
+  /**
+   * Schema.org elevation: The elevation of a location in WGS 84.
+   */
   elevation: SchemaOrgNumber | SchemaOrgText
+  /**
+   * Schema.org latitude: The latitude of a location in WGS 84.
+   */
   latitude: SchemaOrgNumber | SchemaOrgText
+  /**
+   * Schema.org longitude: The longitude of a location in WGS 84.
+   */
   longitude: SchemaOrgNumber | SchemaOrgText
+  /**
+   * Schema.org postalCode: The postal code.
+   */
   postalCode: SchemaOrgText
 } & CRStructuredValueDefaultShape<Type>
 
+/**
+ * Serializable CRDT snapshot for Schema.org GeoCoordinates.
+ */
 export type CRGeoCoordinatesSnapshot<Type = 'GeoCoordinates'> =
   CRStructPartialSnapshot<
     CRGeoCoordinatesDefaultShape<Type>,
@@ -53,11 +82,32 @@ type ExtraKeys = Exclude<
   keyof SchemaOrgGeoCoordinates
 >
 
+/**
+ * Runtime CRDT state surface for Schema.org GeoCoordinates.
+ */
 export type CRGeoCoordinatesState<Type = 'GeoCoordinates'> = {
+  /**
+   * Schema.org address: Physical address of the item.
+   */
   address: Readonly<CRSet<CRGeoCoordinatesAddress>>
+  /**
+   * Schema.org addressCountry: The country, recommended as ISO 3166-1 alpha-2.
+   */
   addressCountry: SchemaOrgText | CRIdReferenceValue
+  /**
+   * Schema.org elevation: The elevation of a location in WGS 84.
+   */
   elevation: SchemaOrgNumber | SchemaOrgText
+  /**
+   * Schema.org latitude: The latitude of a location in WGS 84.
+   */
   latitude: SchemaOrgNumber | SchemaOrgText
+  /**
+   * Schema.org longitude: The longitude of a location in WGS 84.
+   */
   longitude: SchemaOrgNumber | SchemaOrgText
+  /**
+   * Schema.org postalCode: The postal code.
+   */
   postalCode: SchemaOrgText
 } & CRStructuredValueState<Type>

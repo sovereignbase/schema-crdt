@@ -8,6 +8,11 @@ import type {
   CRGeoCoordinatesState,
 } from './types/types.js'
 
+/**
+ * CRDT-backed Schema.org GeoCoordinates.
+ *
+ * Schema.org: The geographic coordinates of a place or event.
+ */
 export class CRGeoCoordinates<
   Type = 'GeoCoordinates',
   Shape extends CRGeoCoordinatesDefaultShape<Type> =
@@ -19,12 +24,33 @@ export class CRGeoCoordinates<
   extends CRStructuredValue<Type, Shape, Snapshot>
   implements CRGeoCoordinatesState<Type>
 {
+  /**
+   * Schema.org type name for this node.
+   */
   declare public readonly '@type': Type
+  /**
+   * Schema.org address: Physical address of the item.
+   */
   declare public address: CRGeoCoordinatesState['address']
+  /**
+   * Schema.org addressCountry: The country, recommended as ISO 3166-1 alpha-2.
+   */
   declare public addressCountry: CRGeoCoordinatesState['addressCountry']
+  /**
+   * Schema.org elevation: The elevation of a location in WGS 84.
+   */
   declare public elevation: CRGeoCoordinatesState['elevation']
+  /**
+   * Schema.org latitude: The latitude of a location in WGS 84.
+   */
   declare public latitude: CRGeoCoordinatesState['latitude']
+  /**
+   * Schema.org longitude: The longitude of a location in WGS 84.
+   */
   declare public longitude: CRGeoCoordinatesState['longitude']
+  /**
+   * Schema.org postalCode: The postal code.
+   */
   declare public postalCode: CRGeoCoordinatesState['postalCode']
 
   constructor(

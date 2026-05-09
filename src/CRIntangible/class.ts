@@ -8,6 +8,12 @@ import type {
   CRIntangibleState,
 } from './types/types.js'
 
+/**
+ * CRDT-backed Schema.org Intangible.
+ *
+ * Schema.org: A utility class for intangible things such as quantities,
+ * structured values, etc.
+ */
 export class CRIntangible<
   Type = 'Intangible',
   Shape extends CRIntangibleDefaultShape<Type> = CRIntangibleDefaultShape<Type>,
@@ -18,6 +24,9 @@ export class CRIntangible<
   extends CRThing<Type, Shape, Snapshot>
   implements CRIntangibleState<Type>
 {
+  /**
+   * Schema.org type name for this node.
+   */
   declare public readonly '@type': Type
 
   constructor(

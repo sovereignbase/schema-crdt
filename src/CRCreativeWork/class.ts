@@ -8,6 +8,11 @@ import type {
   CRCreativeWorkState,
 } from './types/types.js'
 
+/**
+ * CRDT-backed Schema.org CreativeWork.
+ *
+ * Schema.org: The most generic kind of creative work.
+ */
 export class CRCreativeWork<
   Type = 'CreativeWork',
   Shape extends CRCreativeWorkDefaultShape<Type> =
@@ -19,7 +24,13 @@ export class CRCreativeWork<
   extends CRThing<Type, Shape, Snapshot>
   implements CRCreativeWorkState<Type>
 {
+  /**
+   * Schema.org type name for this node.
+   */
   declare public readonly '@type': Type
+  /**
+   * Schema.org about: The subject matter of an object.
+   */
   declare public about: CRCreativeWorkState['about']
 
   constructor(

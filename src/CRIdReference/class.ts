@@ -13,9 +13,15 @@ import type {
   CRIdReferenceValue,
 } from './types/types.js'
 
+/**
+ * CRDT-backed opaque JSON-LD node reference.
+ */
 export class CRIdReference implements CRIdReferenceState {
   declare private readonly state: CRStruct<CRIdReferenceDefaultShape, true>
 
+  /**
+   * JSON-LD identifier for the referenced node.
+   */
   declare public '@id': CRIdReferenceState['@id']
 
   constructor(reference?: CRIdReferenceSnapshot | CRIdReferenceValue | string) {

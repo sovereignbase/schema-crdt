@@ -24,18 +24,40 @@ type SchemaOrgLocationFeatureSpecificationRaw = Extract<
 type SchemaOrgLocationFeatureSpecification =
   Partial<SchemaOrgLocationFeatureSpecificationRaw>
 
+/**
+ * Values accepted by Schema.org hoursAvailable.
+ */
 export type CRLocationFeatureSpecificationHoursAvailable =
   | CROpeningHoursSpecificationSnapshot
   | CRIdReferenceValue
 
+/**
+ * Serializable CRDT shape for Schema.org LocationFeatureSpecification.
+ *
+ * Schema.org: A structured property-value pair describing a location feature
+ * of an accommodation.
+ */
 export type CRLocationFeatureSpecificationDefaultShape<
   Type = 'LocationFeatureSpecification',
 > = {
+  /**
+   * Schema.org hoursAvailable: The hours during which this service or contact
+   * is available.
+   */
   hoursAvailable: CRSetSnapshot<CRLocationFeatureSpecificationHoursAvailable>
+  /**
+   * Schema.org validFrom: The date when the item becomes valid.
+   */
   validFrom: SchemaOrgDate | SchemaOrgDateTime
+  /**
+   * Schema.org validThrough: The date after when the item is not valid.
+   */
   validThrough: SchemaOrgDate | SchemaOrgDateTime
 } & CRPropertyValueDefaultShape<Type>
 
+/**
+ * Serializable CRDT snapshot for Schema.org LocationFeatureSpecification.
+ */
 export type CRLocationFeatureSpecificationSnapshot<
   Type = 'LocationFeatureSpecification',
 > = CRStructPartialSnapshot<
@@ -53,10 +75,23 @@ type ExtraKeys = Exclude<
   keyof SchemaOrgLocationFeatureSpecification
 >
 
+/**
+ * Runtime CRDT state surface for Schema.org LocationFeatureSpecification.
+ */
 export type CRLocationFeatureSpecificationState<
   Type = 'LocationFeatureSpecification',
 > = {
+  /**
+   * Schema.org hoursAvailable: The hours during which this service or contact
+   * is available.
+   */
   hoursAvailable: Readonly<CRSet<CRLocationFeatureSpecificationHoursAvailable>>
+  /**
+   * Schema.org validFrom: The date when the item becomes valid.
+   */
   validFrom: SchemaOrgDate | SchemaOrgDateTime
+  /**
+   * Schema.org validThrough: The date after when the item is not valid.
+   */
   validThrough: SchemaOrgDate | SchemaOrgDateTime
 } & CRPropertyValueState<Type>
