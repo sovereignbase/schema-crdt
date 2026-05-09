@@ -1,6 +1,7 @@
 import type { CRStructSnapshot } from '@sovereignbase/convergent-replicated-struct'
 
 import { CRThing } from '../CRThing/class.js'
+import type { SchemaCRDTFormatValidators } from '../.types/types.js'
 
 import type {
   CRIntangibleDefaultShape,
@@ -24,9 +25,10 @@ export class CRIntangible<
     defaultShape?: Partial<Shape>,
     crdtProperties?: Partial<
       Record<Extract<keyof Shape, string>, 'text' | 'set' | 'list' | 'map'>
-    >
+    >,
+    formatValidators?: SchemaCRDTFormatValidators<Shape>
   ) {
-    super(snapshot, defaultShape, crdtProperties)
+    super(snapshot, defaultShape, crdtProperties, formatValidators)
   }
 }
 

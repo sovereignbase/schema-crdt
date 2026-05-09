@@ -36,8 +36,10 @@ import {
 import type {
   SchemaCRDTEventListenerFor,
   SchemaCRDTEventMap,
+  SchemaCRDTFormatValidators,
   SchemaCRDTPropertyEventMap,
 } from '../.types/types.js'
+import { SchemaCRDTError } from '../.errors/class.js'
 
 export class CRThing<
   Type = 'Thing',
@@ -48,6 +50,7 @@ export class CRThing<
 > implements CRThingState<Type> {
   declare private readonly state: CRStruct<Shape, true>
   declare private readonly eventTarget: EventTarget
+  declare protected readonly formatValidators: SchemaCRDTFormatValidators<Shape>
 
   declare public readonly '@id': OpaqueIdentifier
   declare public readonly '@type': Type
@@ -70,7 +73,8 @@ export class CRThing<
     defaultShape?: Partial<Shape>,
     crdtProperties?: Partial<
       Record<Extract<keyof Shape, string>, 'text' | 'set' | 'list' | 'map'>
-    >
+    >,
+    formatValidators?: SchemaCRDTFormatValidators<Shape>
   ) {
     const defaults = {
       '@id': '',
@@ -104,6 +108,12 @@ export class CRThing<
       },
       eventTarget: {
         value: new EventTarget(),
+        enumerable: false,
+        configurable: false,
+        writable: false,
+      },
+      formatValidators: {
+        value: formatValidators ?? {},
         enumerable: false,
         configurable: false,
         writable: false,
@@ -160,6 +170,7 @@ export class CRThing<
           return state['image'] ?? defaults['image']
         },
         set(value: string): void {
+          this.validateFormat('image' as Extract<keyof Shape, string>, value)
           state['image'] = value
         },
       },
@@ -170,6 +181,10 @@ export class CRThing<
           return state['mainEntityOfPage'] ?? defaults['mainEntityOfPage']
         },
         set(value: string): void {
+          this.validateFormat(
+            'mainEntityOfPage' as Extract<keyof Shape, string>,
+            value
+          )
           state['mainEntityOfPage'] = value
         },
       },
@@ -186,6 +201,7 @@ export class CRThing<
           return state['owner'] ?? defaults['owner']
         },
         set(value: string): void {
+          this.validateFormat('owner' as Extract<keyof Shape, string>, value)
           state['owner'] = value
         },
       },
@@ -196,6 +212,10 @@ export class CRThing<
           return state['potentialAction'] ?? defaults['potentialAction'] ?? ''
         },
         set(value: string): void {
+          this.validateFormat(
+            'potentialAction' as Extract<keyof Shape, string>,
+            value
+          )
           state['potentialAction'] = value
         },
       },
@@ -218,6 +238,7 @@ export class CRThing<
           return state['url'] ?? defaults['url']
         },
         set(value: string): void {
+          this.validateFormat('url' as Extract<keyof Shape, string>, value)
           state['url'] = value
         },
       },
@@ -259,6 +280,7 @@ export class CRThing<
           return (state[key] ?? defaults[key]) as Shape[typeof key]
         },
         set(value: Shape[typeof key]): void {
+          this.validateFormat(key, value)
           ;(state as Record<string, unknown>)[key] = value
         },
       })
@@ -377,9 +399,35 @@ export class CRThing<
         continue
       }
 
+      const deltaValue =
+        typeof value === 'object' &&
+        value !== null &&
+        'uuidv7' in value &&
+        'value' in value
+          ? (value as { value: unknown }).value
+          : value
+      this.validateFormat(key as Extract<keyof Shape, string>, deltaValue)
+
       void this.state.merge({
         [key]: value,
       } as CRStructDelta<Shape>)
+    }
+  }
+
+  protected validateFormat(
+    key: Extract<keyof Shape, string>,
+    value: unknown
+  ): void {
+    const validator = this.formatValidators[key]
+
+    if (!validator || typeof value !== 'string') {
+      return
+    }
+
+    validator.lastIndex = 0
+
+    if (!validator.test(value)) {
+      throw new SchemaCRDTError('VALIDATION_FAILED', `Invalid value for ${key}`)
     }
   }
 

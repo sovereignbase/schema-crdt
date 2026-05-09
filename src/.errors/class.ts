@@ -1,4 +1,4 @@
-export type SchemaCRDTErrorCode = 'EXAMPLE_ERROR_CODE'
+export type SchemaCRDTErrorCode = 'VALIDATION_FAILED'
 
 export class SchemaCRDTError extends Error {
   readonly code: SchemaCRDTErrorCode

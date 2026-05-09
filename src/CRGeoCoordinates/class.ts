@@ -51,7 +51,11 @@ export class CRGeoCoordinates<
         ...crdtProperties,
       } as Partial<
         Record<Extract<keyof Shape, string>, 'text' | 'set' | 'list' | 'map'>
-      >
+      >,
+      {
+        latitude: /^-?(?:[0-8]?\d(?:\.\d+)?|90(?:\.0+)?)$/,
+        longitude: /^-?(?:(?:[0-9]?\d|1[0-7]\d)(?:\.\d+)?|180(?:\.0+)?)$/,
+      } as Partial<Record<Extract<keyof Shape, string>, RegExp>>
     )
   }
 }

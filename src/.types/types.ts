@@ -52,6 +52,9 @@ export type SchemaOrgXPathType = string
 
 /***/
 
+export type SchemaCRDTFormatValidators<T extends Record<string, unknown>> =
+  Partial<Record<Extract<keyof T, string>, RegExp>>
+
 export type SchemaCRDTPropertyEventMap = {
   snapshot:
     | CRTextSnapshot
