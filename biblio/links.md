@@ -1,0 +1,3 @@
+- https://en.wikipedia.org/wiki/World_Geodetic_System
+- https://en.wikipedia.org/wiki/ISO_3166-1
+- https://en.wikipedia.org/wiki/DE-9IM
