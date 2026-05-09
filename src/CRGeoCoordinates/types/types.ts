@@ -3,6 +3,7 @@ import type {
   CRSet,
   CRSetSnapshot,
 } from '@sovereignbase/convergent-replicated-set'
+import type { ISO31661Alpha2 } from '@sovereignbase/utils'
 
 import type { CRIdReferenceValue } from '../../CRIdReference/types/types.js'
 import type { CRPostalAddressSnapshot } from '../../CRPostalAddress/types/types.js'
@@ -13,6 +14,7 @@ import type {
 import type {
   CRStructPartialSnapshot,
   SchemaOrgNumber,
+  SchemaOrgPostalCode,
   SchemaOrgText,
 } from '../../.types/types.js'
 
@@ -44,7 +46,7 @@ export type CRGeoCoordinatesDefaultShape<Type = 'GeoCoordinates'> = {
   /**
    * Schema.org addressCountry: The country, recommended as ISO 3166-1 alpha-2.
    */
-  addressCountry: SchemaOrgText | CRIdReferenceValue
+  addressCountry: ISO31661Alpha2
   /**
    * Schema.org elevation: The elevation of a location in WGS 84.
    */
@@ -60,7 +62,7 @@ export type CRGeoCoordinatesDefaultShape<Type = 'GeoCoordinates'> = {
   /**
    * Schema.org postalCode: The postal code.
    */
-  postalCode: SchemaOrgText
+  postalCode: SchemaOrgPostalCode
 } & CRStructuredValueDefaultShape<Type>
 
 /**
@@ -93,7 +95,7 @@ export type CRGeoCoordinatesState<Type = 'GeoCoordinates'> = {
   /**
    * Schema.org addressCountry: The country, recommended as ISO 3166-1 alpha-2.
    */
-  addressCountry: SchemaOrgText | CRIdReferenceValue
+  addressCountry: ISO31661Alpha2
   /**
    * Schema.org elevation: The elevation of a location in WGS 84.
    */
@@ -109,5 +111,5 @@ export type CRGeoCoordinatesState<Type = 'GeoCoordinates'> = {
   /**
    * Schema.org postalCode: The postal code.
    */
-  postalCode: SchemaOrgText
+  postalCode: SchemaOrgPostalCode
 } & CRStructuredValueState<Type>

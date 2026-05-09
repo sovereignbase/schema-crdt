@@ -79,6 +79,14 @@ export type SchemaOrgInteger = number
 export type SchemaOrgText = string
 
 /**
+ * Schema.org postalCode primitive.
+ *
+ * Postal code formats are jurisdiction-specific, so this type names the
+ * schema.org property domain without pretending there is one global regex.
+ */
+export type SchemaOrgPostalCode = string
+
+/**
  * Schema.org URL primitive.
  */
 export type SchemaOrgURL = string

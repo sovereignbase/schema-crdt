@@ -1,7 +1,7 @@
 import type { CRStructSnapshot } from '@sovereignbase/convergent-replicated-struct'
 
 import { CRStructuredValue } from '../CRStructuredValue/class.js'
-import { crSetSnapshot } from '../.shared/index.js'
+import { addressCountry, crSetSnapshot } from '../.shared/index.js'
 
 import type {
   CRGeoCoordinatesDefaultShape,
@@ -65,7 +65,7 @@ export class CRGeoCoordinates<
       {
         '@type': 'GeoCoordinates' as Type,
         address: crSetSnapshot,
-        addressCountry: '',
+        addressCountry,
         elevation: '',
         latitude: '',
         longitude: '',
@@ -79,6 +79,7 @@ export class CRGeoCoordinates<
         Record<Extract<keyof Shape, string>, 'text' | 'set' | 'list' | 'map'>
       >,
       {
+        addressCountry: /^[A-Z]{2}$/,
         latitude: /^-?(?:[0-8]?\d(?:\.\d+)?|90(?:\.0+)?)$/,
         longitude: /^-?(?:(?:[0-9]?\d|1[0-7]\d)(?:\.\d+)?|180(?:\.0+)?)$/,
       } as Partial<Record<Extract<keyof Shape, string>, RegExp>>
