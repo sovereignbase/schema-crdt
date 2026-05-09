@@ -7,7 +7,7 @@ import type {
   CRThingDefaultShape,
   CRThingState,
 } from '../../CRThing/types/types.js'
-import type { CRStructPartialSnapshot } from '../../.types/index.js'
+import type { CRStructPartialSnapshot } from '../../.types/types.js'
 
 type SchemaOrgActionRaw = Extract<Action, { '@type': 'Action' }>
 
