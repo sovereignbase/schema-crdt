@@ -60,7 +60,7 @@ export class CRThing<
   /**
    * JSON-LD identifier for this node.
    */
-  declare public readonly '@id': OpaqueIdentifier
+  declare public readonly '@id': CRThingState['@id']
   /**
    * Schema.org type name for this node.
    */
@@ -68,58 +68,58 @@ export class CRThing<
   /**
    * Schema.org additionalType: An additional type for the item.
    */
-  declare public readonly 'additionalType': Readonly<CRSet<string>>
+  declare public readonly 'additionalType': CRThingState['additionalType']
   /**
    * Schema.org alternateName: An alias for the item.
    */
-  declare public readonly 'alternateName': Readonly<CRSet<string>>
+  declare public readonly 'alternateName': CRThingState['alternateName']
   /**
    * Schema.org description: A description of the item.
    */
-  declare public readonly 'description': Readonly<CRText>
+  declare public readonly 'description': CRThingState['description']
   /**
    * Schema.org disambiguatingDescription: A short description used to
    * disambiguate the item from other, similar items.
    */
-  declare public readonly 'disambiguatingDescription': Readonly<CRText>
+  declare public readonly 'disambiguatingDescription': CRThingState['disambiguatingDescription']
   /**
    * Schema.org identifier represented by this package as an opaque identifier.
    */
-  declare public readonly 'identifier': string
+  declare public readonly 'identifier': CRThingState['identifier']
   /**
    * Schema.org image: An image of the item.
    */
-  declare public 'image': string
+  declare public 'image': CRThingState['image']
   /**
    * Schema.org mainEntityOfPage: A page or other CreativeWork for which this
    * thing is the main entity being described.
    */
-  declare public 'mainEntityOfPage': string
+  declare public 'mainEntityOfPage': CRThingState['mainEntityOfPage']
   /**
    * Schema.org name: The name of the item.
    */
-  declare public readonly 'name': Readonly<CRText>
+  declare public readonly 'name': CRThingState['name']
   /**
    * Schema.org owner: A person or organization who owns this Thing.
    */
-  declare public 'owner': string
+  declare public 'owner': CRThingState['owner']
   /**
    * Schema.org potentialAction: A potential Action for this Thing.
    */
-  declare public 'potentialAction': string
+  declare public 'potentialAction': CRThingState['potentialAction']
   /**
    * Schema.org sameAs: URL of a reference Web page that unambiguously indicates
    * the item's identity.
    */
-  declare public readonly 'sameAs': Readonly<CRSet<string>>
+  declare public readonly 'sameAs': CRThingState['sameAs']
   /**
    * Schema.org subjectOf: A CreativeWork or Event about this Thing.
    */
-  declare public readonly 'subjectOf': Readonly<CRSet<string>>
+  declare public readonly 'subjectOf': CRThingState['subjectOf']
   /**
    * Schema.org url: URL of the item.
    */
-  declare public 'url': string
+  declare public 'url': CRThingState['url']
 
   constructor(
     snapshot?: Snapshot,
