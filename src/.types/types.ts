@@ -59,6 +59,16 @@ export type SchemaOrgDateTime = string
 export type SchemaOrgTime = string
 
 /**
+ * Schema.org Duration primitive.
+ */
+export type SchemaOrgDuration = string
+
+/**
+ * Schema.org Distance primitive.
+ */
+export type SchemaOrgDistance = string
+
+/**
  * Schema.org Number primitive.
  */
 export type SchemaOrgNumber = number
