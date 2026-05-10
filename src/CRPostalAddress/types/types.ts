@@ -5,12 +5,10 @@ import type {
   CRTextSnapshot,
 } from '@sovereignbase/convergent-replicated-text'
 
-import type { CRAdministrativeAreaSnapshot } from '../../CRAdministrativeArea/types/types.js'
 import type {
   CRContactPointDefaultShape,
   CRContactPointState,
 } from '../../CRContactPoint/types/types.js'
-import type { CRCountrySnapshot } from '../../CRCountry/types/types.js'
 import type { CRIdReferenceValue } from '../../CRIdReference/types/types.js'
 import type {
   CRStructPartialSnapshot,
@@ -29,17 +27,14 @@ type SchemaOrgPostalAddress = Partial<SchemaOrgPostalAddressRaw>
  * Values accepted by Schema.org addressCountry.
  */
 export type CRPostalAddressCountry =
-  | CRCountrySnapshot
   | ISO31661Alpha2
+  | SchemaOrgText
   | CRIdReferenceValue
 
 /**
  * Values accepted by Schema.org addressRegion.
  */
-export type CRPostalAddressRegion =
-  | CRAdministrativeAreaSnapshot
-  | SchemaOrgText
-  | CRIdReferenceValue
+export type CRPostalAddressRegion = SchemaOrgText | CRIdReferenceValue
 
 /**
  * Serializable CRDT shape for Schema.org PostalAddress.

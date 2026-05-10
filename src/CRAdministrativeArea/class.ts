@@ -41,7 +41,7 @@ export class CRAdministrativeArea<
       {
         '@type': 'AdministrativeArea' as Type,
         ...defaultShape,
-      } as Partial<Shape>,
+      } as unknown as Partial<Shape>,
       crdtProperties
     )
   }

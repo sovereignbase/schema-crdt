@@ -36,7 +36,7 @@ export class CRCountry<
       {
         '@type': 'Country' as Type,
         ...defaultShape,
-      } as Partial<Shape>,
+      } as unknown as Partial<Shape>,
       crdtProperties
     )
   }
