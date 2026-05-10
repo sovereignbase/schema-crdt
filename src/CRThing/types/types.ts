@@ -14,10 +14,18 @@ import type {
   SchemaOrgText,
   SchemaOrgURL,
 } from '../../.types/types.js'
+import type { CRTypedIdReferenceValue } from '../../CRIdReference/types/types.js'
 
 type SchemaOrgThingRaw = Extract<Thing, { '@type': 'Thing' }>
 
 type SchemaOrgThing = Partial<SchemaOrgThingRaw>
+
+/**
+ * Values accepted by Schema.org owner.
+ */
+export type CRThingOwner =
+  | CRTypedIdReferenceValue<'Organization'>
+  | CRTypedIdReferenceValue<'Person'>
 
 /**
  * Serializable CRDT shape for Schema.org Thing.
@@ -71,7 +79,7 @@ export type CRThingDefaultShape<T = 'Thing'> = {
   /**
    * Schema.org owner: A person or organization who owns this Thing.
    */
-  owner: string
+  owner: CRThingOwner
   /**
    * Schema.org potentialAction: A potential Action describing an idealized
    * action in which this thing would play an object role.
@@ -153,7 +161,7 @@ export type CRThingState<T = 'Thing'> = {
   /**
    * Schema.org owner: A person or organization who owns this Thing.
    */
-  owner: string
+  owner: CRThingOwner
   /**
    * Schema.org potentialAction: A potential Action for this Thing.
    */

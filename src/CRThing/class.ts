@@ -140,7 +140,7 @@ export class CRThing<
       image: '',
       mainEntityOfPage: '',
       name,
-      owner: '',
+      owner: { '@id': '' },
       potentialAction: '',
       sameAs,
       subjectOf,
@@ -250,10 +250,10 @@ export class CRThing<
       owner: {
         enumerable: true,
         configurable: true,
-        get(): string {
+        get(): CRThingState<Type>['owner'] {
           return state['owner'] ?? defaults['owner']
         },
-        set(value: string): void {
+        set(value: CRThingState<Type>['owner']): void {
           this.validateFormat('owner' as Extract<keyof Shape, string>, value)
           state['owner'] = value
         },

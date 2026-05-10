@@ -8,7 +8,10 @@ import type {
   CRTextSnapshot,
 } from '@sovereignbase/convergent-replicated-text'
 
-import type { CRIdReferenceValue } from '../../CRIdReference/types/types.js'
+import type {
+  CRIdReferenceValue,
+  CRTypedIdReferenceValue,
+} from '../../CRIdReference/types/types.js'
 import type {
   CRIntangibleDefaultShape,
   CRIntangibleState,
@@ -27,7 +30,10 @@ type SchemaOrgRating = Partial<SchemaOrgRatingRaw>
 /**
  * Values accepted by Schema.org author.
  */
-export type CRRatingAuthor = CRIdReferenceValue
+export type CRRatingAuthor =
+  | CRTypedIdReferenceValue<'Organization'>
+  | CRTypedIdReferenceValue<'Person'>
+  | CRIdReferenceValue
 
 /**
  * Values accepted by Schema.org bestRating, ratingValue and worstRating.

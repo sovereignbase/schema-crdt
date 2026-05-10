@@ -14,7 +14,10 @@ import type { CRCreativeWorkSnapshot } from '../../CRCreativeWork/types/types.js
 import type { CRDefinedTermSnapshot } from '../../CRDefinedTerm/types/types.js'
 import type { CREnumerationSnapshot } from '../../CREnumeration/types/types.js'
 import type { CRGeoShapeSnapshot } from '../../CRGeoShape/types/types.js'
-import type { CRIdReferenceValue } from '../../CRIdReference/types/types.js'
+import type {
+  CRIdReferenceValue,
+  CRTypedIdReferenceValue,
+} from '../../CRIdReference/types/types.js'
 import type { CRPlaceSnapshot } from '../../CRPlace/types/types.js'
 import type { CRPostalAddressSnapshot } from '../../CRPostalAddress/types/types.js'
 import type {
@@ -71,6 +74,17 @@ export type CROrganizationTopic =
   | SchemaOrgURL
   | CRIdReferenceValue
 
+/** Values accepted by Schema.org organization-person relationship properties. */
+export type CROrganizationPerson = CRTypedIdReferenceValue<'Person'>
+
+/** Values accepted by Schema.org organization-organization relationship properties. */
+export type CROrganizationOrganization = CRTypedIdReferenceValue<'Organization'>
+
+/** Values accepted by Schema.org person or organization relationship properties. */
+export type CROrganizationPersonOrOrganization =
+  | CRTypedIdReferenceValue<'Person'>
+  | CRTypedIdReferenceValue<'Organization'>
+
 /**
  * Serializable CRDT shape for Schema.org Organization.
  *
@@ -90,13 +104,13 @@ export type CROrganizationDefaultShape<Type = 'Organization'> = {
   /** Schema.org aggregateRating: Overall rating based on reviews or ratings. */
   aggregateRating: CRSetSnapshot<CRAggregateRatingSnapshot | CRIdReferenceValue>
   /** Schema.org alumni: Alumni of an organization. */
-  alumni: CRSetSnapshot<CRIdReferenceValue>
+  alumni: CRSetSnapshot<CROrganizationPerson>
   /** Schema.org areaServed: Geographic area where a service or item is provided. */
   areaServed: CRSetSnapshot<CROrganizationPlace>
   /** Schema.org award: An award won by or for this item. */
   award: CRSetSnapshot<SchemaOrgText>
   /** Schema.org brand: Brands associated with a product, service or organization. */
-  brand: CRSetSnapshot<CRIdReferenceValue>
+  brand: CRSetSnapshot<CROrganizationOrganization>
   /** Schema.org companyRegistration: Official business registration information. */
   companyRegistration: CRSetSnapshot<CRIdReferenceValue>
   /** Schema.org contactPoint: A contact point for a person or organization. */
@@ -104,7 +118,7 @@ export type CROrganizationDefaultShape<Type = 'Organization'> = {
   /** Schema.org correctionsPolicy: Disclosure and correction policy for errors. */
   correctionsPolicy: CRSetSnapshot<CROrganizationPolicy>
   /** Schema.org department: An organization department relationship. */
-  department: CRSetSnapshot<CRIdReferenceValue>
+  department: CRSetSnapshot<CROrganizationOrganization>
   /** Schema.org dissolutionDate: Date this organization was dissolved. */
   dissolutionDate: SchemaOrgDate
   /** Schema.org diversityPolicy: Diversity policy statement. */
@@ -116,7 +130,7 @@ export type CROrganizationDefaultShape<Type = 'Organization'> = {
   /** Schema.org email: Email address. */
   email: CRTextSnapshot
   /** Schema.org employee: Someone working for this organization. */
-  employee: CRSetSnapshot<CRIdReferenceValue>
+  employee: CRSetSnapshot<CROrganizationPerson>
   /** Schema.org ethicsPolicy: Ethics policy statement. */
   ethicsPolicy: CRSetSnapshot<CROrganizationPolicy>
   /** Schema.org event: Upcoming or past event associated with this organization. */
@@ -124,13 +138,13 @@ export type CROrganizationDefaultShape<Type = 'Organization'> = {
   /** Schema.org faxNumber: The fax number. */
   faxNumber: CRTextSnapshot
   /** Schema.org founder: Person or organization who founded this organization. */
-  founder: CRSetSnapshot<CRIdReferenceValue>
+  founder: CRSetSnapshot<CROrganizationPersonOrOrganization>
   /** Schema.org foundingDate: Date this organization was founded. */
   foundingDate: SchemaOrgDate
   /** Schema.org foundingLocation: Place where the organization was founded. */
   foundingLocation: CRSetSnapshot<CROrganizationPlace>
   /** Schema.org funder: Person or organization that supports something financially. */
-  funder: CRSetSnapshot<CRIdReferenceValue>
+  funder: CRSetSnapshot<CROrganizationPersonOrOrganization>
   /** Schema.org funding: Grant that provides funding or sponsorship. */
   funding: CRSetSnapshot<CRIdReferenceValue>
   /** Schema.org globalLocationNumber: GS1 Global Location Number. */
@@ -168,7 +182,7 @@ export type CROrganizationDefaultShape<Type = 'Organization'> = {
   /** Schema.org legalName: Official name of the organization. */
   legalName: CRTextSnapshot
   /** Schema.org legalRepresentative: Person who legally represents this organization. */
-  legalRepresentative: CRSetSnapshot<CRIdReferenceValue>
+  legalRepresentative: CRSetSnapshot<CROrganizationPerson>
   /** Schema.org leiCode: Legal Entity Identifier. */
   leiCode: CRTextSnapshot
   /** Schema.org location: Location of the organization. */
@@ -178,9 +192,9 @@ export type CROrganizationDefaultShape<Type = 'Organization'> = {
   /** Schema.org makesOffer: Products or services offered by the organization. */
   makesOffer: CRSetSnapshot<CRIdReferenceValue>
   /** Schema.org member: A member of an Organization or ProgramMembership. */
-  member: CRSetSnapshot<CRIdReferenceValue>
+  member: CRSetSnapshot<CROrganizationPersonOrOrganization>
   /** Schema.org memberOf: Organization or membership this organization belongs to. */
-  memberOf: CRSetSnapshot<CRIdReferenceValue>
+  memberOf: CRSetSnapshot<CROrganizationOrganization>
   /** Schema.org naics: NAICS code. */
   naics: CRTextSnapshot
   /** Schema.org nonprofitStatus: Legal status of a non-profit organization. */
@@ -192,7 +206,7 @@ export type CROrganizationDefaultShape<Type = 'Organization'> = {
   /** Schema.org owns: Things owned by the organization. */
   owns: CRSetSnapshot<CRThingSnapshot | CRIdReferenceValue>
   /** Schema.org parentOrganization: Larger organization this is part of. */
-  parentOrganization: CRSetSnapshot<CRIdReferenceValue>
+  parentOrganization: CRSetSnapshot<CROrganizationOrganization>
   /** Schema.org publishingPrinciples: Editorial principles document. */
   publishingPrinciples: CRSetSnapshot<CROrganizationPolicy>
   /** Schema.org review: A review of the item. */
@@ -206,9 +220,9 @@ export type CROrganizationDefaultShape<Type = 'Organization'> = {
   /** Schema.org slogan: Slogan or motto associated with the item. */
   slogan: CRTextSnapshot
   /** Schema.org sponsor: Person or organization that supports a thing. */
-  sponsor: CRSetSnapshot<CRIdReferenceValue>
+  sponsor: CRSetSnapshot<CROrganizationPersonOrOrganization>
   /** Schema.org subOrganization: Organization included by this organization. */
-  subOrganization: CRSetSnapshot<CRIdReferenceValue>
+  subOrganization: CRSetSnapshot<CROrganizationOrganization>
   /** Schema.org taxID: Tax or fiscal identifier. */
   taxID: CRTextSnapshot
   /** Schema.org telephone: The telephone number. */
@@ -257,13 +271,13 @@ export type CROrganizationState<Type = 'Organization'> = {
     CRSet<CRAggregateRatingSnapshot | CRIdReferenceValue>
   >
   /** Schema.org alumni: Alumni of an organization. */
-  alumni: Readonly<CRSet<CRIdReferenceValue>>
+  alumni: Readonly<CRSet<CROrganizationPerson>>
   /** Schema.org areaServed: Geographic area where a service or item is provided. */
   areaServed: Readonly<CRSet<CROrganizationPlace>>
   /** Schema.org award: An award won by or for this item. */
   award: Readonly<CRSet<SchemaOrgText>>
   /** Schema.org brand: Brands associated with a product, service or organization. */
-  brand: Readonly<CRSet<CRIdReferenceValue>>
+  brand: Readonly<CRSet<CROrganizationOrganization>>
   /** Schema.org companyRegistration: Official business registration information. */
   companyRegistration: Readonly<CRSet<CRIdReferenceValue>>
   /** Schema.org contactPoint: A contact point for a person or organization. */
@@ -271,7 +285,7 @@ export type CROrganizationState<Type = 'Organization'> = {
   /** Schema.org correctionsPolicy: Disclosure and correction policy for errors. */
   correctionsPolicy: Readonly<CRSet<CROrganizationPolicy>>
   /** Schema.org department: An organization department relationship. */
-  department: Readonly<CRSet<CRIdReferenceValue>>
+  department: Readonly<CRSet<CROrganizationOrganization>>
   /** Schema.org dissolutionDate: Date this organization was dissolved. */
   dissolutionDate: SchemaOrgDate
   /** Schema.org diversityPolicy: Diversity policy statement. */
@@ -283,7 +297,7 @@ export type CROrganizationState<Type = 'Organization'> = {
   /** Schema.org email: Email address. */
   email: Readonly<CRText>
   /** Schema.org employee: Someone working for this organization. */
-  employee: Readonly<CRSet<CRIdReferenceValue>>
+  employee: Readonly<CRSet<CROrganizationPerson>>
   /** Schema.org ethicsPolicy: Ethics policy statement. */
   ethicsPolicy: Readonly<CRSet<CROrganizationPolicy>>
   /** Schema.org event: Upcoming or past event associated with this organization. */
@@ -291,13 +305,13 @@ export type CROrganizationState<Type = 'Organization'> = {
   /** Schema.org faxNumber: The fax number. */
   faxNumber: Readonly<CRText>
   /** Schema.org founder: Person or organization who founded this organization. */
-  founder: Readonly<CRSet<CRIdReferenceValue>>
+  founder: Readonly<CRSet<CROrganizationPersonOrOrganization>>
   /** Schema.org foundingDate: Date this organization was founded. */
   foundingDate: SchemaOrgDate
   /** Schema.org foundingLocation: Place where the organization was founded. */
   foundingLocation: Readonly<CRSet<CROrganizationPlace>>
   /** Schema.org funder: Person or organization that supports something financially. */
-  funder: Readonly<CRSet<CRIdReferenceValue>>
+  funder: Readonly<CRSet<CROrganizationPersonOrOrganization>>
   /** Schema.org funding: Grant that provides funding or sponsorship. */
   funding: Readonly<CRSet<CRIdReferenceValue>>
   /** Schema.org globalLocationNumber: GS1 Global Location Number. */
@@ -335,7 +349,7 @@ export type CROrganizationState<Type = 'Organization'> = {
   /** Schema.org legalName: Official name of the organization. */
   legalName: Readonly<CRText>
   /** Schema.org legalRepresentative: Person who legally represents this organization. */
-  legalRepresentative: Readonly<CRSet<CRIdReferenceValue>>
+  legalRepresentative: Readonly<CRSet<CROrganizationPerson>>
   /** Schema.org leiCode: Legal Entity Identifier. */
   leiCode: Readonly<CRText>
   /** Schema.org location: Location of the organization. */
@@ -345,9 +359,9 @@ export type CROrganizationState<Type = 'Organization'> = {
   /** Schema.org makesOffer: Products or services offered by the organization. */
   makesOffer: Readonly<CRSet<CRIdReferenceValue>>
   /** Schema.org member: A member of an Organization or ProgramMembership. */
-  member: Readonly<CRSet<CRIdReferenceValue>>
+  member: Readonly<CRSet<CROrganizationPersonOrOrganization>>
   /** Schema.org memberOf: Organization or membership this organization belongs to. */
-  memberOf: Readonly<CRSet<CRIdReferenceValue>>
+  memberOf: Readonly<CRSet<CROrganizationOrganization>>
   /** Schema.org naics: NAICS code. */
   naics: Readonly<CRText>
   /** Schema.org nonprofitStatus: Legal status of a non-profit organization. */
@@ -359,7 +373,7 @@ export type CROrganizationState<Type = 'Organization'> = {
   /** Schema.org owns: Things owned by the organization. */
   owns: Readonly<CRSet<CRThingSnapshot | CRIdReferenceValue>>
   /** Schema.org parentOrganization: Larger organization this is part of. */
-  parentOrganization: Readonly<CRSet<CRIdReferenceValue>>
+  parentOrganization: Readonly<CRSet<CROrganizationOrganization>>
   /** Schema.org publishingPrinciples: Editorial principles document. */
   publishingPrinciples: Readonly<CRSet<CROrganizationPolicy>>
   /** Schema.org review: A review of the item. */
@@ -373,9 +387,9 @@ export type CROrganizationState<Type = 'Organization'> = {
   /** Schema.org slogan: Slogan or motto associated with the item. */
   slogan: Readonly<CRText>
   /** Schema.org sponsor: Person or organization that supports a thing. */
-  sponsor: Readonly<CRSet<CRIdReferenceValue>>
+  sponsor: Readonly<CRSet<CROrganizationPersonOrOrganization>>
   /** Schema.org subOrganization: Organization included by this organization. */
-  subOrganization: Readonly<CRSet<CRIdReferenceValue>>
+  subOrganization: Readonly<CRSet<CROrganizationOrganization>>
   /** Schema.org taxID: Tax or fiscal identifier. */
   taxID: Readonly<CRText>
   /** Schema.org telephone: The telephone number. */

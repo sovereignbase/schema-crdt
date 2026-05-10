@@ -13,8 +13,10 @@ import type { CRCountrySnapshot } from '../../CRCountry/types/types.js'
 import type { CRCreativeWorkSnapshot } from '../../CRCreativeWork/types/types.js'
 import type { CRDefinedTermSnapshot } from '../../CRDefinedTerm/types/types.js'
 import type { CREnumerationSnapshot } from '../../CREnumeration/types/types.js'
-import type { CRIdReferenceValue } from '../../CRIdReference/types/types.js'
-import type { CROrganizationSnapshot } from '../../CROrganization/types/types.js'
+import type {
+  CRIdReferenceValue,
+  CRTypedIdReferenceValue,
+} from '../../CRIdReference/types/types.js'
 import type { CRPlaceSnapshot } from '../../CRPlace/types/types.js'
 import type { CRPostalAddressSnapshot } from '../../CRPostalAddress/types/types.js'
 import type { CRStructuredValueSnapshot } from '../../CRStructuredValue/types/types.js'
@@ -41,7 +43,15 @@ export type CRPersonAddress =
   | CRIdReferenceValue
 
 /** Values accepted by Schema.org person organization relationship properties. */
-export type CRPersonOrganization = CROrganizationSnapshot | CRIdReferenceValue
+export type CRPersonOrganization = CRTypedIdReferenceValue<'Organization'>
+
+/** Values accepted by Schema.org person-person relationship properties. */
+export type CRPersonRelation = CRTypedIdReferenceValue<'Person'>
+
+/** Values accepted by Schema.org person or organization relationship properties. */
+export type CRPersonOrOrganization =
+  | CRTypedIdReferenceValue<'Person'>
+  | CRTypedIdReferenceValue<'Organization'>
 
 /** Values accepted by Schema.org person place relationship properties. */
 export type CRPersonPlace = CRPlaceSnapshot<string> | CRIdReferenceValue
@@ -105,9 +115,9 @@ export type CRPersonDefaultShape<Type = 'Person'> = {
   /** Schema.org callSign: Callsign used in broadcasting or radio communications. */
   callSign: CRSetSnapshot<SchemaOrgText>
   /** Schema.org children: A child of the person. */
-  children: CRSetSnapshot<CRIdReferenceValue>
+  children: CRSetSnapshot<CRPersonRelation>
   /** Schema.org colleague: A colleague of the person. */
-  colleague: CRSetSnapshot<SchemaOrgURL | CRIdReferenceValue>
+  colleague: CRSetSnapshot<CRPersonRelation | SchemaOrgURL>
   /** Schema.org contactPoint: A contact point for a person or organization. */
   contactPoint: CRSetSnapshot<CRContactPointSnapshot | CRIdReferenceValue>
   /** Schema.org deathDate: Date of death. */
@@ -123,9 +133,9 @@ export type CRPersonDefaultShape<Type = 'Person'> = {
   /** Schema.org faxNumber: The fax number. */
   faxNumber: CRSetSnapshot<SchemaOrgText>
   /** Schema.org follows: The most generic uni-directional social relation. */
-  follows: CRSetSnapshot<CRIdReferenceValue>
+  follows: CRSetSnapshot<CRPersonRelation>
   /** Schema.org funder: Person or organization that supports something financially. */
-  funder: CRSetSnapshot<CRPersonOrganization>
+  funder: CRSetSnapshot<CRPersonOrOrganization>
   /** Schema.org funding: Grant that provides funding or sponsorship. */
   funding: CRSetSnapshot<CRIdReferenceValue>
   /** Schema.org gender: Gender of something. */
@@ -163,7 +173,7 @@ export type CRPersonDefaultShape<Type = 'Person'> = {
     CRDefinedTermSnapshot | SchemaOrgText | CRIdReferenceValue
   >
   /** Schema.org knows: The most generic bi-directional social/work relation. */
-  knows: CRSetSnapshot<CRIdReferenceValue>
+  knows: CRSetSnapshot<CRPersonRelation>
   /** Schema.org knowsAbout: Topic that the person knows about. */
   knowsAbout: CRSetSnapshot<CRPersonTopic>
   /** Schema.org knowsLanguage: Language known by the person. */
@@ -183,7 +193,7 @@ export type CRPersonDefaultShape<Type = 'Person'> = {
   /** Schema.org owns: Things owned by the person. */
   owns: CRSetSnapshot<CRThingSnapshot | CRIdReferenceValue>
   /** Schema.org parent: A parent of this person. */
-  parent: CRSetSnapshot<CRIdReferenceValue>
+  parent: CRSetSnapshot<CRPersonRelation>
   /** Schema.org performerIn: Event that this person is a performer or participant in. */
   performerIn: CRSetSnapshot<CRIdReferenceValue>
   /** Schema.org pronouns: Pronouns for a person. */
@@ -191,19 +201,19 @@ export type CRPersonDefaultShape<Type = 'Person'> = {
   /** Schema.org publishingPrinciples: Editorial principles document. */
   publishingPrinciples: CRSetSnapshot<CRPersonPolicy>
   /** Schema.org relatedTo: The most generic familial relation. */
-  relatedTo: CRSetSnapshot<CRIdReferenceValue>
+  relatedTo: CRSetSnapshot<CRPersonRelation>
   /** Schema.org seeks: Products or services sought by the person. */
   seeks: CRSetSnapshot<CRIdReferenceValue>
   /** Schema.org sibling: A sibling of the person. */
-  sibling: CRSetSnapshot<CRIdReferenceValue>
+  sibling: CRSetSnapshot<CRPersonRelation>
   /** Schema.org skills: Competency statement. */
   skills: CRSetSnapshot<
     CRDefinedTermSnapshot | SchemaOrgText | CRIdReferenceValue
   >
   /** Schema.org sponsor: Person or organization that supports a thing. */
-  sponsor: CRSetSnapshot<CRPersonOrganization>
+  sponsor: CRSetSnapshot<CRPersonOrOrganization>
   /** Schema.org spouse: The person's spouse. */
-  spouse: CRSetSnapshot<CRIdReferenceValue>
+  spouse: CRSetSnapshot<CRPersonRelation>
   /** Schema.org taxID: Tax or fiscal identifier. */
   taxID: CRSetSnapshot<SchemaOrgText>
   /** Schema.org telephone: The telephone number. */
@@ -255,9 +265,9 @@ export type CRPersonState<Type = 'Person'> = {
   /** Schema.org callSign: Callsign used in broadcasting or radio communications. */
   callSign: Readonly<CRSet<SchemaOrgText>>
   /** Schema.org children: A child of the person. */
-  children: Readonly<CRSet<CRIdReferenceValue>>
+  children: Readonly<CRSet<CRPersonRelation>>
   /** Schema.org colleague: A colleague of the person. */
-  colleague: Readonly<CRSet<SchemaOrgURL | CRIdReferenceValue>>
+  colleague: Readonly<CRSet<CRPersonRelation | SchemaOrgURL>>
   /** Schema.org contactPoint: A contact point for a person or organization. */
   contactPoint: Readonly<CRSet<CRContactPointSnapshot | CRIdReferenceValue>>
   /** Schema.org deathDate: Date of death. */
@@ -273,9 +283,9 @@ export type CRPersonState<Type = 'Person'> = {
   /** Schema.org faxNumber: The fax number. */
   faxNumber: Readonly<CRSet<SchemaOrgText>>
   /** Schema.org follows: The most generic uni-directional social relation. */
-  follows: Readonly<CRSet<CRIdReferenceValue>>
+  follows: Readonly<CRSet<CRPersonRelation>>
   /** Schema.org funder: Person or organization that supports something financially. */
-  funder: Readonly<CRSet<CRPersonOrganization>>
+  funder: Readonly<CRSet<CRPersonOrOrganization>>
   /** Schema.org funding: Grant that provides funding or sponsorship. */
   funding: Readonly<CRSet<CRIdReferenceValue>>
   /** Schema.org gender: Gender of something. */
@@ -315,7 +325,7 @@ export type CRPersonState<Type = 'Person'> = {
     CRSet<CRDefinedTermSnapshot | SchemaOrgText | CRIdReferenceValue>
   >
   /** Schema.org knows: The most generic bi-directional social/work relation. */
-  knows: Readonly<CRSet<CRIdReferenceValue>>
+  knows: Readonly<CRSet<CRPersonRelation>>
   /** Schema.org knowsAbout: Topic that the person knows about. */
   knowsAbout: Readonly<CRSet<CRPersonTopic>>
   /** Schema.org knowsLanguage: Language known by the person. */
@@ -335,7 +345,7 @@ export type CRPersonState<Type = 'Person'> = {
   /** Schema.org owns: Things owned by the person. */
   owns: Readonly<CRSet<CRThingSnapshot | CRIdReferenceValue>>
   /** Schema.org parent: A parent of this person. */
-  parent: Readonly<CRSet<CRIdReferenceValue>>
+  parent: Readonly<CRSet<CRPersonRelation>>
   /** Schema.org performerIn: Event that this person is a performer or participant in. */
   performerIn: Readonly<CRSet<CRIdReferenceValue>>
   /** Schema.org pronouns: Pronouns for a person. */
@@ -343,19 +353,19 @@ export type CRPersonState<Type = 'Person'> = {
   /** Schema.org publishingPrinciples: Editorial principles document. */
   publishingPrinciples: Readonly<CRSet<CRPersonPolicy>>
   /** Schema.org relatedTo: The most generic familial relation. */
-  relatedTo: Readonly<CRSet<CRIdReferenceValue>>
+  relatedTo: Readonly<CRSet<CRPersonRelation>>
   /** Schema.org seeks: Products or services sought by the person. */
   seeks: Readonly<CRSet<CRIdReferenceValue>>
   /** Schema.org sibling: A sibling of the person. */
-  sibling: Readonly<CRSet<CRIdReferenceValue>>
+  sibling: Readonly<CRSet<CRPersonRelation>>
   /** Schema.org skills: Competency statement. */
   skills: Readonly<
     CRSet<CRDefinedTermSnapshot | SchemaOrgText | CRIdReferenceValue>
   >
   /** Schema.org sponsor: Person or organization that supports a thing. */
-  sponsor: Readonly<CRSet<CRPersonOrganization>>
+  sponsor: Readonly<CRSet<CRPersonOrOrganization>>
   /** Schema.org spouse: The person's spouse. */
-  spouse: Readonly<CRSet<CRIdReferenceValue>>
+  spouse: Readonly<CRSet<CRPersonRelation>>
   /** Schema.org taxID: Tax or fiscal identifier. */
   taxID: Readonly<CRSet<SchemaOrgText>>
   /** Schema.org telephone: The telephone number. */

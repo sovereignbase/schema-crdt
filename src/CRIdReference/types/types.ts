@@ -17,6 +17,17 @@ export type CRIdReferenceValue = {
 }
 
 /**
+ * Opaque JSON-LD node reference constrained to a Schema.org type.
+ */
+export type CRTypedIdReferenceValue<Type extends string> =
+  CRIdReferenceValue & {
+    /**
+     * Schema.org type name for the referenced node.
+     */
+    '@type'?: Type
+  }
+
+/**
  * Serializable CRDT shape for an opaque JSON-LD node reference.
  */
 export type CRIdReferenceDefaultShape = CRIdReferenceValue
