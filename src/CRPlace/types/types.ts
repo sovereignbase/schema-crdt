@@ -12,6 +12,15 @@ import type {
   CRThingDefaultShape,
   CRThingState,
 } from '../../CRThing/types/types.js'
+import type { CRAggregateRatingSnapshot } from '../../CRAggregateRating/types/types.js'
+import type { CRGeoCoordinatesSnapshot } from '../../CRGeoCoordinates/types/types.js'
+import type { CRGeoShapeSnapshot } from '../../CRGeoShape/types/types.js'
+import type { CRGeospatialGeometryRelation } from '../../CRGeospatialGeometry/types/types.js'
+import type { CRIdReferenceValue } from '../../CRIdReference/types/types.js'
+import type { CRLocationFeatureSpecificationSnapshot } from '../../CRLocationFeatureSpecification/types/types.js'
+import type { CROpeningHoursSpecificationSnapshot } from '../../CROpeningHoursSpecification/types/types.js'
+import type { CRPostalAddressSnapshot } from '../../CRPostalAddress/types/types.js'
+import type { CRPropertyValueSnapshot } from '../../CRPropertyValue/types/types.js'
 import type {
   CRStructPartialSnapshot,
   SchemaOrgBoolean,
@@ -24,27 +33,53 @@ type SchemaOrgPlaceRaw = Extract<Place, { '@type': 'Place' }>
 
 type SchemaOrgPlace = Partial<SchemaOrgPlaceRaw>
 
+export type CRPlaceAdditionalProperty =
+  | CRPropertyValueSnapshot
+  | CRIdReferenceValue
+
+export type CRPlaceAddress =
+  | CRPostalAddressSnapshot
+  | SchemaOrgText
+  | CRIdReferenceValue
+
+export type CRPlaceAggregateRating =
+  | CRAggregateRatingSnapshot
+  | CRIdReferenceValue
+
+export type CRPlaceAmenityFeature =
+  | CRLocationFeatureSpecificationSnapshot
+  | CRIdReferenceValue
+
+export type CRPlaceGeo =
+  | CRGeoCoordinatesSnapshot
+  | CRGeoShapeSnapshot
+  | CRIdReferenceValue
+
+export type CRPlaceOpeningHoursSpecification =
+  | CROpeningHoursSpecificationSnapshot
+  | CRIdReferenceValue
+
 export type CRPlaceDefaultShape<Type = 'Place'> = {
-  additionalProperty: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
-  address: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
-  aggregateRating: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
-  amenityFeature: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
+  additionalProperty: CRSetSnapshot<CRPlaceAdditionalProperty>
+  address: CRSetSnapshot<CRPlaceAddress>
+  aggregateRating: CRSetSnapshot<CRPlaceAggregateRating>
+  amenityFeature: CRSetSnapshot<CRPlaceAmenityFeature>
   branchCode: CRTextSnapshot
   containedInPlace: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
   containsPlace: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
   event: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
   faxNumber: CRTextSnapshot
-  geo: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
-  geoContains: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
-  geoCoveredBy: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
-  geoCovers: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
-  geoCrosses: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
-  geoDisjoint: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
-  geoEquals: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
-  geoIntersects: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
-  geoOverlaps: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
-  geoTouches: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
-  geoWithin: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
+  geo: CRSetSnapshot<CRPlaceGeo>
+  geoContains: CRSetSnapshot<CRGeospatialGeometryRelation>
+  geoCoveredBy: CRSetSnapshot<CRGeospatialGeometryRelation>
+  geoCovers: CRSetSnapshot<CRGeospatialGeometryRelation>
+  geoCrosses: CRSetSnapshot<CRGeospatialGeometryRelation>
+  geoDisjoint: CRSetSnapshot<CRGeospatialGeometryRelation>
+  geoEquals: CRSetSnapshot<CRGeospatialGeometryRelation>
+  geoIntersects: CRSetSnapshot<CRGeospatialGeometryRelation>
+  geoOverlaps: CRSetSnapshot<CRGeospatialGeometryRelation>
+  geoTouches: CRSetSnapshot<CRGeospatialGeometryRelation>
+  geoWithin: CRSetSnapshot<CRGeospatialGeometryRelation>
   globalLocationNumber: CRTextSnapshot
   hasCertification: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
   hasDriveThroughService: SchemaOrgBoolean
@@ -57,13 +92,13 @@ export type CRPlaceDefaultShape<Type = 'Place'> = {
   logo: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
   longitude: CRTextSnapshot
   maximumAttendeeCapacity: SchemaOrgInteger
-  openingHoursSpecification: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
+  openingHoursSpecification: CRSetSnapshot<CRPlaceOpeningHoursSpecification>
   photo: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
   publicAccess: SchemaOrgBoolean
   review: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
   slogan: CRTextSnapshot
   smokingAllowed: SchemaOrgBoolean
-  specialOpeningHoursSpecification: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
+  specialOpeningHoursSpecification: CRSetSnapshot<CRPlaceOpeningHoursSpecification>
   telephone: CRTextSnapshot
   tourBookingPage: SchemaOrgURL
 } & CRThingDefaultShape<Type>
@@ -78,26 +113,26 @@ type MissingKeys = Exclude<keyof SchemaOrgPlace, keyof CRPlaceSnapshot>
 type ExtraKeys = Exclude<keyof CRPlaceSnapshot, keyof SchemaOrgPlace>
 
 export type CRPlaceState<Type = 'Place'> = {
-  additionalProperty: Readonly<CRSet<SchemaOrgText | SchemaOrgURL>>
-  address: Readonly<CRSet<SchemaOrgText | SchemaOrgURL>>
-  aggregateRating: Readonly<CRSet<SchemaOrgText | SchemaOrgURL>>
-  amenityFeature: Readonly<CRSet<SchemaOrgText | SchemaOrgURL>>
+  additionalProperty: Readonly<CRSet<CRPlaceAdditionalProperty>>
+  address: Readonly<CRSet<CRPlaceAddress>>
+  aggregateRating: Readonly<CRSet<CRPlaceAggregateRating>>
+  amenityFeature: Readonly<CRSet<CRPlaceAmenityFeature>>
   branchCode: Readonly<CRText>
   containedInPlace: Readonly<CRSet<SchemaOrgText | SchemaOrgURL>>
   containsPlace: Readonly<CRSet<SchemaOrgText | SchemaOrgURL>>
   event: Readonly<CRSet<SchemaOrgText | SchemaOrgURL>>
   faxNumber: Readonly<CRText>
-  geo: Readonly<CRSet<SchemaOrgText | SchemaOrgURL>>
-  geoContains: Readonly<CRSet<SchemaOrgText | SchemaOrgURL>>
-  geoCoveredBy: Readonly<CRSet<SchemaOrgText | SchemaOrgURL>>
-  geoCovers: Readonly<CRSet<SchemaOrgText | SchemaOrgURL>>
-  geoCrosses: Readonly<CRSet<SchemaOrgText | SchemaOrgURL>>
-  geoDisjoint: Readonly<CRSet<SchemaOrgText | SchemaOrgURL>>
-  geoEquals: Readonly<CRSet<SchemaOrgText | SchemaOrgURL>>
-  geoIntersects: Readonly<CRSet<SchemaOrgText | SchemaOrgURL>>
-  geoOverlaps: Readonly<CRSet<SchemaOrgText | SchemaOrgURL>>
-  geoTouches: Readonly<CRSet<SchemaOrgText | SchemaOrgURL>>
-  geoWithin: Readonly<CRSet<SchemaOrgText | SchemaOrgURL>>
+  geo: Readonly<CRSet<CRPlaceGeo>>
+  geoContains: Readonly<CRSet<CRGeospatialGeometryRelation>>
+  geoCoveredBy: Readonly<CRSet<CRGeospatialGeometryRelation>>
+  geoCovers: Readonly<CRSet<CRGeospatialGeometryRelation>>
+  geoCrosses: Readonly<CRSet<CRGeospatialGeometryRelation>>
+  geoDisjoint: Readonly<CRSet<CRGeospatialGeometryRelation>>
+  geoEquals: Readonly<CRSet<CRGeospatialGeometryRelation>>
+  geoIntersects: Readonly<CRSet<CRGeospatialGeometryRelation>>
+  geoOverlaps: Readonly<CRSet<CRGeospatialGeometryRelation>>
+  geoTouches: Readonly<CRSet<CRGeospatialGeometryRelation>>
+  geoWithin: Readonly<CRSet<CRGeospatialGeometryRelation>>
   globalLocationNumber: Readonly<CRText>
   hasCertification: Readonly<CRSet<SchemaOrgText | SchemaOrgURL>>
   hasDriveThroughService: SchemaOrgBoolean
@@ -110,14 +145,14 @@ export type CRPlaceState<Type = 'Place'> = {
   logo: Readonly<CRSet<SchemaOrgText | SchemaOrgURL>>
   longitude: Readonly<CRText>
   maximumAttendeeCapacity: SchemaOrgInteger
-  openingHoursSpecification: Readonly<CRSet<SchemaOrgText | SchemaOrgURL>>
+  openingHoursSpecification: Readonly<CRSet<CRPlaceOpeningHoursSpecification>>
   photo: Readonly<CRSet<SchemaOrgText | SchemaOrgURL>>
   publicAccess: SchemaOrgBoolean
   review: Readonly<CRSet<SchemaOrgText | SchemaOrgURL>>
   slogan: Readonly<CRText>
   smokingAllowed: SchemaOrgBoolean
   specialOpeningHoursSpecification: Readonly<
-    CRSet<SchemaOrgText | SchemaOrgURL>
+    CRSet<CRPlaceOpeningHoursSpecification>
   >
   telephone: Readonly<CRText>
   tourBookingPage: SchemaOrgURL

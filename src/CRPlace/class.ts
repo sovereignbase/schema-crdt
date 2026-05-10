@@ -59,26 +59,39 @@ export class CRPlace
       snapshot,
       {
         '@type': 'Place',
-        additionalProperty: additionalType,
+        additionalProperty:
+          additionalType as unknown as CRPlaceDefaultShape['additionalProperty'],
         address: additionalType,
-        aggregateRating: additionalType,
-        amenityFeature: additionalType,
+        aggregateRating:
+          additionalType as unknown as CRPlaceDefaultShape['aggregateRating'],
+        amenityFeature:
+          additionalType as unknown as CRPlaceDefaultShape['amenityFeature'],
         branchCode: description,
         containedInPlace: additionalType,
         containsPlace: additionalType,
         event: additionalType,
         faxNumber: description,
-        geo: additionalType,
-        geoContains: additionalType,
-        geoCoveredBy: additionalType,
-        geoCovers: additionalType,
-        geoCrosses: additionalType,
-        geoDisjoint: additionalType,
-        geoEquals: additionalType,
-        geoIntersects: additionalType,
-        geoOverlaps: additionalType,
-        geoTouches: additionalType,
-        geoWithin: additionalType,
+        geo: additionalType as unknown as CRPlaceDefaultShape['geo'],
+        geoContains:
+          additionalType as unknown as CRPlaceDefaultShape['geoContains'],
+        geoCoveredBy:
+          additionalType as unknown as CRPlaceDefaultShape['geoCoveredBy'],
+        geoCovers:
+          additionalType as unknown as CRPlaceDefaultShape['geoCovers'],
+        geoCrosses:
+          additionalType as unknown as CRPlaceDefaultShape['geoCrosses'],
+        geoDisjoint:
+          additionalType as unknown as CRPlaceDefaultShape['geoDisjoint'],
+        geoEquals:
+          additionalType as unknown as CRPlaceDefaultShape['geoEquals'],
+        geoIntersects:
+          additionalType as unknown as CRPlaceDefaultShape['geoIntersects'],
+        geoOverlaps:
+          additionalType as unknown as CRPlaceDefaultShape['geoOverlaps'],
+        geoTouches:
+          additionalType as unknown as CRPlaceDefaultShape['geoTouches'],
+        geoWithin:
+          additionalType as unknown as CRPlaceDefaultShape['geoWithin'],
         globalLocationNumber: description,
         hasCertification: additionalType,
         hasDriveThroughService: false,
@@ -91,13 +104,15 @@ export class CRPlace
         logo: additionalType,
         longitude: description,
         maximumAttendeeCapacity: 0,
-        openingHoursSpecification: additionalType,
+        openingHoursSpecification:
+          additionalType as unknown as CRPlaceDefaultShape['openingHoursSpecification'],
         photo: additionalType,
         publicAccess: false,
         review: additionalType,
         slogan: description,
         smokingAllowed: false,
-        specialOpeningHoursSpecification: additionalType,
+        specialOpeningHoursSpecification:
+          additionalType as unknown as CRPlaceDefaultShape['specialOpeningHoursSpecification'],
         telephone: description,
         tourBookingPage: '',
       },

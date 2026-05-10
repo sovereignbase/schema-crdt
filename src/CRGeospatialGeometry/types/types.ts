@@ -8,16 +8,15 @@ import type {
   CRIntangibleState,
 } from '../../CRIntangible/types/types.js'
 import type { CRIdReferenceValue } from '../../CRIdReference/types/types.js'
-import type { CRPlaceSnapshot } from '../../CRPlace/types/types.js'
 import type { CRStructPartialSnapshot } from '../../.types/types.js'
 
 /**
  * Values accepted by Schema.org geospatial geometry relation properties.
  *
- * Other GeospatialGeometry nodes are represented by CRIdReferenceValue to keep
- * the recursive relation finite.
+ * GeospatialGeometry and Place nodes are represented by CRIdReferenceValue to
+ * keep recursive spatial relations finite.
  */
-export type CRGeospatialGeometryRelation = CRPlaceSnapshot | CRIdReferenceValue
+export type CRGeospatialGeometryRelation = CRIdReferenceValue
 
 /**
  * Serializable CRDT shape for Schema.org GeospatialGeometry.
