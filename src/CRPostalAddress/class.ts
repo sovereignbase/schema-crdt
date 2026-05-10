@@ -1,7 +1,7 @@
 import type { CRText } from '@sovereignbase/convergent-replicated-text'
 
 import { CRContactPoint } from '../CRContactPoint/class.js'
-import { description } from '../.shared/index.js'
+import { addressCountry, description } from '../.shared/index.js'
 
 import type {
   CRPostalAddressDefaultShape,
@@ -29,7 +29,7 @@ export class CRPostalAddress
   /**
    * Schema.org addressCountry: The country, recommended as ISO 3166-1 alpha-2.
    */
-  declare public addressCountry: Readonly<CRText>
+  declare public addressCountry: CRPostalAddressState['addressCountry']
   /**
    * Schema.org addressLocality: The locality in which the street address is.
    */
@@ -37,47 +37,47 @@ export class CRPostalAddress
   /**
    * Schema.org addressRegion: The region in which the locality is.
    */
-  declare public addressRegion: Readonly<CRText>
+  declare public addressRegion: CRPostalAddressState['addressRegion']
   /**
    * Schema.org extendedAddress: An address extension such as an apartment
    * number, C/O or alternative name.
    */
-  declare public extendedAddress: Readonly<CRText>
+  declare public extendedAddress: CRPostalAddressState['extendedAddress']
   /**
    * Schema.org postalCode: The postal code.
    */
-  declare public postalCode: Readonly<CRText>
+  declare public postalCode: CRPostalAddressState['postalCode']
   /**
    * Schema.org postOfficeBoxNumber: The post office box number for PO box
    * addresses.
    */
-  declare public postOfficeBoxNumber: Readonly<CRText>
+  declare public postOfficeBoxNumber: CRPostalAddressState['postOfficeBoxNumber']
   /**
    * Schema.org streetAddress: The street address.
    */
-  declare public streetAddress: Readonly<CRText>
+  declare public streetAddress: CRPostalAddressState['streetAddress']
 
   constructor(snapshot?: CRPostalAddressSnapshot) {
     super(
       snapshot,
       {
         '@type': 'PostalAddress',
-        addressCountry: description,
+        addressCountry,
         addressLocality: description,
-        addressRegion: description,
+        addressRegion: '',
         extendedAddress: description,
-        postalCode: description,
+        postalCode: '',
         postOfficeBoxNumber: description,
         streetAddress: description,
       },
       {
-        addressCountry: 'text',
         addressLocality: 'text',
-        addressRegion: 'text',
         extendedAddress: 'text',
-        postalCode: 'text',
         postOfficeBoxNumber: 'text',
         streetAddress: 'text',
+      },
+      {
+        addressCountry: /^[A-Z]{2}$/,
       }
     )
   }

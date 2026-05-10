@@ -9,7 +9,10 @@ import type {
   CRContactPointDefaultShape,
   CRContactPointState,
 } from './types/types.js'
-import type { SchemaOrgText } from '../.types/types.js'
+import type {
+  SchemaCRDTFormatValidators,
+  SchemaOrgText,
+} from '../.types/types.js'
 
 /**
  * CRDT-backed Schema.org ContactPoint.
@@ -81,7 +84,8 @@ export class CRContactPoint<
     defaultShape?: Partial<Shape>,
     crdtProperties?: Partial<
       Record<Extract<keyof Shape, string>, 'text' | 'set' | 'list' | 'map'>
-    >
+    >,
+    formatValidators?: SchemaCRDTFormatValidators<Shape>
   ) {
     super(
       snapshot,
@@ -113,7 +117,8 @@ export class CRContactPoint<
         ...crdtProperties,
       } as Partial<
         Record<Extract<keyof Shape, string>, 'text' | 'set' | 'list' | 'map'>
-      >
+      >,
+      formatValidators
     )
   }
 }
