@@ -96,6 +96,9 @@ export type CRSoftwareApplicationSupportingData =
  * Serializable CRDT shape for Schema.org SoftwareApplication.
  *
  * Schema.org: A software application.
+ *
+ * Deprecated Schema.org properties intentionally omitted:
+ * awards, device, encodings, fileFormat, isBasedOnUrl, requirements, reviews.
  */
 export type CRSoftwareApplicationDefaultShape<Type = 'SoftwareApplication'> = {
   /**
@@ -122,10 +125,6 @@ export type CRSoftwareApplicationDefaultShape<Type = 'SoftwareApplication'> = {
    * Schema.org countriesSupported: Countries where the app is supported.
    */
   countriesSupported: CRSetSnapshot<SchemaOrgText>
-  /**
-   * Schema.org device: Deprecated alias for availableOnDevice.
-   */
-  device: CRSetSnapshot<SchemaOrgText>
   /**
    * Schema.org downloadUrl: URL to download the binary.
    */
@@ -162,10 +161,6 @@ export type CRSoftwareApplicationDefaultShape<Type = 'SoftwareApplication'> = {
    * Schema.org releaseNotes: Description of what changed in this version.
    */
   releaseNotes: CRSetSnapshot<CRSoftwareApplicationClassifier>
-  /**
-   * Schema.org requirements: Deprecated dependency requirements.
-   */
-  requirements: CRSetSnapshot<CRSoftwareApplicationClassifier>
   /**
    * Schema.org runtimePlatform: Runtime platform or interpreter dependencies.
    */
@@ -209,6 +204,10 @@ export type CRSoftwareApplicationSnapshot<Type = 'SoftwareApplication'> =
     '@id' | '@type' | 'identifier'
   >
 
+/**
+ * Intentionally omitted deprecated Schema.org SoftwareApplication properties:
+ * awards, device, encodings, fileFormat, isBasedOnUrl, requirements, reviews.
+ */
 type MissingKeys = Exclude<
   keyof SchemaOrgSoftwareApplication,
   keyof CRSoftwareApplicationSnapshot
@@ -248,10 +247,6 @@ export type CRSoftwareApplicationState<Type = 'SoftwareApplication'> = {
    */
   countriesSupported: Readonly<CRSet<SchemaOrgText>>
   /**
-   * Schema.org device: Deprecated alias for availableOnDevice.
-   */
-  device: Readonly<CRSet<SchemaOrgText>>
-  /**
    * Schema.org downloadUrl: URL to download the binary.
    */
   downloadUrl: SchemaOrgURL
@@ -287,10 +282,6 @@ export type CRSoftwareApplicationState<Type = 'SoftwareApplication'> = {
    * Schema.org releaseNotes: Description of what changed in this version.
    */
   releaseNotes: Readonly<CRSet<CRSoftwareApplicationClassifier>>
-  /**
-   * Schema.org requirements: Deprecated dependency requirements.
-   */
-  requirements: Readonly<CRSet<CRSoftwareApplicationClassifier>>
   /**
    * Schema.org runtimePlatform: Runtime platform or interpreter dependencies.
    */

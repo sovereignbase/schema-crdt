@@ -28,6 +28,9 @@ type SchemaOrgContactPoint = Partial<SchemaOrgContactPointRaw>
  * Serializable CRDT shape for Schema.org ContactPoint.
  *
  * Schema.org: A contact point, for example a customer complaints department.
+ *
+ * Deprecated Schema.org properties intentionally omitted:
+ * serviceArea.
  */
 export type CRContactPointDefaultShape<Type = 'ContactPoint'> = {
   /**
@@ -67,10 +70,6 @@ export type CRContactPointDefaultShape<Type = 'ContactPoint'> = {
    */
   productSupported: CRSetSnapshot<SchemaOrgText>
   /**
-   * Schema.org serviceArea: Superseded by areaServed.
-   */
-  serviceArea: CRSetSnapshot<SchemaOrgText>
-  /**
    * Schema.org telephone: The telephone number.
    */
   telephone: CRTextSnapshot
@@ -85,6 +84,10 @@ export type CRContactPointSnapshot<Type = 'ContactPoint'> =
     '@id' | '@type' | 'identifier'
   >
 
+/**
+ * Intentionally omitted deprecated Schema.org ContactPoint properties:
+ * serviceArea.
+ */
 type MissingKeys = Exclude<
   keyof SchemaOrgContactPoint,
   keyof CRContactPointSnapshot
@@ -135,10 +138,6 @@ export type CRContactPointState<Type = 'ContactPoint'> = {
    * point is related to.
    */
   productSupported: Readonly<CRSet<SchemaOrgText>>
-  /**
-   * Schema.org serviceArea: Superseded by areaServed.
-   */
-  serviceArea: Readonly<CRSet<SchemaOrgText>>
   /**
    * Schema.org telephone: The telephone number.
    */

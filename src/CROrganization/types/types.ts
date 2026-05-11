@@ -9,7 +9,6 @@ import type {
 } from '@sovereignbase/convergent-replicated-text'
 
 import type { CRAggregateRatingSnapshot } from '../../CRAggregateRating/types/types.js'
-import type { CRAdministrativeAreaSnapshot } from '../../CRAdministrativeArea/types/types.js'
 import type { CRContactPointSnapshot } from '../../CRContactPoint/types/types.js'
 import type { CRCreativeWorkSnapshot } from '../../CRCreativeWork/types/types.js'
 import type { CRDefinedTermSnapshot } from '../../CRDefinedTerm/types/types.js'
@@ -21,7 +20,6 @@ import type {
 } from '../../CRIdReference/types/types.js'
 import type { CRPlaceSnapshot } from '../../CRPlace/types/types.js'
 import type { CRPostalAddressSnapshot } from '../../CRPostalAddress/types/types.js'
-import type { CRProductReturnPolicySnapshot } from '../../CRProductReturnPolicy/types/types.js'
 import type { CRReviewSnapshot } from '../../CRReview/types/types.js'
 import type {
   CRThingDefaultShape,
@@ -100,29 +98,20 @@ export type CROrganizationEvent =
   | CRTypedIdReferenceValue<'Event'>
   | CRIdReferenceValue
 
-/** Values accepted by Schema.org hasProductReturnPolicy. */
-export type CROrganizationProductReturnPolicy =
-  | CRProductReturnPolicySnapshot
-  | CRTypedIdReferenceValue<'ProductReturnPolicy'>
-  | CRIdReferenceValue
-
 /** Values accepted by Schema.org organization review properties. */
 export type CROrganizationReview =
   | CRReviewSnapshot
   | CRTypedIdReferenceValue<'Review'>
   | CRIdReferenceValue
 
-/** Values accepted by Schema.org serviceArea. */
-export type CROrganizationServiceArea =
-  | CRAdministrativeAreaSnapshot
-  | CRGeoShapeSnapshot
-  | CRPlaceSnapshot<string>
-  | CRIdReferenceValue
-
 /**
  * Serializable CRDT shape for Schema.org Organization.
  *
  * Schema.org: An organization such as a school, NGO, corporation, club, etc.
+ *
+ * Deprecated Schema.org properties intentionally omitted:
+ * awards, contactPoints, employees, events, founders, hasProductReturnPolicy,
+ * members, reviews, serviceArea.
  */
 export type CROrganizationDefaultShape<Type = 'Organization'> = {
   /** Schema.org acceptedPaymentMethod: Payment methods accepted by an organization. */
@@ -143,16 +132,12 @@ export type CROrganizationDefaultShape<Type = 'Organization'> = {
   areaServed: CRSetSnapshot<CROrganizationPlace>
   /** Schema.org award: An award won by or for this item. */
   award: CRSetSnapshot<SchemaOrgText>
-  /** Schema.org awards: Awards won by or for this item. */
-  awards: CRSetSnapshot<SchemaOrgText>
   /** Schema.org brand: Brands associated with a product, service or organization. */
   brand: CRSetSnapshot<CROrganizationOrganization>
   /** Schema.org companyRegistration: Official business registration information. */
   companyRegistration: CRSetSnapshot<CRIdReferenceValue>
   /** Schema.org contactPoint: A contact point for a person or organization. */
   contactPoint: CRSetSnapshot<CRContactPointSnapshot | CRIdReferenceValue>
-  /** Schema.org contactPoints: Contact points for a person or organization. */
-  contactPoints: CRSetSnapshot<CRContactPointSnapshot | CRIdReferenceValue>
   /** Schema.org correctionsPolicy: Disclosure and correction policy for errors. */
   correctionsPolicy: CRSetSnapshot<CROrganizationPolicy>
   /** Schema.org department: An organization department relationship. */
@@ -169,20 +154,14 @@ export type CROrganizationDefaultShape<Type = 'Organization'> = {
   email: CRTextSnapshot
   /** Schema.org employee: Someone working for this organization. */
   employee: CRSetSnapshot<CROrganizationPerson>
-  /** Schema.org employees: People working for this organization. */
-  employees: CRSetSnapshot<CROrganizationPerson>
   /** Schema.org ethicsPolicy: Ethics policy statement. */
   ethicsPolicy: CRSetSnapshot<CROrganizationPolicy>
   /** Schema.org event: Upcoming or past event associated with this organization. */
   event: CRSetSnapshot<CROrganizationEvent>
-  /** Schema.org events: Upcoming or past events associated with this organization. */
-  events: CRSetSnapshot<CROrganizationEvent>
   /** Schema.org faxNumber: The fax number. */
   faxNumber: CRTextSnapshot
   /** Schema.org founder: Person or organization who founded this organization. */
   founder: CRSetSnapshot<CROrganizationPersonOrOrganization>
-  /** Schema.org founders: People or organizations who founded this organization. */
-  founders: CRSetSnapshot<CROrganizationPersonOrOrganization>
   /** Schema.org foundingDate: Date this organization was founded. */
   foundingDate: SchemaOrgDate
   /** Schema.org foundingLocation: Place where the organization was founded. */
@@ -203,8 +182,6 @@ export type CROrganizationDefaultShape<Type = 'Organization'> = {
   hasMemberProgram: CRSetSnapshot<CRIdReferenceValue>
   /** Schema.org hasMerchantReturnPolicy: Applicable merchant return policy. */
   hasMerchantReturnPolicy: CRSetSnapshot<CRIdReferenceValue>
-  /** Schema.org hasProductReturnPolicy: Product return policy for the organization. */
-  hasProductReturnPolicy: CRSetSnapshot<CROrganizationProductReturnPolicy>
   /** Schema.org hasOfferCatalog: OfferCatalog listing for this organization. */
   hasOfferCatalog: CRSetSnapshot<CRIdReferenceValue>
   /** Schema.org hasPOS: Points-of-sale operated by the organization. */
@@ -239,8 +216,6 @@ export type CROrganizationDefaultShape<Type = 'Organization'> = {
   makesOffer: CRSetSnapshot<CRIdReferenceValue>
   /** Schema.org member: A member of an Organization or ProgramMembership. */
   member: CRSetSnapshot<CROrganizationPersonOrOrganization>
-  /** Schema.org members: Members of an Organization or ProgramMembership. */
-  members: CRSetSnapshot<CROrganizationPersonOrOrganization>
   /** Schema.org memberOf: Organization or membership this organization belongs to. */
   memberOf: CRSetSnapshot<CROrganizationOrganization>
   /** Schema.org naics: NAICS code. */
@@ -259,12 +234,8 @@ export type CROrganizationDefaultShape<Type = 'Organization'> = {
   publishingPrinciples: CRSetSnapshot<CROrganizationPolicy>
   /** Schema.org review: A review of the item. */
   review: CRSetSnapshot<CROrganizationReview>
-  /** Schema.org reviews: Reviews of the item. */
-  reviews: CRSetSnapshot<CROrganizationReview>
   /** Schema.org seeks: Products or services sought by the organization. */
   seeks: CRSetSnapshot<CRIdReferenceValue>
-  /** Schema.org serviceArea: Geographic area where a service or item is provided. */
-  serviceArea: CRSetSnapshot<CROrganizationServiceArea>
   /** Schema.org skills: Competency statement. */
   skills: CRSetSnapshot<
     CRDefinedTermSnapshot | SchemaOrgText | CRIdReferenceValue
@@ -294,6 +265,11 @@ export type CROrganizationSnapshot<Type = 'Organization'> =
     '@id' | '@type' | 'identifier'
   >
 
+/**
+ * Intentionally omitted deprecated Schema.org Organization properties:
+ * awards, contactPoints, employees, events, founders, hasProductReturnPolicy,
+ * members, reviews, serviceArea.
+ */
 type MissingKeys = Exclude<
   keyof SchemaOrgOrganization,
   keyof CROrganizationSnapshot
@@ -328,16 +304,12 @@ export type CROrganizationState<Type = 'Organization'> = {
   areaServed: Readonly<CRSet<CROrganizationPlace>>
   /** Schema.org award: An award won by or for this item. */
   award: Readonly<CRSet<SchemaOrgText>>
-  /** Schema.org awards: Awards won by or for this item. */
-  awards: Readonly<CRSet<SchemaOrgText>>
   /** Schema.org brand: Brands associated with a product, service or organization. */
   brand: Readonly<CRSet<CROrganizationOrganization>>
   /** Schema.org companyRegistration: Official business registration information. */
   companyRegistration: Readonly<CRSet<CRIdReferenceValue>>
   /** Schema.org contactPoint: A contact point for a person or organization. */
   contactPoint: Readonly<CRSet<CRContactPointSnapshot | CRIdReferenceValue>>
-  /** Schema.org contactPoints: Contact points for a person or organization. */
-  contactPoints: Readonly<CRSet<CRContactPointSnapshot | CRIdReferenceValue>>
   /** Schema.org correctionsPolicy: Disclosure and correction policy for errors. */
   correctionsPolicy: Readonly<CRSet<CROrganizationPolicy>>
   /** Schema.org department: An organization department relationship. */
@@ -354,20 +326,14 @@ export type CROrganizationState<Type = 'Organization'> = {
   email: Readonly<CRText>
   /** Schema.org employee: Someone working for this organization. */
   employee: Readonly<CRSet<CROrganizationPerson>>
-  /** Schema.org employees: People working for this organization. */
-  employees: Readonly<CRSet<CROrganizationPerson>>
   /** Schema.org ethicsPolicy: Ethics policy statement. */
   ethicsPolicy: Readonly<CRSet<CROrganizationPolicy>>
   /** Schema.org event: Upcoming or past event associated with this organization. */
   event: Readonly<CRSet<CROrganizationEvent>>
-  /** Schema.org events: Upcoming or past events associated with this organization. */
-  events: Readonly<CRSet<CROrganizationEvent>>
   /** Schema.org faxNumber: The fax number. */
   faxNumber: Readonly<CRText>
   /** Schema.org founder: Person or organization who founded this organization. */
   founder: Readonly<CRSet<CROrganizationPersonOrOrganization>>
-  /** Schema.org founders: People or organizations who founded this organization. */
-  founders: Readonly<CRSet<CROrganizationPersonOrOrganization>>
   /** Schema.org foundingDate: Date this organization was founded. */
   foundingDate: SchemaOrgDate
   /** Schema.org foundingLocation: Place where the organization was founded. */
@@ -388,8 +354,6 @@ export type CROrganizationState<Type = 'Organization'> = {
   hasMemberProgram: Readonly<CRSet<CRIdReferenceValue>>
   /** Schema.org hasMerchantReturnPolicy: Applicable merchant return policy. */
   hasMerchantReturnPolicy: Readonly<CRSet<CRIdReferenceValue>>
-  /** Schema.org hasProductReturnPolicy: Product return policy for the organization. */
-  hasProductReturnPolicy: Readonly<CRSet<CROrganizationProductReturnPolicy>>
   /** Schema.org hasOfferCatalog: OfferCatalog listing for this organization. */
   hasOfferCatalog: Readonly<CRSet<CRIdReferenceValue>>
   /** Schema.org hasPOS: Points-of-sale operated by the organization. */
@@ -424,8 +388,6 @@ export type CROrganizationState<Type = 'Organization'> = {
   makesOffer: Readonly<CRSet<CRIdReferenceValue>>
   /** Schema.org member: A member of an Organization or ProgramMembership. */
   member: Readonly<CRSet<CROrganizationPersonOrOrganization>>
-  /** Schema.org members: Members of an Organization or ProgramMembership. */
-  members: Readonly<CRSet<CROrganizationPersonOrOrganization>>
   /** Schema.org memberOf: Organization or membership this organization belongs to. */
   memberOf: Readonly<CRSet<CROrganizationOrganization>>
   /** Schema.org naics: NAICS code. */
@@ -444,12 +406,8 @@ export type CROrganizationState<Type = 'Organization'> = {
   publishingPrinciples: Readonly<CRSet<CROrganizationPolicy>>
   /** Schema.org review: A review of the item. */
   review: Readonly<CRSet<CROrganizationReview>>
-  /** Schema.org reviews: Reviews of the item. */
-  reviews: Readonly<CRSet<CROrganizationReview>>
   /** Schema.org seeks: Products or services sought by the organization. */
   seeks: Readonly<CRSet<CRIdReferenceValue>>
-  /** Schema.org serviceArea: Geographic area where a service or item is provided. */
-  serviceArea: Readonly<CRSet<CROrganizationServiceArea>>
   /** Schema.org skills: Competency statement. */
   skills: Readonly<
     CRSet<CRDefinedTermSnapshot | SchemaOrgText | CRIdReferenceValue>

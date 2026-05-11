@@ -84,17 +84,23 @@ export type CRPlaceReview =
   | CRTypedIdReferenceValue<'Review'>
   | CRIdReferenceValue
 
+/**
+ * Serializable CRDT shape for Schema.org Place.
+ *
+ * Schema.org: Entities that have a somewhat fixed, physical extension.
+ *
+ * Deprecated Schema.org properties intentionally omitted:
+ * containedIn, events, map, maps, photos, reviews.
+ */
 export type CRPlaceDefaultShape<Type = 'Place'> = {
   additionalProperty: CRSetSnapshot<CRPlaceAdditionalProperty>
   address: CRSetSnapshot<CRPlaceAddress>
   aggregateRating: CRSetSnapshot<CRPlaceAggregateRating>
   amenityFeature: CRSetSnapshot<CRPlaceAmenityFeature>
   branchCode: CRTextSnapshot
-  containedIn: CRSetSnapshot<CRPlaceRelation>
   containedInPlace: CRSetSnapshot<CRPlaceRelation>
   containsPlace: CRSetSnapshot<CRPlaceRelation>
   event: CRSetSnapshot<CRPlaceEvent>
-  events: CRSetSnapshot<CRPlaceEvent>
   faxNumber: CRTextSnapshot
   geo: CRSetSnapshot<CRPlaceGeo>
   geoContains: CRSetSnapshot<CRGeospatialGeometryRelation>
@@ -121,12 +127,8 @@ export type CRPlaceDefaultShape<Type = 'Place'> = {
   maximumAttendeeCapacity: SchemaOrgInteger
   openingHoursSpecification: CRSetSnapshot<CRPlaceOpeningHoursSpecification>
   photo: CRSetSnapshot<CRPlaceImage>
-  photos: CRSetSnapshot<CRPlaceImage>
   publicAccess: SchemaOrgBoolean
   review: CRSetSnapshot<CRPlaceReview>
-  reviews: CRSetSnapshot<CRPlaceReview>
-  map: CRSetSnapshot<SchemaOrgURL>
-  maps: CRSetSnapshot<SchemaOrgURL>
   slogan: CRTextSnapshot
   smokingAllowed: SchemaOrgBoolean
   specialOpeningHoursSpecification: CRSetSnapshot<CRPlaceOpeningHoursSpecification>
@@ -139,6 +141,10 @@ export type CRPlaceSnapshot<Type = 'Place'> = CRStructPartialSnapshot<
   '@id' | '@type' | 'identifier'
 >
 
+/**
+ * Intentionally omitted deprecated Schema.org Place properties:
+ * containedIn, events, map, maps, photos, reviews.
+ */
 type MissingKeys = Exclude<keyof SchemaOrgPlace, keyof CRPlaceSnapshot>
 
 type ExtraKeys = Exclude<keyof CRPlaceSnapshot, keyof SchemaOrgPlace>
@@ -149,11 +155,9 @@ export type CRPlaceState<Type = 'Place'> = {
   aggregateRating: Readonly<CRSet<CRPlaceAggregateRating>>
   amenityFeature: Readonly<CRSet<CRPlaceAmenityFeature>>
   branchCode: Readonly<CRText>
-  containedIn: Readonly<CRSet<CRPlaceRelation>>
   containedInPlace: Readonly<CRSet<CRPlaceRelation>>
   containsPlace: Readonly<CRSet<CRPlaceRelation>>
   event: Readonly<CRSet<CRPlaceEvent>>
-  events: Readonly<CRSet<CRPlaceEvent>>
   faxNumber: Readonly<CRText>
   geo: Readonly<CRSet<CRPlaceGeo>>
   geoContains: Readonly<CRSet<CRGeospatialGeometryRelation>>
@@ -180,12 +184,8 @@ export type CRPlaceState<Type = 'Place'> = {
   maximumAttendeeCapacity: SchemaOrgInteger
   openingHoursSpecification: Readonly<CRSet<CRPlaceOpeningHoursSpecification>>
   photo: Readonly<CRSet<CRPlaceImage>>
-  photos: Readonly<CRSet<CRPlaceImage>>
   publicAccess: SchemaOrgBoolean
   review: Readonly<CRSet<CRPlaceReview>>
-  reviews: Readonly<CRSet<CRPlaceReview>>
-  map: Readonly<CRSet<SchemaOrgURL>>
-  maps: Readonly<CRSet<SchemaOrgURL>>
   slogan: Readonly<CRText>
   smokingAllowed: SchemaOrgBoolean
   specialOpeningHoursSpecification: Readonly<

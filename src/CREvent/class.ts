@@ -28,7 +28,6 @@ export class CREvent<
   declare public actor: CREventState<Type>['actor']
   declare public aggregateRating: CREventState<Type>['aggregateRating']
   declare public attendee: CREventState<Type>['attendee']
-  declare public attendees: CREventState<Type>['attendees']
   declare public audience: CREventState<Type>['audience']
   declare public composer: CREventState<Type>['composer']
   declare public contributor: CREventState<Type>['contributor']
@@ -53,7 +52,6 @@ export class CREvent<
   declare public offers: CREventState<Type>['offers']
   declare public organizer: CREventState<Type>['organizer']
   declare public performer: CREventState<Type>['performer']
-  declare public performers: CREventState<Type>['performers']
   declare public previousStartDate: CREventState<Type>['previousStartDate']
   declare public recordedIn: CREventState<Type>['recordedIn']
   declare public remainingAttendeeCapacity: CREventState<Type>['remainingAttendeeCapacity']
@@ -61,7 +59,6 @@ export class CREvent<
   declare public sponsor: CREventState<Type>['sponsor']
   declare public startDate: CREventState<Type>['startDate']
   declare public subEvent: CREventState<Type>['subEvent']
-  declare public subEvents: CREventState<Type>['subEvents']
   declare public superEvent: CREventState<Type>['superEvent']
   declare public translator: CREventState<Type>['translator']
   declare public typicalAgeRange: CREventState<Type>['typicalAgeRange']
@@ -83,7 +80,6 @@ export class CREvent<
         actor: crSetSnapshot,
         aggregateRating: crSetSnapshot,
         attendee: crSetSnapshot,
-        attendees: crSetSnapshot,
         audience: crSetSnapshot,
         composer: crSetSnapshot,
         contributor: crSetSnapshot,
@@ -108,7 +104,6 @@ export class CREvent<
         offers: crSetSnapshot,
         organizer: crSetSnapshot,
         performer: crSetSnapshot,
-        performers: crSetSnapshot,
         previousStartDate: crSetSnapshot,
         recordedIn: crSetSnapshot,
         remainingAttendeeCapacity: 0,
@@ -116,7 +111,6 @@ export class CREvent<
         sponsor: crSetSnapshot,
         startDate: '',
         subEvent: crSetSnapshot,
-        subEvents: crSetSnapshot,
         superEvent: crSetSnapshot,
         translator: crSetSnapshot,
         typicalAgeRange: crTextSnapshot,
@@ -129,7 +123,6 @@ export class CREvent<
         actor: 'set',
         aggregateRating: 'set',
         attendee: 'set',
-        attendees: 'set',
         audience: 'set',
         composer: 'set',
         contributor: 'set',
@@ -145,13 +138,11 @@ export class CREvent<
         offers: 'set',
         organizer: 'set',
         performer: 'set',
-        performers: 'set',
         previousStartDate: 'set',
         recordedIn: 'set',
         review: 'set',
         sponsor: 'set',
         subEvent: 'set',
-        subEvents: 'set',
         superEvent: 'set',
         translator: 'set',
         typicalAgeRange: 'text',

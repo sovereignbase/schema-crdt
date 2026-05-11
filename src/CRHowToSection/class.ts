@@ -36,7 +36,6 @@ export class CRHowToSection<
   declare public numberOfItems: CRHowToSectionState<Type>['numberOfItems']
   declare public position: CRHowToSectionState<Type>['position']
   declare public previousItem: CRHowToSectionState<Type>['previousItem']
-  declare public steps: CRHowToSectionState<Type>['steps']
 
   constructor(
     snapshot?: Snapshot,
@@ -57,12 +56,10 @@ export class CRHowToSection<
         numberOfItems: 0,
         position: 0,
         previousItem: { '@id': '' },
-        steps: itemListElement,
         ...defaultShape,
       } as unknown as Partial<Shape>,
       {
         itemListElement: 'list',
-        steps: 'list',
         ...crdtProperties,
       } as Partial<
         Record<Extract<keyof Shape, string>, 'text' | 'set' | 'list' | 'map'>

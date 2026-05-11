@@ -71,10 +71,6 @@ export class CRContactPoint<
    */
   declare public productSupported: Readonly<CRSet<SchemaOrgText>>
   /**
-   * Schema.org serviceArea: Superseded by areaServed.
-   */
-  declare public serviceArea: Readonly<CRSet<SchemaOrgText>>
-  /**
    * Schema.org telephone: The telephone number.
    */
   declare public telephone: Readonly<CRText>
@@ -99,7 +95,6 @@ export class CRContactPoint<
         faxNumber: description,
         hoursAvailable: additionalType,
         productSupported: additionalType,
-        serviceArea: additionalType,
         telephone: description,
         ...defaultShape,
       } as Partial<Shape>,
@@ -112,7 +107,6 @@ export class CRContactPoint<
         faxNumber: 'text',
         hoursAvailable: 'set',
         productSupported: 'set',
-        serviceArea: 'set',
         telephone: 'text',
         ...crdtProperties,
       } as Partial<

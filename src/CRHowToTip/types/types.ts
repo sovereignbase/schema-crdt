@@ -19,6 +19,9 @@ type SchemaOrgHowToTip = Partial<SchemaOrgHowToTipRaw>
  * Serializable CRDT shape for Schema.org HowToTip.
  *
  * Schema.org: Supplementary information in how-to instructions.
+ *
+ * Deprecated Schema.org properties intentionally omitted:
+ * awards, encodings, fileFormat, isBasedOnUrl, reviews.
  */
 export type CRHowToTipDefaultShape<Type = 'HowToTip'> = {
   /**
@@ -48,6 +51,10 @@ export type CRHowToTipSnapshot<Type = 'HowToTip'> = CRStructPartialSnapshot<
   '@id' | '@type' | 'identifier'
 >
 
+/**
+ * Intentionally omitted deprecated Schema.org HowToTip properties:
+ * awards, encodings, fileFormat, isBasedOnUrl, reviews.
+ */
 type MissingKeys = Exclude<keyof SchemaOrgHowToTip, keyof CRHowToTipSnapshot>
 
 type ExtraKeys = Exclude<keyof CRHowToTipSnapshot, keyof SchemaOrgHowToTip>

@@ -49,7 +49,6 @@ export class CRCreativeWork<
   declare public 'audio': CRCreativeWorkState<Type>['audio']
   declare public 'author': CRCreativeWorkState<Type>['author']
   declare public 'award': CRCreativeWorkState<Type>['award']
-  declare public 'awards': CRCreativeWorkState<Type>['awards']
   declare public 'character': CRCreativeWorkState<Type>['character']
   declare public 'citation': CRCreativeWorkState<Type>['citation']
   declare public 'comment': CRCreativeWorkState<Type>['comment']
@@ -80,10 +79,8 @@ export class CRCreativeWork<
   declare public 'educationalUse': CRCreativeWorkState<Type>['educationalUse']
   declare public 'encoding': CRCreativeWorkState<Type>['encoding']
   declare public 'encodingFormat': CRCreativeWorkState<Type>['encodingFormat']
-  declare public 'encodings': CRCreativeWorkState<Type>['encodings']
   declare public 'exampleOfWork': CRCreativeWorkState<Type>['exampleOfWork']
   declare public 'expires': CRCreativeWorkState<Type>['expires']
-  declare public 'fileFormat': CRCreativeWorkState<Type>['fileFormat']
   declare public 'funder': CRCreativeWorkState<Type>['funder']
   declare public 'funding': CRCreativeWorkState<Type>['funding']
   declare public 'genre': CRCreativeWorkState<Type>['genre']
@@ -95,7 +92,6 @@ export class CRCreativeWork<
   declare public 'interpretedAsClaim': CRCreativeWorkState<Type>['interpretedAsClaim']
   declare public 'isAccessibleForFree': CRCreativeWorkState<Type>['isAccessibleForFree']
   declare public 'isBasedOn': CRCreativeWorkState<Type>['isBasedOn']
-  declare public 'isBasedOnUrl': CRCreativeWorkState<Type>['isBasedOnUrl']
   declare public 'isFamilyFriendly': CRCreativeWorkState<Type>['isFamilyFriendly']
   declare public 'isPartOf': CRCreativeWorkState<Type>['isPartOf']
   declare public 'keywords': CRCreativeWorkState<Type>['keywords']
@@ -119,7 +115,6 @@ export class CRCreativeWork<
   declare public 'recordedAt': CRCreativeWorkState<Type>['recordedAt']
   declare public 'releasedEvent': CRCreativeWorkState<Type>['releasedEvent']
   declare public 'review': CRCreativeWorkState<Type>['review']
-  declare public 'reviews': CRCreativeWorkState<Type>['reviews']
   declare public 'schemaVersion': CRCreativeWorkState<Type>['schemaVersion']
   declare public 'sdDatePublished': CRCreativeWorkState<Type>['sdDatePublished']
   declare public 'sdLicense': CRCreativeWorkState<Type>['sdLicense']
@@ -178,7 +173,6 @@ export class CRCreativeWork<
         audio: crSetSnapshot,
         author: crSetSnapshot,
         award: crSetSnapshot,
-        awards: crSetSnapshot,
         character: crSetSnapshot,
         citation: crSetSnapshot,
         comment: crSetSnapshot,
@@ -209,10 +203,8 @@ export class CRCreativeWork<
         educationalUse: crSetSnapshot,
         encoding: crSetSnapshot,
         encodingFormat: crSetSnapshot,
-        encodings: crSetSnapshot,
         exampleOfWork: crSetSnapshot,
         expires: '',
-        fileFormat: crSetSnapshot,
         funder: crSetSnapshot,
         funding: crSetSnapshot,
         genre: crSetSnapshot,
@@ -224,7 +216,6 @@ export class CRCreativeWork<
         interpretedAsClaim: crSetSnapshot,
         isAccessibleForFree: false,
         isBasedOn: crSetSnapshot,
-        isBasedOnUrl: crSetSnapshot,
         isFamilyFriendly: false,
         isPartOf: crSetSnapshot,
         keywords: crSetSnapshot,
@@ -248,7 +239,6 @@ export class CRCreativeWork<
         recordedAt: crSetSnapshot,
         releasedEvent: crSetSnapshot,
         review: crSetSnapshot,
-        reviews: crSetSnapshot,
         schemaVersion: crSetSnapshot,
         sdDatePublished: '',
         sdLicense: crSetSnapshot,
@@ -297,7 +287,6 @@ export class CRCreativeWork<
         audio: 'set',
         author: 'set',
         award: 'set',
-        awards: 'set',
         character: 'set',
         citation: 'set',
         comment: 'set',
@@ -321,9 +310,7 @@ export class CRCreativeWork<
         educationalUse: 'set',
         encoding: 'set',
         encodingFormat: 'set',
-        encodings: 'set',
         exampleOfWork: 'set',
-        fileFormat: 'set',
         funder: 'set',
         funding: 'set',
         genre: 'set',
@@ -334,7 +321,6 @@ export class CRCreativeWork<
         interactivityType: 'set',
         interpretedAsClaim: 'set',
         isBasedOn: 'set',
-        isBasedOnUrl: 'set',
         isPartOf: 'set',
         keywords: 'set',
         learningResourceType: 'set',
@@ -356,7 +342,6 @@ export class CRCreativeWork<
         recordedAt: 'set',
         releasedEvent: 'set',
         review: 'set',
-        reviews: 'set',
         schemaVersion: 'set',
         sdLicense: 'set',
         sdPublisher: 'set',

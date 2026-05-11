@@ -28,7 +28,6 @@ export class CRHowTo<
   declare public performTime: CRHowToState<Type>['performTime']
   declare public prepTime: CRHowToState<Type>['prepTime']
   declare public step: CRHowToState<Type>['step']
-  declare public steps: CRHowToState<Type>['steps']
   declare public supply: CRHowToState<Type>['supply']
   declare public tool: CRHowToState<Type>['tool']
   declare public totalTime: CRHowToState<Type>['totalTime']
@@ -49,7 +48,6 @@ export class CRHowTo<
         performTime: '',
         prepTime: '',
         step: itemListElement,
-        steps: itemListElement,
         supply: crSetSnapshot,
         tool: crSetSnapshot,
         totalTime: '',
@@ -59,7 +57,6 @@ export class CRHowTo<
       {
         estimatedCost: 'set',
         step: 'list',
-        steps: 'list',
         supply: 'set',
         tool: 'set',
         ...crdtProperties,

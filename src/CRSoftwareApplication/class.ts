@@ -34,7 +34,6 @@ export class CRSoftwareApplication<
   declare public availableOnDevice: CRSoftwareApplicationState<Type>['availableOnDevice']
   declare public countriesNotSupported: CRSoftwareApplicationState<Type>['countriesNotSupported']
   declare public countriesSupported: CRSoftwareApplicationState<Type>['countriesSupported']
-  declare public device: CRSoftwareApplicationState<Type>['device']
   declare public downloadUrl: CRSoftwareApplicationState<Type>['downloadUrl']
   declare public featureList: CRSoftwareApplicationState<Type>['featureList']
   declare public fileSize: CRSoftwareApplicationState<Type>['fileSize']
@@ -44,7 +43,6 @@ export class CRSoftwareApplication<
   declare public permissions: CRSoftwareApplicationState<Type>['permissions']
   declare public processorRequirements: CRSoftwareApplicationState<Type>['processorRequirements']
   declare public releaseNotes: CRSoftwareApplicationState<Type>['releaseNotes']
-  declare public requirements: CRSoftwareApplicationState<Type>['requirements']
   declare public runtimePlatform: CRSoftwareApplicationState<Type>['runtimePlatform']
   declare public screenshot: CRSoftwareApplicationState<Type>['screenshot']
   declare public softwareAddOn: CRSoftwareApplicationState<Type>['softwareAddOn']
@@ -71,7 +69,6 @@ export class CRSoftwareApplication<
         availableOnDevice: crSetSnapshot,
         countriesNotSupported: crSetSnapshot,
         countriesSupported: crSetSnapshot,
-        device: crSetSnapshot,
         downloadUrl: '',
         featureList: crSetSnapshot,
         fileSize: crTextSnapshot,
@@ -81,7 +78,6 @@ export class CRSoftwareApplication<
         permissions: crSetSnapshot,
         processorRequirements: crTextSnapshot,
         releaseNotes: crSetSnapshot,
-        requirements: crSetSnapshot,
         runtimePlatform: crSetSnapshot,
         screenshot: crSetSnapshot,
         softwareAddOn: crSetSnapshot,
@@ -99,7 +95,6 @@ export class CRSoftwareApplication<
         availableOnDevice: 'set',
         countriesNotSupported: 'set',
         countriesSupported: 'set',
-        device: 'set',
         featureList: 'set',
         fileSize: 'text',
         memoryRequirements: 'set',
@@ -107,7 +102,6 @@ export class CRSoftwareApplication<
         permissions: 'set',
         processorRequirements: 'text',
         releaseNotes: 'set',
-        requirements: 'set',
         runtimePlatform: 'set',
         screenshot: 'set',
         softwareAddOn: 'set',

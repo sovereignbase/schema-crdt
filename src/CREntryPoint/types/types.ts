@@ -25,7 +25,7 @@ type SchemaOrgEntryPointRaw = Extract<EntryPoint, { '@type': 'EntryPoint' }>
 type SchemaOrgEntryPoint = Partial<SchemaOrgEntryPointRaw>
 
 /**
- * Values accepted by Schema.org actionApplication and application.
+ * Values accepted by Schema.org actionApplication.
  */
 export type CREntryPointApplication =
   | CRSoftwareApplicationSnapshot
@@ -46,6 +46,9 @@ export type CREntryPointActionPlatform =
  * Serializable CRDT shape for Schema.org EntryPoint.
  *
  * Schema.org: An entry point, within some Web-based protocol.
+ *
+ * Deprecated Schema.org properties intentionally omitted:
+ * application.
  */
 export type CREntryPointDefaultShape<Type = 'EntryPoint'> = {
   /**
@@ -57,10 +60,6 @@ export type CREntryPointDefaultShape<Type = 'EntryPoint'> = {
    * performed.
    */
   actionPlatform: CRSetSnapshot<CREntryPointActionPlatform>
-  /**
-   * Schema.org application: Deprecated alias for actionApplication.
-   */
-  application: CRSetSnapshot<CREntryPointApplication>
   /**
    * Schema.org contentType: Supported content types for an EntryPoint response.
    */
@@ -87,6 +86,10 @@ export type CREntryPointSnapshot<Type = 'EntryPoint'> = CRStructPartialSnapshot<
   '@id' | '@type' | 'identifier'
 >
 
+/**
+ * Intentionally omitted deprecated Schema.org EntryPoint properties:
+ * application.
+ */
 type MissingKeys = Exclude<
   keyof SchemaOrgEntryPoint,
   keyof CREntryPointSnapshot
@@ -107,10 +110,6 @@ export type CREntryPointState<Type = 'EntryPoint'> = {
    * performed.
    */
   actionPlatform: Readonly<CRSet<CREntryPointActionPlatform>>
-  /**
-   * Schema.org application: Deprecated alias for actionApplication.
-   */
-  application: Readonly<CRSet<CREntryPointApplication>>
   /**
    * Schema.org contentType: Supported content types for an EntryPoint response.
    */

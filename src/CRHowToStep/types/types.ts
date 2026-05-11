@@ -48,6 +48,9 @@ export type CRHowToStepElement =
  * Serializable CRDT shape for Schema.org HowToStep.
  *
  * Schema.org: A step in how-to instructions.
+ *
+ * Deprecated Schema.org properties intentionally omitted:
+ * awards, encodings, fileFormat, isBasedOnUrl, reviews.
  */
 export type CRHowToStepDefaultShape<Type = 'HowToStep'> = {
   /**
@@ -93,6 +96,10 @@ export type CRHowToStepSnapshot<Type = 'HowToStep'> = CRStructPartialSnapshot<
   '@id' | '@type' | 'identifier'
 >
 
+/**
+ * Intentionally omitted deprecated Schema.org HowToStep properties:
+ * awards, encodings, fileFormat, isBasedOnUrl, reviews.
+ */
 type MissingKeys = Exclude<keyof SchemaOrgHowToStep, keyof CRHowToStepSnapshot>
 
 type ExtraKeys = Exclude<keyof CRHowToStepSnapshot, keyof SchemaOrgHowToStep>

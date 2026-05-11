@@ -177,7 +177,7 @@ export type CRCreativeWorkProductTextOrURL =
   | CRIdReferenceValue
 
 /**
- * Values accepted by Schema.org isBasedOn and isBasedOnUrl.
+ * Values accepted by Schema.org isBasedOn.
  */
 export type CRCreativeWorkBasedOn =
   | CRCreativeWorkReference
@@ -216,7 +216,7 @@ export type CRCreativeWorkEvent =
   | CRIdReferenceValue
 
 /**
- * Values accepted by Schema.org review and reviews.
+ * Values accepted by Schema.org review.
  */
 export type CRCreativeWorkReview =
   | CRTypedIdReferenceValue<'Review'>
@@ -248,6 +248,9 @@ export type CRCreativeWorkVersion = SchemaOrgNumber | SchemaOrgText
  * Serializable CRDT shape for Schema.org CreativeWork.
  *
  * Schema.org: The most generic kind of creative work.
+ *
+ * Deprecated Schema.org properties intentionally omitted:
+ * awards, encodings, fileFormat, isBasedOnUrl, reviews.
  */
 export type CRCreativeWorkDefaultShape<Type = 'CreativeWork'> = {
   about: CRSetSnapshot<CRCreativeWorkThing>
@@ -276,7 +279,6 @@ export type CRCreativeWorkDefaultShape<Type = 'CreativeWork'> = {
   audio: CRSetSnapshot<CRCreativeWorkAudio>
   author: CRSetSnapshot<CRCreativeWorkPersonOrOrganization>
   award: CRSetSnapshot<SchemaOrgText>
-  awards: CRSetSnapshot<SchemaOrgText>
   character: CRSetSnapshot<CRCreativeWorkPerson>
   citation: CRSetSnapshot<
     CRCreativeWorkReference | SchemaOrgText | CRIdReferenceValue
@@ -317,10 +319,8 @@ export type CRCreativeWorkDefaultShape<Type = 'CreativeWork'> = {
   educationalUse: CRSetSnapshot<CRCreativeWorkDefinedTermText>
   encoding: CRSetSnapshot<CRCreativeWorkMediaObject>
   encodingFormat: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
-  encodings: CRSetSnapshot<CRCreativeWorkMediaObject>
   exampleOfWork: CRSetSnapshot<CRCreativeWorkReference>
   expires: SchemaOrgDate | SchemaOrgDateTime
-  fileFormat: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
   funder: CRSetSnapshot<CRCreativeWorkPersonOrOrganization>
   funding: CRSetSnapshot<CRTypedIdReferenceValue<'Grant'> | CRIdReferenceValue>
   genre: CRSetSnapshot<CRCreativeWorkDefinedTermTextOrURL>
@@ -336,7 +336,6 @@ export type CRCreativeWorkDefaultShape<Type = 'CreativeWork'> = {
   >
   isAccessibleForFree: SchemaOrgBoolean
   isBasedOn: CRSetSnapshot<CRCreativeWorkBasedOn>
-  isBasedOnUrl: CRSetSnapshot<CRCreativeWorkBasedOn>
   isFamilyFriendly: SchemaOrgBoolean
   isPartOf: CRSetSnapshot<CRCreativeWorkReferenceOrURL>
   keywords: CRSetSnapshot<CRCreativeWorkDefinedTermTextOrURL>
@@ -360,7 +359,6 @@ export type CRCreativeWorkDefaultShape<Type = 'CreativeWork'> = {
   recordedAt: CRSetSnapshot<CRCreativeWorkEvent>
   releasedEvent: CRSetSnapshot<CRCreativeWorkPublicationEvent>
   review: CRSetSnapshot<CRCreativeWorkReview>
-  reviews: CRSetSnapshot<CRCreativeWorkReview>
   schemaVersion: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
   sdDatePublished: SchemaOrgDate
   sdLicense: CRSetSnapshot<CRCreativeWorkReferenceOrURL>
@@ -397,6 +395,10 @@ export type CRCreativeWorkSnapshot<Type = 'CreativeWork'> =
     '@id' | '@type' | 'identifier'
   >
 
+/**
+ * Intentionally omitted deprecated Schema.org CreativeWork properties:
+ * awards, encodings, fileFormat, isBasedOnUrl, reviews.
+ */
 type MissingKeys = Exclude<
   keyof SchemaOrgCreativeWork,
   keyof CRCreativeWorkSnapshot

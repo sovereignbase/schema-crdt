@@ -53,10 +53,6 @@ export class CRWebPage<
    */
   declare public significantLink: CRWebPageState<Type>['significantLink']
   /**
-   * Schema.org significantLinks: Deprecated alias for significantLink.
-   */
-  declare public significantLinks: CRWebPageState<Type>['significantLinks']
-  /**
    * Schema.org speakable: Speakable sections of the web page.
    */
   declare public speakable: CRWebPageState<Type>['speakable']
@@ -83,7 +79,6 @@ export class CRWebPage<
         relatedLink: crSetSnapshot,
         reviewedBy: crSetSnapshot,
         significantLink: crSetSnapshot,
-        significantLinks: crSetSnapshot,
         speakable: crSetSnapshot,
         specialty: crSetSnapshot,
         ...defaultShape,
@@ -95,7 +90,6 @@ export class CRWebPage<
         relatedLink: 'set',
         reviewedBy: 'set',
         significantLink: 'set',
-        significantLinks: 'set',
         speakable: 'set',
         specialty: 'set',
         ...crdtProperties,

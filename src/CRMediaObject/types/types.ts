@@ -78,6 +78,9 @@ export type CRMediaObjectRequiresSubscription =
  *
  * Schema.org: A media object, such as an image, video, audio, or text object
  * embedded in a web page or a downloadable dataset.
+ *
+ * Deprecated Schema.org properties intentionally omitted:
+ * awards, encodings, fileFormat, isBasedOnUrl, reviews.
  */
 export type CRMediaObjectDefaultShape<Type = 'MediaObject'> = {
   /**
@@ -177,6 +180,10 @@ export type CRMediaObjectSnapshot<Type = 'MediaObject'> =
     '@id' | '@type' | 'identifier'
   >
 
+/**
+ * Intentionally omitted deprecated Schema.org MediaObject properties:
+ * awards, encodings, fileFormat, isBasedOnUrl, reviews.
+ */
 type MissingKeys = Exclude<
   keyof SchemaOrgMediaObject,
   keyof CRMediaObjectSnapshot

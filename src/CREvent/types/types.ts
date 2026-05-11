@@ -174,6 +174,9 @@ export type CREventReview =
  * Serializable CRDT shape for Schema.org Event.
  *
  * Schema.org: An event happening at a certain time and location.
+ *
+ * Deprecated Schema.org properties intentionally omitted:
+ * attendees, performers, subEvents.
  */
 export type CREventDefaultShape<Type = 'Event'> = {
   /**
@@ -192,10 +195,6 @@ export type CREventDefaultShape<Type = 'Event'> = {
    * Schema.org attendee: A person or organization attending the event.
    */
   attendee: CRSetSnapshot<CREventPersonOrOrganization>
-  /**
-   * Schema.org attendees: Deprecated alias for attendee.
-   */
-  attendees: CRSetSnapshot<CREventPersonOrOrganization>
   /**
    * Schema.org audience: Intended audience for the event.
    */
@@ -293,10 +292,6 @@ export type CREventDefaultShape<Type = 'Event'> = {
    */
   performer: CRSetSnapshot<CREventPersonOrOrganization>
   /**
-   * Schema.org performers: Deprecated alias for performer.
-   */
-  performers: CRSetSnapshot<CREventPersonOrOrganization>
-  /**
    * Schema.org previousStartDate: Previous start date for rescheduled events.
    */
   previousStartDate: CRSetSnapshot<SchemaOrgDate | SchemaOrgDateTime>
@@ -324,10 +319,6 @@ export type CREventDefaultShape<Type = 'Event'> = {
    * Schema.org subEvent: Event that is part of this event.
    */
   subEvent: CRSetSnapshot<CREventReference>
-  /**
-   * Schema.org subEvents: Deprecated alias for subEvent.
-   */
-  subEvents: CRSetSnapshot<CREventReference>
   /**
    * Schema.org superEvent: Event that this event is part of.
    */
@@ -358,6 +349,10 @@ export type CREventSnapshot<Type = 'Event'> = CRStructPartialSnapshot<
   '@id' | '@type' | 'identifier'
 >
 
+/**
+ * Intentionally omitted deprecated Schema.org Event properties:
+ * attendees, performers, subEvents.
+ */
 type MissingKeys = Exclude<keyof SchemaOrgEvent, keyof CREventSnapshot>
 
 type ExtraKeys = Exclude<keyof CREventSnapshot, keyof SchemaOrgEvent>
@@ -372,7 +367,6 @@ export type CREventState<Type = 'Event'> = {
     CRSet<CRAggregateRatingSnapshot | CRIdReferenceValue>
   >
   attendee: Readonly<CRSet<CREventPersonOrOrganization>>
-  attendees: Readonly<CRSet<CREventPersonOrOrganization>>
   audience: Readonly<CRSet<CRAudienceSnapshot | CRIdReferenceValue>>
   composer: Readonly<CRSet<CREventPersonOrOrganization>>
   contributor: Readonly<CRSet<CREventPersonOrOrganization>>
@@ -399,7 +393,6 @@ export type CREventState<Type = 'Event'> = {
   offers: Readonly<CRSet<CREventOffer>>
   organizer: Readonly<CRSet<CREventPersonOrOrganization>>
   performer: Readonly<CRSet<CREventPersonOrOrganization>>
-  performers: Readonly<CRSet<CREventPersonOrOrganization>>
   previousStartDate: Readonly<CRSet<SchemaOrgDate | SchemaOrgDateTime>>
   recordedIn: Readonly<CRSet<CRCreativeWorkSnapshot | CRIdReferenceValue>>
   remainingAttendeeCapacity: SchemaOrgInteger
@@ -407,7 +400,6 @@ export type CREventState<Type = 'Event'> = {
   sponsor: Readonly<CRSet<CREventPersonOrOrganization>>
   startDate: SchemaOrgDate | SchemaOrgDateTime
   subEvent: Readonly<CRSet<CREventReference>>
-  subEvents: Readonly<CRSet<CREventReference>>
   superEvent: Readonly<CRSet<CREventReference>>
   translator: Readonly<CRSet<CREventPersonOrOrganization>>
   typicalAgeRange: Readonly<CRText>

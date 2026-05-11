@@ -28,16 +28,13 @@ export class CRPerson<
   declare public agentInteractionStatistic: CRPersonState<Type>['agentInteractionStatistic']
   declare public alumniOf: CRPersonState<Type>['alumniOf']
   declare public award: CRPersonState<Type>['award']
-  declare public awards: CRPersonState<Type>['awards']
   declare public birthDate: CRPersonState<Type>['birthDate']
   declare public birthPlace: CRPersonState<Type>['birthPlace']
   declare public brand: CRPersonState<Type>['brand']
   declare public callSign: CRPersonState<Type>['callSign']
   declare public children: CRPersonState<Type>['children']
   declare public colleague: CRPersonState<Type>['colleague']
-  declare public colleagues: CRPersonState<Type>['colleagues']
   declare public contactPoint: CRPersonState<Type>['contactPoint']
-  declare public contactPoints: CRPersonState<Type>['contactPoints']
   declare public deathDate: CRPersonState<Type>['deathDate']
   declare public deathPlace: CRPersonState<Type>['deathPlace']
   declare public duns: CRPersonState<Type>['duns']
@@ -73,14 +70,12 @@ export class CRPerson<
   declare public netWorth: CRPersonState<Type>['netWorth']
   declare public owns: CRPersonState<Type>['owns']
   declare public parent: CRPersonState<Type>['parent']
-  declare public parents: CRPersonState<Type>['parents']
   declare public performerIn: CRPersonState<Type>['performerIn']
   declare public pronouns: CRPersonState<Type>['pronouns']
   declare public publishingPrinciples: CRPersonState<Type>['publishingPrinciples']
   declare public relatedTo: CRPersonState<Type>['relatedTo']
   declare public seeks: CRPersonState<Type>['seeks']
   declare public sibling: CRPersonState<Type>['sibling']
-  declare public siblings: CRPersonState<Type>['siblings']
   declare public skills: CRPersonState<Type>['skills']
   declare public sponsor: CRPersonState<Type>['sponsor']
   declare public spouse: CRPersonState<Type>['spouse']
@@ -108,16 +103,13 @@ export class CRPerson<
         agentInteractionStatistic: crSetSnapshot,
         alumniOf: crSetSnapshot,
         award: crSetSnapshot,
-        awards: crSetSnapshot,
         birthDate: '',
         birthPlace: crSetSnapshot,
         brand: crSetSnapshot,
         callSign: crSetSnapshot,
         children: crSetSnapshot,
         colleague: crSetSnapshot,
-        colleagues: crSetSnapshot,
         contactPoint: crSetSnapshot,
-        contactPoints: crSetSnapshot,
         deathDate: '',
         deathPlace: crSetSnapshot,
         duns: crSetSnapshot,
@@ -153,14 +145,12 @@ export class CRPerson<
         netWorth: { '@id': '' },
         owns: crSetSnapshot,
         parent: crSetSnapshot,
-        parents: crSetSnapshot,
         performerIn: crSetSnapshot,
         pronouns: crSetSnapshot,
         publishingPrinciples: crSetSnapshot,
         relatedTo: crSetSnapshot,
         seeks: crSetSnapshot,
         sibling: crSetSnapshot,
-        siblings: crSetSnapshot,
         skills: crSetSnapshot,
         sponsor: crSetSnapshot,
         spouse: crSetSnapshot,
@@ -179,15 +169,12 @@ export class CRPerson<
         agentInteractionStatistic: 'set',
         alumniOf: 'set',
         award: 'set',
-        awards: 'set',
         birthPlace: 'set',
         brand: 'set',
         callSign: 'set',
         children: 'set',
         colleague: 'set',
-        colleagues: 'set',
         contactPoint: 'set',
-        contactPoints: 'set',
         deathPlace: 'set',
         duns: 'set',
         email: 'set',
@@ -220,14 +207,12 @@ export class CRPerson<
         nationality: 'set',
         owns: 'set',
         parent: 'set',
-        parents: 'set',
         performerIn: 'set',
         pronouns: 'set',
         publishingPrinciples: 'set',
         relatedTo: 'set',
         seeks: 'set',
         sibling: 'set',
-        siblings: 'set',
         skills: 'set',
         sponsor: 'set',
         spouse: 'set',

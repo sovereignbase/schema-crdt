@@ -21,7 +21,6 @@ import type {
   CRIdReferenceValue,
   CRTypedIdReferenceValue,
 } from '../../CRIdReference/types/types.js'
-import type { CRItemListSnapshot } from '../../CRItemList/types/types.js'
 import type { CRMonetaryAmountSnapshot } from '../../CRMonetaryAmount/types/types.js'
 import type { CRQuantitativeValueSnapshot } from '../../CRQuantitativeValue/types/types.js'
 import type {
@@ -55,20 +54,6 @@ export type CRHowToStepValue =
   | CRIdReferenceValue
 
 /**
- * Values accepted by Schema.org steps.
- */
-export type CRHowToStepsValue =
-  | CRHowToSectionSnapshot
-  | CRHowToStepSnapshot
-  | CRItemListSnapshot
-  | CRCreativeWorkSnapshot
-  | CRTypedIdReferenceValue<'HowToSection'>
-  | CRTypedIdReferenceValue<'HowToStep'>
-  | CRTypedIdReferenceValue<'ItemList'>
-  | SchemaOrgText
-  | CRIdReferenceValue
-
-/**
  * Values accepted by Schema.org supply.
  */
 export type CRHowToSupplyValue =
@@ -98,6 +83,9 @@ export type CRHowToYield =
  * Serializable CRDT shape for Schema.org HowTo.
  *
  * Schema.org: Instructions that explain how to achieve a result.
+ *
+ * Deprecated Schema.org properties intentionally omitted:
+ * awards, encodings, fileFormat, isBasedOnUrl, reviews, steps.
  */
 export type CRHowToDefaultShape<Type = 'HowTo'> = {
   /**
@@ -116,10 +104,6 @@ export type CRHowToDefaultShape<Type = 'HowTo'> = {
    * Schema.org step: Ordered steps or sections in the instructions.
    */
   step: CRListSnapshot<CRHowToStepValue>
-  /**
-   * Schema.org steps: Deprecated alias for step.
-   */
-  steps: CRListSnapshot<CRHowToStepsValue>
   /**
    * Schema.org supply: A supply consumed when performing instructions.
    */
@@ -146,6 +130,10 @@ export type CRHowToSnapshot<Type = 'HowTo'> = CRStructPartialSnapshot<
   '@id' | '@type' | 'identifier'
 >
 
+/**
+ * Intentionally omitted deprecated Schema.org HowTo properties:
+ * awards, encodings, fileFormat, isBasedOnUrl, reviews, steps.
+ */
 type MissingKeys = Exclude<keyof SchemaOrgHowTo, keyof CRHowToSnapshot>
 
 type ExtraKeys = Exclude<keyof CRHowToSnapshot, keyof SchemaOrgHowTo>
@@ -170,10 +158,6 @@ export type CRHowToState<Type = 'HowTo'> = {
    * Schema.org step: Ordered steps or sections in the instructions.
    */
   step: Readonly<CRList<CRHowToStepValue>>
-  /**
-   * Schema.org steps: Deprecated alias for step.
-   */
-  steps: Readonly<CRList<CRHowToStepsValue>>
   /**
    * Schema.org supply: A supply consumed when performing instructions.
    */

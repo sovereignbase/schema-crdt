@@ -29,7 +29,6 @@ export class CREntryPoint<
   declare public readonly '@type': Type
   declare public actionApplication: CREntryPointState<Type>['actionApplication']
   declare public actionPlatform: CREntryPointState<Type>['actionPlatform']
-  declare public application: CREntryPointState<Type>['application']
   declare public contentType: CREntryPointState<Type>['contentType']
   declare public encodingType: CREntryPointState<Type>['encodingType']
   declare public httpMethod: CREntryPointState<Type>['httpMethod']
@@ -48,7 +47,6 @@ export class CREntryPoint<
         '@type': 'EntryPoint' as Type,
         actionApplication: crSetSnapshot,
         actionPlatform: crSetSnapshot,
-        application: crSetSnapshot,
         contentType: crSetSnapshot,
         encodingType: crSetSnapshot,
         httpMethod: '',
@@ -58,7 +56,6 @@ export class CREntryPoint<
       {
         actionApplication: 'set',
         actionPlatform: 'set',
-        application: 'set',
         contentType: 'set',
         encodingType: 'set',
         ...crdtProperties,

@@ -86,6 +86,9 @@ export type CRWebPageSpecialty =
  * Serializable CRDT shape for Schema.org WebPage.
  *
  * Schema.org: A web page.
+ *
+ * Deprecated Schema.org properties intentionally omitted:
+ * awards, encodings, fileFormat, isBasedOnUrl, reviews, significantLinks.
  */
 export type CRWebPageDefaultShape<Type = 'WebPage'> = {
   /**
@@ -117,10 +120,6 @@ export type CRWebPageDefaultShape<Type = 'WebPage'> = {
    */
   significantLink: CRSetSnapshot<SchemaOrgURL>
   /**
-   * Schema.org significantLinks: Deprecated alias for significantLink.
-   */
-  significantLinks: CRSetSnapshot<SchemaOrgURL>
-  /**
    * Schema.org speakable: Speakable sections of the web page.
    */
   speakable: CRSetSnapshot<CRWebPageSpeakable>
@@ -138,6 +137,10 @@ export type CRWebPageSnapshot<Type = 'WebPage'> = CRStructPartialSnapshot<
   '@id' | '@type' | 'identifier'
 >
 
+/**
+ * Intentionally omitted deprecated Schema.org WebPage properties:
+ * awards, encodings, fileFormat, isBasedOnUrl, reviews, significantLinks.
+ */
 type MissingKeys = Exclude<keyof SchemaOrgWebPage, keyof CRWebPageSnapshot>
 
 type ExtraKeys = Exclude<keyof CRWebPageSnapshot, keyof SchemaOrgWebPage>
@@ -174,10 +177,6 @@ export type CRWebPageState<Type = 'WebPage'> = {
    * Schema.org significantLink: Significant URL on the page.
    */
   significantLink: Readonly<CRSet<SchemaOrgURL>>
-  /**
-   * Schema.org significantLinks: Deprecated alias for significantLink.
-   */
-  significantLinks: Readonly<CRSet<SchemaOrgURL>>
   /**
    * Schema.org speakable: Speakable sections of the web page.
    */

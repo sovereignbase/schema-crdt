@@ -6,14 +6,8 @@ import type {
 
 import type {
   CRCreativeWorkDefaultShape,
-  CRCreativeWorkSnapshot,
   CRCreativeWorkState,
 } from '../../CRCreativeWork/types/types.js'
-import type { CRHowToStepSnapshot } from '../../CRHowToStep/types/types.js'
-import type {
-  CRIdReferenceValue,
-  CRTypedIdReferenceValue,
-} from '../../CRIdReference/types/types.js'
 import type {
   CRItemListAggregateElement,
   CRItemListElement,
@@ -27,7 +21,6 @@ import type {
 import type {
   CRStructPartialSnapshot,
   SchemaOrgInteger,
-  SchemaOrgText,
 } from '../../.types/types.js'
 
 type SchemaOrgHowToSectionRaw = Extract<
@@ -38,21 +31,12 @@ type SchemaOrgHowToSectionRaw = Extract<
 type SchemaOrgHowToSection = Partial<SchemaOrgHowToSectionRaw>
 
 /**
- * Values accepted by Schema.org steps for HowToSection.
- */
-export type CRHowToSectionStep =
-  | CRHowToStepSnapshot
-  | CRCreativeWorkSnapshot
-  | CRTypedIdReferenceValue<'HowToSection'>
-  | CRTypedIdReferenceValue<'HowToStep'>
-  | CRTypedIdReferenceValue<'ItemList'>
-  | SchemaOrgText
-  | CRIdReferenceValue
-
-/**
  * Serializable CRDT shape for Schema.org HowToSection.
  *
  * Schema.org: A sub-grouping of how-to steps.
+ *
+ * Deprecated Schema.org properties intentionally omitted:
+ * awards, encodings, fileFormat, isBasedOnUrl, reviews, steps.
  */
 export type CRHowToSectionDefaultShape<Type = 'HowToSection'> = {
   /**
@@ -88,10 +72,6 @@ export type CRHowToSectionDefaultShape<Type = 'HowToSection'> = {
    * one.
    */
   previousItem: CRListItemRelation
-  /**
-   * Schema.org steps: Deprecated alias for step.
-   */
-  steps: CRListSnapshot<CRHowToSectionStep>
 } & CRCreativeWorkDefaultShape<Type>
 
 /**
@@ -103,6 +83,10 @@ export type CRHowToSectionSnapshot<Type = 'HowToSection'> =
     '@id' | '@type' | 'identifier'
   >
 
+/**
+ * Intentionally omitted deprecated Schema.org HowToSection properties:
+ * awards, encodings, fileFormat, isBasedOnUrl, reviews, steps.
+ */
 type MissingKeys = Exclude<
   keyof SchemaOrgHowToSection,
   keyof CRHowToSectionSnapshot
@@ -150,8 +134,4 @@ export type CRHowToSectionState<Type = 'HowToSection'> = {
    * one.
    */
   previousItem: CRListItemRelation
-  /**
-   * Schema.org steps: Deprecated alias for step.
-   */
-  steps: Readonly<CRList<CRHowToSectionStep>>
 } & CRCreativeWorkState<Type>

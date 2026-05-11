@@ -25,6 +25,9 @@ type SchemaOrgWebPageElement = Partial<SchemaOrgWebPageElementRaw>
  * Serializable CRDT shape for Schema.org WebPageElement.
  *
  * Schema.org: A web page element, like a table or an image.
+ *
+ * Deprecated Schema.org properties intentionally omitted:
+ * awards, encodings, fileFormat, isBasedOnUrl, reviews.
  */
 export type CRWebPageElementDefaultShape<Type = 'WebPageElement'> = {
   /**
@@ -46,6 +49,10 @@ export type CRWebPageElementSnapshot<Type = 'WebPageElement'> =
     '@id' | '@type' | 'identifier'
   >
 
+/**
+ * Intentionally omitted deprecated Schema.org WebPageElement properties:
+ * awards, encodings, fileFormat, isBasedOnUrl, reviews.
+ */
 type MissingKeys = Exclude<
   keyof SchemaOrgWebPageElement,
   keyof CRWebPageElementSnapshot

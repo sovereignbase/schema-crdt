@@ -86,6 +86,9 @@ export type CRReviewRating = CRRatingSnapshot | CRIdReferenceValue
  * Serializable CRDT shape for Schema.org Review.
  *
  * Schema.org: A review of an item.
+ *
+ * Deprecated Schema.org properties intentionally omitted:
+ * awards, encodings, fileFormat, isBasedOnUrl, reviews.
  */
 export type CRReviewDefaultShape<Type = 'Review'> = {
   /**
@@ -137,6 +140,10 @@ export type CRReviewSnapshot<Type = 'Review'> = CRStructPartialSnapshot<
   '@id' | '@type' | 'identifier'
 >
 
+/**
+ * Intentionally omitted deprecated Schema.org Review properties:
+ * awards, encodings, fileFormat, isBasedOnUrl, reviews.
+ */
 type MissingKeys = Exclude<keyof SchemaOrgReview, keyof CRReviewSnapshot>
 
 type ExtraKeys = Exclude<keyof CRReviewSnapshot, keyof SchemaOrgReview>

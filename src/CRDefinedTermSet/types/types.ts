@@ -31,6 +31,9 @@ export type CRDefinedTermSetDefinedTerm =
  *
  * Schema.org: A set of defined terms, such as categories, a classification
  * scheme, a glossary, dictionary or enumeration.
+ *
+ * Deprecated Schema.org properties intentionally omitted:
+ * awards, encodings, fileFormat, isBasedOnUrl, reviews.
  */
 export type CRDefinedTermSetDefaultShape<Type = 'DefinedTermSet'> = {
   /**
@@ -48,6 +51,10 @@ export type CRDefinedTermSetSnapshot<Type = 'DefinedTermSet'> =
     '@id' | '@type' | 'identifier'
   >
 
+/**
+ * Intentionally omitted deprecated Schema.org DefinedTermSet properties:
+ * awards, encodings, fileFormat, isBasedOnUrl, reviews.
+ */
 type MissingKeys = Exclude<
   keyof SchemaOrgDefinedTermSet,
   keyof CRDefinedTermSetSnapshot

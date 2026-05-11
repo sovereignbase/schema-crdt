@@ -93,6 +93,9 @@ export type CRPersonPronouns =
  * Serializable CRDT shape for Schema.org Person.
  *
  * Schema.org: A person (alive, dead, undead, or fictional).
+ *
+ * Deprecated Schema.org properties intentionally omitted:
+ * awards, colleagues, contactPoints, parents, siblings.
  */
 export type CRPersonDefaultShape<Type = 'Person'> = {
   /** Schema.org additionalName: An additional name for a Person. */
@@ -107,8 +110,6 @@ export type CRPersonDefaultShape<Type = 'Person'> = {
   alumniOf: CRSetSnapshot<CRPersonOrganization>
   /** Schema.org award: An award won by or for this item. */
   award: CRSetSnapshot<SchemaOrgText>
-  /** Schema.org awards: Awards won by or for this item. */
-  awards: CRSetSnapshot<SchemaOrgText>
   /** Schema.org birthDate: Date of birth. */
   birthDate: SchemaOrgDate
   /** Schema.org birthPlace: The place where the person was born. */
@@ -121,12 +122,8 @@ export type CRPersonDefaultShape<Type = 'Person'> = {
   children: CRSetSnapshot<CRPersonRelation>
   /** Schema.org colleague: A colleague of the person. */
   colleague: CRSetSnapshot<CRPersonRelation | SchemaOrgURL>
-  /** Schema.org colleagues: Colleagues of the person. */
-  colleagues: CRSetSnapshot<CRPersonRelation | SchemaOrgURL>
   /** Schema.org contactPoint: A contact point for a person or organization. */
   contactPoint: CRSetSnapshot<CRContactPointSnapshot | CRIdReferenceValue>
-  /** Schema.org contactPoints: Contact points for a person or organization. */
-  contactPoints: CRSetSnapshot<CRContactPointSnapshot | CRIdReferenceValue>
   /** Schema.org deathDate: Date of death. */
   deathDate: SchemaOrgDate
   /** Schema.org deathPlace: The place where the person died. */
@@ -201,8 +198,6 @@ export type CRPersonDefaultShape<Type = 'Person'> = {
   owns: CRSetSnapshot<CRThingSnapshot | CRIdReferenceValue>
   /** Schema.org parent: A parent of this person. */
   parent: CRSetSnapshot<CRPersonRelation>
-  /** Schema.org parents: Parents of this person. */
-  parents: CRSetSnapshot<CRPersonRelation>
   /** Schema.org performerIn: Event that this person is a performer or participant in. */
   performerIn: CRSetSnapshot<CRIdReferenceValue>
   /** Schema.org pronouns: Pronouns for a person. */
@@ -215,8 +210,6 @@ export type CRPersonDefaultShape<Type = 'Person'> = {
   seeks: CRSetSnapshot<CRIdReferenceValue>
   /** Schema.org sibling: A sibling of the person. */
   sibling: CRSetSnapshot<CRPersonRelation>
-  /** Schema.org siblings: Siblings of the person. */
-  siblings: CRSetSnapshot<CRPersonRelation>
   /** Schema.org skills: Competency statement. */
   skills: CRSetSnapshot<
     CRDefinedTermSnapshot | SchemaOrgText | CRIdReferenceValue
@@ -247,6 +240,10 @@ export type CRPersonSnapshot<Type = 'Person'> = CRStructPartialSnapshot<
   '@id' | '@type' | 'identifier'
 >
 
+/**
+ * Intentionally omitted deprecated Schema.org Person properties:
+ * awards, colleagues, contactPoints, parents, siblings.
+ */
 type MissingKeys = Exclude<keyof SchemaOrgPerson, keyof CRPersonSnapshot>
 
 type ExtraKeys = Exclude<keyof CRPersonSnapshot, keyof SchemaOrgPerson>
@@ -267,8 +264,6 @@ export type CRPersonState<Type = 'Person'> = {
   alumniOf: Readonly<CRSet<CRPersonOrganization>>
   /** Schema.org award: An award won by or for this item. */
   award: Readonly<CRSet<SchemaOrgText>>
-  /** Schema.org awards: Awards won by or for this item. */
-  awards: Readonly<CRSet<SchemaOrgText>>
   /** Schema.org birthDate: Date of birth. */
   birthDate: SchemaOrgDate
   /** Schema.org birthPlace: The place where the person was born. */
@@ -281,12 +276,8 @@ export type CRPersonState<Type = 'Person'> = {
   children: Readonly<CRSet<CRPersonRelation>>
   /** Schema.org colleague: A colleague of the person. */
   colleague: Readonly<CRSet<CRPersonRelation | SchemaOrgURL>>
-  /** Schema.org colleagues: Colleagues of the person. */
-  colleagues: Readonly<CRSet<CRPersonRelation | SchemaOrgURL>>
   /** Schema.org contactPoint: A contact point for a person or organization. */
   contactPoint: Readonly<CRSet<CRContactPointSnapshot | CRIdReferenceValue>>
-  /** Schema.org contactPoints: Contact points for a person or organization. */
-  contactPoints: Readonly<CRSet<CRContactPointSnapshot | CRIdReferenceValue>>
   /** Schema.org deathDate: Date of death. */
   deathDate: SchemaOrgDate
   /** Schema.org deathPlace: The place where the person died. */
@@ -363,8 +354,6 @@ export type CRPersonState<Type = 'Person'> = {
   owns: Readonly<CRSet<CRThingSnapshot | CRIdReferenceValue>>
   /** Schema.org parent: A parent of this person. */
   parent: Readonly<CRSet<CRPersonRelation>>
-  /** Schema.org parents: Parents of this person. */
-  parents: Readonly<CRSet<CRPersonRelation>>
   /** Schema.org performerIn: Event that this person is a performer or participant in. */
   performerIn: Readonly<CRSet<CRIdReferenceValue>>
   /** Schema.org pronouns: Pronouns for a person. */
@@ -377,8 +366,6 @@ export type CRPersonState<Type = 'Person'> = {
   seeks: Readonly<CRSet<CRIdReferenceValue>>
   /** Schema.org sibling: A sibling of the person. */
   sibling: Readonly<CRSet<CRPersonRelation>>
-  /** Schema.org siblings: Siblings of the person. */
-  siblings: Readonly<CRSet<CRPersonRelation>>
   /** Schema.org skills: Competency statement. */
   skills: Readonly<
     CRSet<CRDefinedTermSnapshot | SchemaOrgText | CRIdReferenceValue>
