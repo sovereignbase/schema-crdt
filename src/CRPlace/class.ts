@@ -28,6 +28,7 @@ export class CRPlace<
   declare public containedInPlace: CRPlaceState<Type>['containedInPlace']
   declare public containsPlace: CRPlaceState<Type>['containsPlace']
   declare public event: CRPlaceState<Type>['event']
+  declare public events: CRPlaceState<Type>['events']
   declare public faxNumber: CRPlaceState<Type>['faxNumber']
   declare public geo: CRPlaceState<Type>['geo']
   declare public geoContains: CRPlaceState<Type>['geoContains']
@@ -84,6 +85,7 @@ export class CRPlace<
         containedInPlace: additionalType,
         containsPlace: additionalType,
         event: additionalType,
+        events: additionalType,
         faxNumber: description,
         geo: additionalType as unknown as CRPlaceDefaultShape<Type>['geo'],
         geoContains:
@@ -140,6 +142,7 @@ export class CRPlace<
         containedInPlace: 'set',
         containsPlace: 'set',
         event: 'set',
+        events: 'set',
         faxNumber: 'text',
         geo: 'set',
         geoContains: 'set',

@@ -62,6 +62,8 @@ export type CRPlaceOpeningHoursSpecification =
   | CROpeningHoursSpecificationSnapshot
   | CRIdReferenceValue
 
+export type CRPlaceEvent = CRTypedIdReferenceValue<'Event'> | CRIdReferenceValue
+
 export type CRPlaceImage =
   | SchemaOrgText
   | SchemaOrgURL
@@ -76,7 +78,8 @@ export type CRPlaceDefaultShape<Type = 'Place'> = {
   branchCode: CRTextSnapshot
   containedInPlace: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
   containsPlace: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
-  event: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
+  event: CRSetSnapshot<CRPlaceEvent>
+  events: CRSetSnapshot<CRPlaceEvent>
   faxNumber: CRTextSnapshot
   geo: CRSetSnapshot<CRPlaceGeo>
   geoContains: CRSetSnapshot<CRGeospatialGeometryRelation>
@@ -129,7 +132,8 @@ export type CRPlaceState<Type = 'Place'> = {
   branchCode: Readonly<CRText>
   containedInPlace: Readonly<CRSet<SchemaOrgText | SchemaOrgURL>>
   containsPlace: Readonly<CRSet<SchemaOrgText | SchemaOrgURL>>
-  event: Readonly<CRSet<SchemaOrgText | SchemaOrgURL>>
+  event: Readonly<CRSet<CRPlaceEvent>>
+  events: Readonly<CRSet<CRPlaceEvent>>
   faxNumber: Readonly<CRText>
   geo: Readonly<CRSet<CRPlaceGeo>>
   geoContains: Readonly<CRSet<CRGeospatialGeometryRelation>>

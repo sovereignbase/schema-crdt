@@ -92,6 +92,11 @@ export type CROrganizationLogo =
   | CRTypedIdReferenceValue<'ImageObject'>
   | CRIdReferenceValue
 
+/** Values accepted by Schema.org organization event properties. */
+export type CROrganizationEvent =
+  | CRTypedIdReferenceValue<'Event'>
+  | CRIdReferenceValue
+
 /**
  * Serializable CRDT shape for Schema.org Organization.
  *
@@ -141,7 +146,9 @@ export type CROrganizationDefaultShape<Type = 'Organization'> = {
   /** Schema.org ethicsPolicy: Ethics policy statement. */
   ethicsPolicy: CRSetSnapshot<CROrganizationPolicy>
   /** Schema.org event: Upcoming or past event associated with this organization. */
-  event: CRSetSnapshot<CRIdReferenceValue>
+  event: CRSetSnapshot<CROrganizationEvent>
+  /** Schema.org events: Upcoming or past events associated with this organization. */
+  events: CRSetSnapshot<CROrganizationEvent>
   /** Schema.org faxNumber: The fax number. */
   faxNumber: CRTextSnapshot
   /** Schema.org founder: Person or organization who founded this organization. */
@@ -308,7 +315,9 @@ export type CROrganizationState<Type = 'Organization'> = {
   /** Schema.org ethicsPolicy: Ethics policy statement. */
   ethicsPolicy: Readonly<CRSet<CROrganizationPolicy>>
   /** Schema.org event: Upcoming or past event associated with this organization. */
-  event: Readonly<CRSet<CRIdReferenceValue>>
+  event: Readonly<CRSet<CROrganizationEvent>>
+  /** Schema.org events: Upcoming or past events associated with this organization. */
+  events: Readonly<CRSet<CROrganizationEvent>>
   /** Schema.org faxNumber: The fax number. */
   faxNumber: Readonly<CRText>
   /** Schema.org founder: Person or organization who founded this organization. */

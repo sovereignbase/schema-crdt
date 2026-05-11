@@ -52,6 +52,7 @@ export type CRThingMainEntityOfPage =
  */
 export type CRThingSubjectOf =
   | CRTypedIdReferenceValue<'CreativeWork'>
+  | CRTypedIdReferenceValue<'Event'>
   | CRTypedIdReferenceValue<'WebPage'>
   | CRIdReferenceValue
 

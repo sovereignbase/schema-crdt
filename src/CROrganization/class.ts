@@ -47,6 +47,7 @@ export class CROrganization<
   declare public employee: CROrganizationState<Type>['employee']
   declare public ethicsPolicy: CROrganizationState<Type>['ethicsPolicy']
   declare public event: CROrganizationState<Type>['event']
+  declare public events: CROrganizationState<Type>['events']
   declare public faxNumber: CROrganizationState<Type>['faxNumber']
   declare public founder: CROrganizationState<Type>['founder']
   declare public foundingDate: CROrganizationState<Type>['foundingDate']
@@ -127,6 +128,7 @@ export class CROrganization<
         employee: crSetSnapshot,
         ethicsPolicy: crSetSnapshot,
         event: crSetSnapshot,
+        events: crSetSnapshot,
         faxNumber: crTextSnapshot,
         founder: crSetSnapshot,
         foundingDate: '',
@@ -197,6 +199,7 @@ export class CROrganization<
         employee: 'set',
         ethicsPolicy: 'set',
         event: 'set',
+        events: 'set',
         faxNumber: 'text',
         founder: 'set',
         foundingLocation: 'set',
