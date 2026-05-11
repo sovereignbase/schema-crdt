@@ -56,6 +56,13 @@ export type CRThingSubjectOf =
   | CRIdReferenceValue
 
 /**
+ * Values accepted by Schema.org potentialAction.
+ */
+export type CRThingPotentialAction =
+  | CRTypedIdReferenceValue<'Action'>
+  | CRIdReferenceValue
+
+/**
  * Serializable CRDT shape for Schema.org Thing.
  *
  * Schema.org: The most generic type of item.
@@ -112,7 +119,7 @@ export type CRThingDefaultShape<T = 'Thing'> = {
    * Schema.org potentialAction: A potential Action describing an idealized
    * action in which this thing would play an object role.
    */
-  potentialAction?: string
+  potentialAction: CRSetSnapshot<CRThingPotentialAction>
   /**
    * Schema.org sameAs: URL of a reference Web page that unambiguously indicates
    * the item's identity.
@@ -193,7 +200,7 @@ export type CRThingState<T = 'Thing'> = {
   /**
    * Schema.org potentialAction: A potential Action for this Thing.
    */
-  potentialAction: string
+  potentialAction: Readonly<CRSet<CRThingPotentialAction>>
   /**
    * Schema.org sameAs: URL of a reference Web page that unambiguously indicates
    * the item's identity.

@@ -141,7 +141,7 @@ export class CRThing<
       mainEntityOfPage: '',
       name,
       owner: { '@id': '' },
-      potentialAction: '',
+      potentialAction: additionalType,
       sameAs,
       subjectOf,
       url: '',
@@ -259,18 +259,12 @@ export class CRThing<
         },
       },
       potentialAction: {
+        value: new CRSet(
+          state['potentialAction'] ?? defaults['potentialAction']
+        ),
         enumerable: true,
         configurable: true,
-        get(): string {
-          return state['potentialAction'] ?? defaults['potentialAction'] ?? ''
-        },
-        set(value: string): void {
-          this.validateFormat(
-            'potentialAction' as Extract<keyof Shape, string>,
-            value
-          )
-          state['potentialAction'] = value
-        },
+        writable: false,
       },
       sameAs: {
         value: new CRSet(state['sameAs'] ?? defaults['sameAs']),
