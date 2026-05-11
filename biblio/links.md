@@ -2,3 +2,4 @@
 - https://en.wikipedia.org/wiki/ISO_3166-1
 - https://en.wikipedia.org/wiki/DE-9IM
 - https://en.wikipedia.org/wiki/ISO_8601
+- https://www.movable-type.co.uk/scripts/sha256.html

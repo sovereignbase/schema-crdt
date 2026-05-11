@@ -2,6 +2,7 @@ import type { CRStructSnapshot } from '@sovereignbase/convergent-replicated-stru
 
 import { CRThing } from '../CRThing/class.js'
 import { crSetSnapshot } from '../.shared/index.js'
+import type { SchemaCRDTFormatValidators } from '../.types/types.js'
 
 import type {
   CRCreativeWorkDefaultShape,
@@ -38,7 +39,8 @@ export class CRCreativeWork<
     defaultShape?: Partial<Shape>,
     crdtProperties?: Partial<
       Record<Extract<keyof Shape, string>, 'text' | 'set' | 'list' | 'map'>
-    >
+    >,
+    formatValidators?: SchemaCRDTFormatValidators<Shape>
   ) {
     super(
       snapshot,
@@ -52,7 +54,8 @@ export class CRCreativeWork<
         ...crdtProperties,
       } as Partial<
         Record<Extract<keyof Shape, string>, 'text' | 'set' | 'list' | 'map'>
-      >
+      >,
+      formatValidators
     )
   }
 }
