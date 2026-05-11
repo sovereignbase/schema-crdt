@@ -44,6 +44,7 @@ type SchemaOrgOrganization = Partial<SchemaOrgOrganizationRaw>
  */
 export type CROrganizationPolicy =
   | CRCreativeWorkSnapshot
+  | CRTypedIdReferenceValue<'WebPage'>
   | SchemaOrgURL
   | CRIdReferenceValue
 

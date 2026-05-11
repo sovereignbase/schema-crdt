@@ -73,6 +73,7 @@ export type CRPersonTopic =
 /** Values accepted by Schema.org person policy document properties. */
 export type CRPersonPolicy =
   | CRCreativeWorkSnapshot
+  | CRTypedIdReferenceValue<'WebPage'>
   | SchemaOrgURL
   | CRIdReferenceValue
 

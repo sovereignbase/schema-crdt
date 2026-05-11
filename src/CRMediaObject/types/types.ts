@@ -108,7 +108,9 @@ export type CRMediaObjectDefaultShape<Type = 'MediaObject'> = {
    * Schema.org encodesCreativeWork: The CreativeWork encoded by this media object.
    */
   encodesCreativeWork: CRSetSnapshot<
-    CRCreativeWorkSnapshot | CRIdReferenceValue
+    | CRCreativeWorkSnapshot
+    | CRTypedIdReferenceValue<'WebPage'>
+    | CRIdReferenceValue
   >
   /**
    * Schema.org encodingFormat: Media type, MIME format, text or URL format.
@@ -217,7 +219,11 @@ export type CRMediaObjectState<Type = 'MediaObject'> = {
    * Schema.org encodesCreativeWork: The CreativeWork encoded by this media object.
    */
   encodesCreativeWork: Readonly<
-    CRSet<CRCreativeWorkSnapshot | CRIdReferenceValue>
+    CRSet<
+      | CRCreativeWorkSnapshot
+      | CRTypedIdReferenceValue<'WebPage'>
+      | CRIdReferenceValue
+    >
   >
   /**
    * Schema.org encodingFormat: Media type, MIME format, text or URL format.

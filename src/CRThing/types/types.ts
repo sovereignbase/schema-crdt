@@ -48,6 +48,14 @@ export type CRThingMainEntityOfPage =
   | CRIdReferenceValue
 
 /**
+ * Values accepted by Schema.org subjectOf.
+ */
+export type CRThingSubjectOf =
+  | CRTypedIdReferenceValue<'CreativeWork'>
+  | CRTypedIdReferenceValue<'WebPage'>
+  | CRIdReferenceValue
+
+/**
  * Serializable CRDT shape for Schema.org Thing.
  *
  * Schema.org: The most generic type of item.
@@ -113,7 +121,7 @@ export type CRThingDefaultShape<T = 'Thing'> = {
   /**
    * Schema.org subjectOf: A CreativeWork or Event about this Thing.
    */
-  subjectOf: CRSetSnapshot<string>
+  subjectOf: CRSetSnapshot<CRThingSubjectOf>
   /**
    * Schema.org url: URL of the item.
    */
@@ -194,7 +202,7 @@ export type CRThingState<T = 'Thing'> = {
   /**
    * Schema.org subjectOf: A CreativeWork or Event about this Thing.
    */
-  subjectOf: Readonly<CRSet<string>>
+  subjectOf: Readonly<CRSet<CRThingSubjectOf>>
   /**
    * Schema.org url: URL of the item.
    */
