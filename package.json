@@ -3,8 +3,17 @@
   "license": "Apache-2.0",
   "name": "@sovereignbase/schema-crdt",
   "version": "0.0.0",
-  "description": "",
+  "description": "Schema.org schemas modeled as CRDTs.",
   "keywords": [
+    "schema.org",
+    "crdt",
+    "json-ld",
+    "linked-data",
+    "structured-data",
+    "local-first",
+    "eventual-consistency",
+    "conflict-free",
+    "replicated-state",
     "typescript",
     "sovereignbase"
   ],
