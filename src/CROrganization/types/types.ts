@@ -85,6 +85,12 @@ export type CROrganizationPersonOrOrganization =
   | CRTypedIdReferenceValue<'Person'>
   | CRTypedIdReferenceValue<'Organization'>
 
+/** Values accepted by Schema.org organization logo. */
+export type CROrganizationLogo =
+  | SchemaOrgURL
+  | CRTypedIdReferenceValue<'ImageObject'>
+  | CRIdReferenceValue
+
 /**
  * Serializable CRDT shape for Schema.org Organization.
  *
@@ -188,7 +194,7 @@ export type CROrganizationDefaultShape<Type = 'Organization'> = {
   /** Schema.org location: Location of the organization. */
   location: CRSetSnapshot<CROrganizationPlace | CRPostalAddressSnapshot>
   /** Schema.org logo: Associated logo. */
-  logo: CRSetSnapshot<SchemaOrgURL | CRIdReferenceValue>
+  logo: CRSetSnapshot<CROrganizationLogo>
   /** Schema.org makesOffer: Products or services offered by the organization. */
   makesOffer: CRSetSnapshot<CRIdReferenceValue>
   /** Schema.org member: A member of an Organization or ProgramMembership. */
@@ -355,7 +361,7 @@ export type CROrganizationState<Type = 'Organization'> = {
   /** Schema.org location: Location of the organization. */
   location: Readonly<CRSet<CROrganizationPlace | CRPostalAddressSnapshot>>
   /** Schema.org logo: Associated logo. */
-  logo: Readonly<CRSet<SchemaOrgURL | CRIdReferenceValue>>
+  logo: Readonly<CRSet<CROrganizationLogo>>
   /** Schema.org makesOffer: Products or services offered by the organization. */
   makesOffer: Readonly<CRSet<CRIdReferenceValue>>
   /** Schema.org member: A member of an Organization or ProgramMembership. */

@@ -18,7 +18,6 @@ import type {
   CRIdReferenceValue,
   CRTypedIdReferenceValue,
 } from '../../CRIdReference/types/types.js'
-import type { CRPlaceSnapshot } from '../../CRPlace/types/types.js'
 import type { CRQuantitativeValueSnapshot } from '../../CRQuantitativeValue/types/types.js'
 import type {
   CRStructPartialSnapshot,
@@ -63,7 +62,7 @@ export type CRMediaObjectDimension =
  */
 export type CRMediaObjectRegion =
   | CRGeoShapeSnapshot
-  | CRPlaceSnapshot<string>
+  | CRTypedIdReferenceValue<'Place'>
   | SchemaOrgText
   | CRIdReferenceValue
 
@@ -142,7 +141,9 @@ export type CRMediaObjectDefaultShape<Type = 'MediaObject'> = {
   /**
    * Schema.org regionsAllowed: Regions where the media is allowed.
    */
-  regionsAllowed: CRSetSnapshot<CRPlaceSnapshot<string> | CRIdReferenceValue>
+  regionsAllowed: CRSetSnapshot<
+    CRTypedIdReferenceValue<'Place'> | CRIdReferenceValue
+  >
   /**
    * Schema.org requiresSubscription: Whether use of the media requires a subscription.
    */
@@ -249,7 +250,9 @@ export type CRMediaObjectState<Type = 'MediaObject'> = {
   /**
    * Schema.org regionsAllowed: Regions where the media is allowed.
    */
-  regionsAllowed: Readonly<CRSet<CRPlaceSnapshot<string> | CRIdReferenceValue>>
+  regionsAllowed: Readonly<
+    CRSet<CRTypedIdReferenceValue<'Place'> | CRIdReferenceValue>
+  >
   /**
    * Schema.org requiresSubscription: Whether use of the media requires a subscription.
    */

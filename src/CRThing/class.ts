@@ -219,10 +219,10 @@ export class CRThing<
       image: {
         enumerable: true,
         configurable: true,
-        get(): string {
+        get(): CRThingState<Type>['image'] {
           return state['image'] ?? defaults['image']
         },
-        set(value: string): void {
+        set(value: CRThingState<Type>['image']): void {
           this.validateFormat('image' as Extract<keyof Shape, string>, value)
           state['image'] = value
         },

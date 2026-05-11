@@ -16,7 +16,10 @@ import type { CRAggregateRatingSnapshot } from '../../CRAggregateRating/types/ty
 import type { CRGeoCoordinatesSnapshot } from '../../CRGeoCoordinates/types/types.js'
 import type { CRGeoShapeSnapshot } from '../../CRGeoShape/types/types.js'
 import type { CRGeospatialGeometryRelation } from '../../CRGeospatialGeometry/types/types.js'
-import type { CRIdReferenceValue } from '../../CRIdReference/types/types.js'
+import type {
+  CRIdReferenceValue,
+  CRTypedIdReferenceValue,
+} from '../../CRIdReference/types/types.js'
 import type { CRLocationFeatureSpecificationSnapshot } from '../../CRLocationFeatureSpecification/types/types.js'
 import type { CROpeningHoursSpecificationSnapshot } from '../../CROpeningHoursSpecification/types/types.js'
 import type { CRPostalAddressSnapshot } from '../../CRPostalAddress/types/types.js'
@@ -59,6 +62,12 @@ export type CRPlaceOpeningHoursSpecification =
   | CROpeningHoursSpecificationSnapshot
   | CRIdReferenceValue
 
+export type CRPlaceImage =
+  | SchemaOrgText
+  | SchemaOrgURL
+  | CRTypedIdReferenceValue<'ImageObject'>
+  | CRIdReferenceValue
+
 export type CRPlaceDefaultShape<Type = 'Place'> = {
   additionalProperty: CRSetSnapshot<CRPlaceAdditionalProperty>
   address: CRSetSnapshot<CRPlaceAddress>
@@ -89,11 +98,11 @@ export type CRPlaceDefaultShape<Type = 'Place'> = {
   isicV4: CRTextSnapshot
   keywords: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
   latitude: CRTextSnapshot
-  logo: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
+  logo: CRSetSnapshot<CRPlaceImage>
   longitude: CRTextSnapshot
   maximumAttendeeCapacity: SchemaOrgInteger
   openingHoursSpecification: CRSetSnapshot<CRPlaceOpeningHoursSpecification>
-  photo: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
+  photo: CRSetSnapshot<CRPlaceImage>
   publicAccess: SchemaOrgBoolean
   review: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
   slogan: CRTextSnapshot
@@ -142,11 +151,11 @@ export type CRPlaceState<Type = 'Place'> = {
   isicV4: Readonly<CRText>
   keywords: Readonly<CRSet<SchemaOrgText | SchemaOrgURL>>
   latitude: Readonly<CRText>
-  logo: Readonly<CRSet<SchemaOrgText | SchemaOrgURL>>
+  logo: Readonly<CRSet<CRPlaceImage>>
   longitude: Readonly<CRText>
   maximumAttendeeCapacity: SchemaOrgInteger
   openingHoursSpecification: Readonly<CRSet<CRPlaceOpeningHoursSpecification>>
-  photo: Readonly<CRSet<SchemaOrgText | SchemaOrgURL>>
+  photo: Readonly<CRSet<CRPlaceImage>>
   publicAccess: SchemaOrgBoolean
   review: Readonly<CRSet<SchemaOrgText | SchemaOrgURL>>
   slogan: Readonly<CRText>

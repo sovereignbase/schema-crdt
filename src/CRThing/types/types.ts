@@ -14,7 +14,10 @@ import type {
   SchemaOrgText,
   SchemaOrgURL,
 } from '../../.types/types.js'
-import type { CRTypedIdReferenceValue } from '../../CRIdReference/types/types.js'
+import type {
+  CRIdReferenceValue,
+  CRTypedIdReferenceValue,
+} from '../../CRIdReference/types/types.js'
 
 type SchemaOrgThingRaw = Extract<Thing, { '@type': 'Thing' }>
 
@@ -26,6 +29,14 @@ type SchemaOrgThing = Partial<SchemaOrgThingRaw>
 export type CRThingOwner =
   | CRTypedIdReferenceValue<'Organization'>
   | CRTypedIdReferenceValue<'Person'>
+
+/**
+ * Values accepted by Schema.org image.
+ */
+export type CRThingImage =
+  | SchemaOrgURL
+  | CRTypedIdReferenceValue<'ImageObject'>
+  | CRIdReferenceValue
 
 /**
  * Serializable CRDT shape for Schema.org Thing.
@@ -66,7 +77,7 @@ export type CRThingDefaultShape<T = 'Thing'> = {
   /**
    * Schema.org image: An image of the item.
    */
-  image: string
+  image: CRThingImage
   /**
    * Schema.org mainEntityOfPage: A page or other CreativeWork for which this
    * thing is the main entity being described.
@@ -148,7 +159,7 @@ export type CRThingState<T = 'Thing'> = {
   /**
    * Schema.org image: An image of the item.
    */
-  image: string
+  image: CRThingImage
   /**
    * Schema.org mainEntityOfPage: A page or other CreativeWork for which this
    * thing is the main entity being described.
