@@ -7,10 +7,15 @@ import {
   CRText,
   type CRTextSnapshot,
 } from '@sovereignbase/convergent-replicated-text'
+import {
+  CRList,
+  type CRListSnapshot,
+} from '@sovereignbase/convergent-replicated-list'
 import { ISO31661Alpha2 } from '@sovereignbase/utils'
 
 export const crSetSnapshot = new CRSet().toJSON()
 export const crTextSnapshot = new CRText().toJSON()
+export const crListSnapshot = new CRList().toJSON()
 
 export const award: CRSetSnapshot<string> =
   crSetSnapshot as CRSetSnapshot<string>
@@ -45,3 +50,6 @@ export const sameAs: CRSetSnapshot<string> =
 
 export const subjectOf: CRSetSnapshot<string> =
   crSetSnapshot as CRSetSnapshot<string>
+
+export const itemListElement: CRListSnapshot<unknown> =
+  crListSnapshot as CRListSnapshot<unknown>

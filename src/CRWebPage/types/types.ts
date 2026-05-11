@@ -8,11 +8,17 @@ import type {
   CRCreativeWorkDefaultShape,
   CRCreativeWorkState,
 } from '../../CRCreativeWork/types/types.js'
+import type { CRBreadcrumbListSnapshot } from '../../CRBreadcrumbList/types/types.js'
 import type { CRImageObjectSnapshot } from '../../CRImageObject/types/types.js'
+import type { CROrganizationSnapshot } from '../../CROrganization/types/types.js'
+import type { CRPersonSnapshot } from '../../CRPerson/types/types.js'
 import type {
   CRIdReferenceValue,
   CRTypedIdReferenceValue,
 } from '../../CRIdReference/types/types.js'
+import type { CRSpeakableSpecificationSnapshot } from '../../CRSpeakableSpecification/types/types.js'
+import type { CRSpecialtySnapshot } from '../../CRSpecialty/types/types.js'
+import type { CRWebPageElementSnapshot } from '../../CRWebPageElement/types/types.js'
 import type {
   CRStructPartialSnapshot,
   SchemaOrgDate,
@@ -28,6 +34,7 @@ type SchemaOrgWebPage = Partial<SchemaOrgWebPageRaw>
  * Values accepted by Schema.org breadcrumb.
  */
 export type CRWebPageBreadcrumb =
+  | CRBreadcrumbListSnapshot
   | CRTypedIdReferenceValue<'BreadcrumbList'>
   | SchemaOrgText
   | CRIdReferenceValue
@@ -36,6 +43,7 @@ export type CRWebPageBreadcrumb =
  * Values accepted by Schema.org mainContentOfPage.
  */
 export type CRWebPageMainContent =
+  | CRWebPageElementSnapshot
   | CRTypedIdReferenceValue<'WebPageElement'>
   | CRIdReferenceValue
 
@@ -51,6 +59,8 @@ export type CRWebPagePrimaryImage =
  * Values accepted by Schema.org reviewedBy.
  */
 export type CRWebPageReviewedBy =
+  | CROrganizationSnapshot
+  | CRPersonSnapshot
   | CRTypedIdReferenceValue<'Organization'>
   | CRTypedIdReferenceValue<'Person'>
   | CRIdReferenceValue
@@ -59,6 +69,7 @@ export type CRWebPageReviewedBy =
  * Values accepted by Schema.org speakable.
  */
 export type CRWebPageSpeakable =
+  | CRSpeakableSpecificationSnapshot
   | CRTypedIdReferenceValue<'SpeakableSpecification'>
   | SchemaOrgURL
   | CRIdReferenceValue
@@ -67,6 +78,7 @@ export type CRWebPageSpeakable =
  * Values accepted by Schema.org specialty.
  */
 export type CRWebPageSpecialty =
+  | CRSpecialtySnapshot
   | CRTypedIdReferenceValue<'Specialty'>
   | CRIdReferenceValue
 
