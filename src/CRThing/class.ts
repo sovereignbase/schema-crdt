@@ -230,10 +230,10 @@ export class CRThing<
       mainEntityOfPage: {
         enumerable: true,
         configurable: true,
-        get(): string {
+        get(): CRThingState<Type>['mainEntityOfPage'] {
           return state['mainEntityOfPage'] ?? defaults['mainEntityOfPage']
         },
-        set(value: string): void {
+        set(value: CRThingState<Type>['mainEntityOfPage']): void {
           this.validateFormat(
             'mainEntityOfPage' as Extract<keyof Shape, string>,
             value

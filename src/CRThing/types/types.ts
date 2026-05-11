@@ -39,6 +39,15 @@ export type CRThingImage =
   | CRIdReferenceValue
 
 /**
+ * Values accepted by Schema.org mainEntityOfPage.
+ */
+export type CRThingMainEntityOfPage =
+  | SchemaOrgURL
+  | CRTypedIdReferenceValue<'CreativeWork'>
+  | CRTypedIdReferenceValue<'WebPage'>
+  | CRIdReferenceValue
+
+/**
  * Serializable CRDT shape for Schema.org Thing.
  *
  * Schema.org: The most generic type of item.
@@ -82,7 +91,7 @@ export type CRThingDefaultShape<T = 'Thing'> = {
    * Schema.org mainEntityOfPage: A page or other CreativeWork for which this
    * thing is the main entity being described.
    */
-  mainEntityOfPage: SchemaOrgURL
+  mainEntityOfPage: CRThingMainEntityOfPage
   /**
    * Schema.org name: The name of the item.
    */
@@ -164,7 +173,7 @@ export type CRThingState<T = 'Thing'> = {
    * Schema.org mainEntityOfPage: A page or other CreativeWork for which this
    * thing is the main entity being described.
    */
-  mainEntityOfPage: string
+  mainEntityOfPage: CRThingMainEntityOfPage
   /**
    * Schema.org name: The name of the item.
    */
