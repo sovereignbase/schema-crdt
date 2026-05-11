@@ -20,6 +20,7 @@ import type {
 } from '../../CRIdReference/types/types.js'
 import type { CRPlaceSnapshot } from '../../CRPlace/types/types.js'
 import type { CRPostalAddressSnapshot } from '../../CRPostalAddress/types/types.js'
+import type { CRReviewSnapshot } from '../../CRReview/types/types.js'
 import type {
   CRThingDefaultShape,
   CRThingSnapshot,
@@ -95,6 +96,12 @@ export type CROrganizationLogo =
 /** Values accepted by Schema.org organization event properties. */
 export type CROrganizationEvent =
   | CRTypedIdReferenceValue<'Event'>
+  | CRIdReferenceValue
+
+/** Values accepted by Schema.org organization review properties. */
+export type CROrganizationReview =
+  | CRReviewSnapshot
+  | CRTypedIdReferenceValue<'Review'>
   | CRIdReferenceValue
 
 /**
@@ -224,7 +231,9 @@ export type CROrganizationDefaultShape<Type = 'Organization'> = {
   /** Schema.org publishingPrinciples: Editorial principles document. */
   publishingPrinciples: CRSetSnapshot<CROrganizationPolicy>
   /** Schema.org review: A review of the item. */
-  review: CRSetSnapshot<CRIdReferenceValue>
+  review: CRSetSnapshot<CROrganizationReview>
+  /** Schema.org reviews: Reviews of the item. */
+  reviews: CRSetSnapshot<CROrganizationReview>
   /** Schema.org seeks: Products or services sought by the organization. */
   seeks: CRSetSnapshot<CRIdReferenceValue>
   /** Schema.org skills: Competency statement. */
@@ -393,7 +402,9 @@ export type CROrganizationState<Type = 'Organization'> = {
   /** Schema.org publishingPrinciples: Editorial principles document. */
   publishingPrinciples: Readonly<CRSet<CROrganizationPolicy>>
   /** Schema.org review: A review of the item. */
-  review: Readonly<CRSet<CRIdReferenceValue>>
+  review: Readonly<CRSet<CROrganizationReview>>
+  /** Schema.org reviews: Reviews of the item. */
+  reviews: Readonly<CRSet<CROrganizationReview>>
   /** Schema.org seeks: Products or services sought by the organization. */
   seeks: Readonly<CRSet<CRIdReferenceValue>>
   /** Schema.org skills: Competency statement. */

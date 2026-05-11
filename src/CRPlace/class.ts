@@ -57,6 +57,7 @@ export class CRPlace<
   declare public photo: CRPlaceState<Type>['photo']
   declare public publicAccess: CRPlaceState<Type>['publicAccess']
   declare public review: CRPlaceState<Type>['review']
+  declare public reviews: CRPlaceState<Type>['reviews']
   declare public slogan: CRPlaceState<Type>['slogan']
   declare public smokingAllowed: CRPlaceState<Type>['smokingAllowed']
   declare public specialOpeningHoursSpecification: CRPlaceState<Type>['specialOpeningHoursSpecification']
@@ -125,6 +126,7 @@ export class CRPlace<
         photo: additionalType,
         publicAccess: false,
         review: additionalType,
+        reviews: additionalType,
         slogan: description,
         smokingAllowed: false,
         specialOpeningHoursSpecification:
@@ -166,6 +168,7 @@ export class CRPlace<
         openingHoursSpecification: 'set',
         photo: 'set',
         review: 'set',
+        reviews: 'set',
         slogan: 'text',
         specialOpeningHoursSpecification: 'set',
         telephone: 'text',

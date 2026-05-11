@@ -86,6 +86,7 @@ export class CROrganization<
   declare public parentOrganization: CROrganizationState<Type>['parentOrganization']
   declare public publishingPrinciples: CROrganizationState<Type>['publishingPrinciples']
   declare public review: CROrganizationState<Type>['review']
+  declare public reviews: CROrganizationState<Type>['reviews']
   declare public seeks: CROrganizationState<Type>['seeks']
   declare public skills: CROrganizationState<Type>['skills']
   declare public slogan: CROrganizationState<Type>['slogan']
@@ -167,6 +168,7 @@ export class CROrganization<
         parentOrganization: crSetSnapshot,
         publishingPrinciples: crSetSnapshot,
         review: crSetSnapshot,
+        reviews: crSetSnapshot,
         seeks: crSetSnapshot,
         skills: crSetSnapshot,
         slogan: crTextSnapshot,
@@ -234,6 +236,7 @@ export class CROrganization<
         parentOrganization: 'set',
         publishingPrinciples: 'set',
         review: 'set',
+        reviews: 'set',
         seeks: 'set',
         skills: 'set',
         slogan: 'text',

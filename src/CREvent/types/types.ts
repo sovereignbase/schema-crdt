@@ -23,6 +23,7 @@ import type { CRPersonSnapshot } from '../../CRPerson/types/types.js'
 import type { CRPlaceSnapshot } from '../../CRPlace/types/types.js'
 import type { CRPostalAddressSnapshot } from '../../CRPostalAddress/types/types.js'
 import type { CRQuantitativeValueSnapshot } from '../../CRQuantitativeValue/types/types.js'
+import type { CRReviewSnapshot } from '../../CRReview/types/types.js'
 import type { CRScheduleSnapshot } from '../../CRSchedule/types/types.js'
 import type {
   CRThingDefaultShape,
@@ -165,6 +166,7 @@ export type CREventReference =
  * Values accepted by Schema.org review.
  */
 export type CREventReview =
+  | CRReviewSnapshot
   | CRTypedIdReferenceValue<'Review'>
   | CRIdReferenceValue
 

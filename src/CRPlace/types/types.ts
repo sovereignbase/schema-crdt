@@ -70,6 +70,10 @@ export type CRPlaceImage =
   | CRTypedIdReferenceValue<'ImageObject'>
   | CRIdReferenceValue
 
+export type CRPlaceReview =
+  | CRTypedIdReferenceValue<'Review'>
+  | CRIdReferenceValue
+
 export type CRPlaceDefaultShape<Type = 'Place'> = {
   additionalProperty: CRSetSnapshot<CRPlaceAdditionalProperty>
   address: CRSetSnapshot<CRPlaceAddress>
@@ -107,7 +111,8 @@ export type CRPlaceDefaultShape<Type = 'Place'> = {
   openingHoursSpecification: CRSetSnapshot<CRPlaceOpeningHoursSpecification>
   photo: CRSetSnapshot<CRPlaceImage>
   publicAccess: SchemaOrgBoolean
-  review: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
+  review: CRSetSnapshot<CRPlaceReview>
+  reviews: CRSetSnapshot<CRPlaceReview>
   slogan: CRTextSnapshot
   smokingAllowed: SchemaOrgBoolean
   specialOpeningHoursSpecification: CRSetSnapshot<CRPlaceOpeningHoursSpecification>
@@ -161,7 +166,8 @@ export type CRPlaceState<Type = 'Place'> = {
   openingHoursSpecification: Readonly<CRSet<CRPlaceOpeningHoursSpecification>>
   photo: Readonly<CRSet<CRPlaceImage>>
   publicAccess: SchemaOrgBoolean
-  review: Readonly<CRSet<SchemaOrgText | SchemaOrgURL>>
+  review: Readonly<CRSet<CRPlaceReview>>
+  reviews: Readonly<CRSet<CRPlaceReview>>
   slogan: Readonly<CRText>
   smokingAllowed: SchemaOrgBoolean
   specialOpeningHoursSpecification: Readonly<
