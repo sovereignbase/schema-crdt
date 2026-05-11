@@ -117,6 +117,10 @@ export type CRWebPageDefaultShape<Type = 'WebPage'> = {
    */
   significantLink: CRSetSnapshot<SchemaOrgURL>
   /**
+   * Schema.org significantLinks: Deprecated alias for significantLink.
+   */
+  significantLinks: CRSetSnapshot<SchemaOrgURL>
+  /**
    * Schema.org speakable: Speakable sections of the web page.
    */
   speakable: CRSetSnapshot<CRWebPageSpeakable>
@@ -170,6 +174,10 @@ export type CRWebPageState<Type = 'WebPage'> = {
    * Schema.org significantLink: Significant URL on the page.
    */
   significantLink: Readonly<CRSet<SchemaOrgURL>>
+  /**
+   * Schema.org significantLinks: Deprecated alias for significantLink.
+   */
+  significantLinks: Readonly<CRSet<SchemaOrgURL>>
   /**
    * Schema.org speakable: Speakable sections of the web page.
    */

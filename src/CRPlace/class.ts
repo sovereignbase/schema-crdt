@@ -25,6 +25,7 @@ export class CRPlace<
   declare public aggregateRating: CRPlaceState<Type>['aggregateRating']
   declare public amenityFeature: CRPlaceState<Type>['amenityFeature']
   declare public branchCode: CRPlaceState<Type>['branchCode']
+  declare public containedIn: CRPlaceState<Type>['containedIn']
   declare public containedInPlace: CRPlaceState<Type>['containedInPlace']
   declare public containsPlace: CRPlaceState<Type>['containsPlace']
   declare public event: CRPlaceState<Type>['event']
@@ -55,9 +56,12 @@ export class CRPlace<
   declare public maximumAttendeeCapacity: CRPlaceState<Type>['maximumAttendeeCapacity']
   declare public openingHoursSpecification: CRPlaceState<Type>['openingHoursSpecification']
   declare public photo: CRPlaceState<Type>['photo']
+  declare public photos: CRPlaceState<Type>['photos']
   declare public publicAccess: CRPlaceState<Type>['publicAccess']
   declare public review: CRPlaceState<Type>['review']
   declare public reviews: CRPlaceState<Type>['reviews']
+  declare public map: CRPlaceState<Type>['map']
+  declare public maps: CRPlaceState<Type>['maps']
   declare public slogan: CRPlaceState<Type>['slogan']
   declare public smokingAllowed: CRPlaceState<Type>['smokingAllowed']
   declare public specialOpeningHoursSpecification: CRPlaceState<Type>['specialOpeningHoursSpecification']
@@ -83,6 +87,7 @@ export class CRPlace<
         amenityFeature:
           additionalType as unknown as CRPlaceDefaultShape<Type>['amenityFeature'],
         branchCode: description,
+        containedIn: additionalType,
         containedInPlace: additionalType,
         containsPlace: additionalType,
         event: additionalType,
@@ -124,9 +129,12 @@ export class CRPlace<
         openingHoursSpecification:
           additionalType as unknown as CRPlaceDefaultShape<Type>['openingHoursSpecification'],
         photo: additionalType,
+        photos: additionalType,
         publicAccess: false,
         review: additionalType,
         reviews: additionalType,
+        map: additionalType,
+        maps: additionalType,
         slogan: description,
         smokingAllowed: false,
         specialOpeningHoursSpecification:
@@ -141,6 +149,7 @@ export class CRPlace<
         aggregateRating: 'set',
         amenityFeature: 'set',
         branchCode: 'text',
+        containedIn: 'set',
         containedInPlace: 'set',
         containsPlace: 'set',
         event: 'set',
@@ -167,8 +176,11 @@ export class CRPlace<
         longitude: 'text',
         openingHoursSpecification: 'set',
         photo: 'set',
+        photos: 'set',
         review: 'set',
         reviews: 'set',
+        map: 'set',
+        maps: 'set',
         slogan: 'text',
         specialOpeningHoursSpecification: 'set',
         telephone: 'text',

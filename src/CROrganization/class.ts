@@ -34,9 +34,11 @@ export class CROrganization<
   declare public alumni: CROrganizationState<Type>['alumni']
   declare public areaServed: CROrganizationState<Type>['areaServed']
   declare public award: CROrganizationState<Type>['award']
+  declare public awards: CROrganizationState<Type>['awards']
   declare public brand: CROrganizationState<Type>['brand']
   declare public companyRegistration: CROrganizationState<Type>['companyRegistration']
   declare public contactPoint: CROrganizationState<Type>['contactPoint']
+  declare public contactPoints: CROrganizationState<Type>['contactPoints']
   declare public correctionsPolicy: CROrganizationState<Type>['correctionsPolicy']
   declare public department: CROrganizationState<Type>['department']
   declare public dissolutionDate: CROrganizationState<Type>['dissolutionDate']
@@ -45,11 +47,13 @@ export class CROrganization<
   declare public duns: CROrganizationState<Type>['duns']
   declare public email: CROrganizationState<Type>['email']
   declare public employee: CROrganizationState<Type>['employee']
+  declare public employees: CROrganizationState<Type>['employees']
   declare public ethicsPolicy: CROrganizationState<Type>['ethicsPolicy']
   declare public event: CROrganizationState<Type>['event']
   declare public events: CROrganizationState<Type>['events']
   declare public faxNumber: CROrganizationState<Type>['faxNumber']
   declare public founder: CROrganizationState<Type>['founder']
+  declare public founders: CROrganizationState<Type>['founders']
   declare public foundingDate: CROrganizationState<Type>['foundingDate']
   declare public foundingLocation: CROrganizationState<Type>['foundingLocation']
   declare public funder: CROrganizationState<Type>['funder']
@@ -60,6 +64,7 @@ export class CROrganization<
   declare public hasGS1DigitalLink: CROrganizationState<Type>['hasGS1DigitalLink']
   declare public hasMemberProgram: CROrganizationState<Type>['hasMemberProgram']
   declare public hasMerchantReturnPolicy: CROrganizationState<Type>['hasMerchantReturnPolicy']
+  declare public hasProductReturnPolicy: CROrganizationState<Type>['hasProductReturnPolicy']
   declare public hasOfferCatalog: CROrganizationState<Type>['hasOfferCatalog']
   declare public hasPOS: CROrganizationState<Type>['hasPOS']
   declare public hasShippingService: CROrganizationState<Type>['hasShippingService']
@@ -77,6 +82,7 @@ export class CROrganization<
   declare public logo: CROrganizationState<Type>['logo']
   declare public makesOffer: CROrganizationState<Type>['makesOffer']
   declare public member: CROrganizationState<Type>['member']
+  declare public members: CROrganizationState<Type>['members']
   declare public memberOf: CROrganizationState<Type>['memberOf']
   declare public naics: CROrganizationState<Type>['naics']
   declare public nonprofitStatus: CROrganizationState<Type>['nonprofitStatus']
@@ -88,6 +94,7 @@ export class CROrganization<
   declare public review: CROrganizationState<Type>['review']
   declare public reviews: CROrganizationState<Type>['reviews']
   declare public seeks: CROrganizationState<Type>['seeks']
+  declare public serviceArea: CROrganizationState<Type>['serviceArea']
   declare public skills: CROrganizationState<Type>['skills']
   declare public slogan: CROrganizationState<Type>['slogan']
   declare public sponsor: CROrganizationState<Type>['sponsor']
@@ -116,9 +123,11 @@ export class CROrganization<
         alumni: crSetSnapshot,
         areaServed: crSetSnapshot,
         award: crSetSnapshot,
+        awards: crSetSnapshot,
         brand: crSetSnapshot,
         companyRegistration: crSetSnapshot,
         contactPoint: crSetSnapshot,
+        contactPoints: crSetSnapshot,
         correctionsPolicy: crSetSnapshot,
         department: crSetSnapshot,
         dissolutionDate: '',
@@ -127,11 +136,13 @@ export class CROrganization<
         duns: crTextSnapshot,
         email: crTextSnapshot,
         employee: crSetSnapshot,
+        employees: crSetSnapshot,
         ethicsPolicy: crSetSnapshot,
         event: crSetSnapshot,
         events: crSetSnapshot,
         faxNumber: crTextSnapshot,
         founder: crSetSnapshot,
+        founders: crSetSnapshot,
         foundingDate: '',
         foundingLocation: crSetSnapshot,
         funder: crSetSnapshot,
@@ -142,6 +153,7 @@ export class CROrganization<
         hasGS1DigitalLink: '',
         hasMemberProgram: crSetSnapshot,
         hasMerchantReturnPolicy: crSetSnapshot,
+        hasProductReturnPolicy: crSetSnapshot,
         hasOfferCatalog: crSetSnapshot,
         hasPOS: crSetSnapshot,
         hasShippingService: crSetSnapshot,
@@ -159,6 +171,7 @@ export class CROrganization<
         logo: crSetSnapshot,
         makesOffer: crSetSnapshot,
         member: crSetSnapshot,
+        members: crSetSnapshot,
         memberOf: crSetSnapshot,
         naics: crTextSnapshot,
         nonprofitStatus: { '@id': '' },
@@ -170,6 +183,7 @@ export class CROrganization<
         review: crSetSnapshot,
         reviews: crSetSnapshot,
         seeks: crSetSnapshot,
+        serviceArea: crSetSnapshot,
         skills: crSetSnapshot,
         slogan: crTextSnapshot,
         sponsor: crSetSnapshot,
@@ -189,9 +203,11 @@ export class CROrganization<
         alumni: 'set',
         areaServed: 'set',
         award: 'set',
+        awards: 'set',
         brand: 'set',
         companyRegistration: 'set',
         contactPoint: 'set',
+        contactPoints: 'set',
         correctionsPolicy: 'set',
         department: 'set',
         diversityPolicy: 'set',
@@ -199,11 +215,13 @@ export class CROrganization<
         duns: 'text',
         email: 'text',
         employee: 'set',
+        employees: 'set',
         ethicsPolicy: 'set',
         event: 'set',
         events: 'set',
         faxNumber: 'text',
         founder: 'set',
+        founders: 'set',
         foundingLocation: 'set',
         funder: 'set',
         funding: 'set',
@@ -212,6 +230,7 @@ export class CROrganization<
         hasCredential: 'set',
         hasMemberProgram: 'set',
         hasMerchantReturnPolicy: 'set',
+        hasProductReturnPolicy: 'set',
         hasOfferCatalog: 'set',
         hasPOS: 'set',
         hasShippingService: 'set',
@@ -229,6 +248,7 @@ export class CROrganization<
         logo: 'set',
         makesOffer: 'set',
         member: 'set',
+        members: 'set',
         memberOf: 'set',
         naics: 'text',
         ownershipFundingInfo: 'set',
@@ -238,6 +258,7 @@ export class CROrganization<
         review: 'set',
         reviews: 'set',
         seeks: 'set',
+        serviceArea: 'set',
         skills: 'set',
         slogan: 'text',
         sponsor: 'set',

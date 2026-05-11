@@ -64,10 +64,20 @@ export type CRPlaceOpeningHoursSpecification =
 
 export type CRPlaceEvent = CRTypedIdReferenceValue<'Event'> | CRIdReferenceValue
 
+export type CRPlaceRelation =
+  | CRTypedIdReferenceValue<'Place'>
+  | CRIdReferenceValue
+
+export type CRPlaceMap =
+  | CRTypedIdReferenceValue<'Map'>
+  | SchemaOrgURL
+  | CRIdReferenceValue
+
 export type CRPlaceImage =
   | SchemaOrgText
   | SchemaOrgURL
   | CRTypedIdReferenceValue<'ImageObject'>
+  | CRTypedIdReferenceValue<'Photograph'>
   | CRIdReferenceValue
 
 export type CRPlaceReview =
@@ -80,8 +90,9 @@ export type CRPlaceDefaultShape<Type = 'Place'> = {
   aggregateRating: CRSetSnapshot<CRPlaceAggregateRating>
   amenityFeature: CRSetSnapshot<CRPlaceAmenityFeature>
   branchCode: CRTextSnapshot
-  containedInPlace: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
-  containsPlace: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
+  containedIn: CRSetSnapshot<CRPlaceRelation>
+  containedInPlace: CRSetSnapshot<CRPlaceRelation>
+  containsPlace: CRSetSnapshot<CRPlaceRelation>
   event: CRSetSnapshot<CRPlaceEvent>
   events: CRSetSnapshot<CRPlaceEvent>
   faxNumber: CRTextSnapshot
@@ -100,7 +111,7 @@ export type CRPlaceDefaultShape<Type = 'Place'> = {
   hasCertification: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
   hasDriveThroughService: SchemaOrgBoolean
   hasGS1DigitalLink: SchemaOrgURL
-  hasMap: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
+  hasMap: CRSetSnapshot<CRPlaceMap>
   isAccessibleForFree: SchemaOrgBoolean
   isicV4: CRTextSnapshot
   keywords: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
@@ -110,9 +121,12 @@ export type CRPlaceDefaultShape<Type = 'Place'> = {
   maximumAttendeeCapacity: SchemaOrgInteger
   openingHoursSpecification: CRSetSnapshot<CRPlaceOpeningHoursSpecification>
   photo: CRSetSnapshot<CRPlaceImage>
+  photos: CRSetSnapshot<CRPlaceImage>
   publicAccess: SchemaOrgBoolean
   review: CRSetSnapshot<CRPlaceReview>
   reviews: CRSetSnapshot<CRPlaceReview>
+  map: CRSetSnapshot<SchemaOrgURL>
+  maps: CRSetSnapshot<SchemaOrgURL>
   slogan: CRTextSnapshot
   smokingAllowed: SchemaOrgBoolean
   specialOpeningHoursSpecification: CRSetSnapshot<CRPlaceOpeningHoursSpecification>
@@ -135,8 +149,9 @@ export type CRPlaceState<Type = 'Place'> = {
   aggregateRating: Readonly<CRSet<CRPlaceAggregateRating>>
   amenityFeature: Readonly<CRSet<CRPlaceAmenityFeature>>
   branchCode: Readonly<CRText>
-  containedInPlace: Readonly<CRSet<SchemaOrgText | SchemaOrgURL>>
-  containsPlace: Readonly<CRSet<SchemaOrgText | SchemaOrgURL>>
+  containedIn: Readonly<CRSet<CRPlaceRelation>>
+  containedInPlace: Readonly<CRSet<CRPlaceRelation>>
+  containsPlace: Readonly<CRSet<CRPlaceRelation>>
   event: Readonly<CRSet<CRPlaceEvent>>
   events: Readonly<CRSet<CRPlaceEvent>>
   faxNumber: Readonly<CRText>
@@ -155,7 +170,7 @@ export type CRPlaceState<Type = 'Place'> = {
   hasCertification: Readonly<CRSet<SchemaOrgText | SchemaOrgURL>>
   hasDriveThroughService: SchemaOrgBoolean
   hasGS1DigitalLink: SchemaOrgURL
-  hasMap: Readonly<CRSet<SchemaOrgText | SchemaOrgURL>>
+  hasMap: Readonly<CRSet<CRPlaceMap>>
   isAccessibleForFree: SchemaOrgBoolean
   isicV4: Readonly<CRText>
   keywords: Readonly<CRSet<SchemaOrgText | SchemaOrgURL>>
@@ -165,9 +180,12 @@ export type CRPlaceState<Type = 'Place'> = {
   maximumAttendeeCapacity: SchemaOrgInteger
   openingHoursSpecification: Readonly<CRSet<CRPlaceOpeningHoursSpecification>>
   photo: Readonly<CRSet<CRPlaceImage>>
+  photos: Readonly<CRSet<CRPlaceImage>>
   publicAccess: SchemaOrgBoolean
   review: Readonly<CRSet<CRPlaceReview>>
   reviews: Readonly<CRSet<CRPlaceReview>>
+  map: Readonly<CRSet<SchemaOrgURL>>
+  maps: Readonly<CRSet<SchemaOrgURL>>
   slogan: Readonly<CRText>
   smokingAllowed: SchemaOrgBoolean
   specialOpeningHoursSpecification: Readonly<
