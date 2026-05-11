@@ -1,6 +1,7 @@
 export * from './.errors/class.js'
 export * from './.types/types.js'
 export * from './CRThing/class.js'
+export * from './CRAction/class.js'
 export * from './CRIdReference/class.js'
 export * from './CRIntangible/class.js'
 export * from './CRGeospatialGeometry/class.js'
