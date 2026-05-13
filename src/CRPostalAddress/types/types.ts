@@ -9,7 +9,10 @@ import type {
   CRContactPointDefaultShape,
   CRContactPointState,
 } from '../../CRContactPoint/types/types.js'
-import type { CRIdReferenceValue } from '../../CRIdReference/types/types.js'
+import type {
+  CRIdReferenceValue,
+  CRTypedIdReferenceValue,
+} from '../../CRIdReference/types/types.js'
 import type {
   CRStructPartialSnapshot,
   SchemaOrgPostalCode,
@@ -27,6 +30,7 @@ type SchemaOrgPostalAddress = Partial<SchemaOrgPostalAddressRaw>
  * Values accepted by Schema.org addressCountry.
  */
 export type CRPostalAddressCountry =
+  | CRTypedIdReferenceValue<'Country'>
   | ISO31661Alpha2
   | SchemaOrgText
   | CRIdReferenceValue
@@ -34,7 +38,10 @@ export type CRPostalAddressCountry =
 /**
  * Values accepted by Schema.org addressRegion.
  */
-export type CRPostalAddressRegion = SchemaOrgText | CRIdReferenceValue
+export type CRPostalAddressRegion =
+  | CRTypedIdReferenceValue<'AdministrativeArea'>
+  | SchemaOrgText
+  | CRIdReferenceValue
 
 /**
  * Serializable CRDT shape for Schema.org PostalAddress.

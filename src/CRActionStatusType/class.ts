@@ -1,6 +1,6 @@
 import type { CRStructSnapshot } from '@sovereignbase/convergent-replicated-struct'
 
-import { CREnumeration } from '../CREnumeration/class.js'
+import { CRStatusEnumeration } from '../CRStatusEnumeration/class.js'
 
 import type {
   CRActionStatusTypeDefaultShape,
@@ -20,7 +20,7 @@ export class CRActionStatusType<
     CRStructSnapshot<Shape>
   >,
 >
-  extends CREnumeration<Type, Shape, Snapshot>
+  extends CRStatusEnumeration<Type, Shape, Snapshot>
   implements CRActionStatusTypeState<Type>
 {
   /**

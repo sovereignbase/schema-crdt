@@ -20,6 +20,7 @@ import type {
 } from '../../CRIdReference/types/types.js'
 import type { CRPlaceSnapshot } from '../../CRPlace/types/types.js'
 import type { CRPostalAddressSnapshot } from '../../CRPostalAddress/types/types.js'
+import type { CRQuantitativeValueSnapshot } from '../../CRQuantitativeValue/types/types.js'
 import type { CRReviewSnapshot } from '../../CRReview/types/types.js'
 import type {
   CRThingDefaultShape,
@@ -45,6 +46,8 @@ type SchemaOrgOrganization = Partial<SchemaOrgOrganizationRaw>
  */
 export type CROrganizationPolicy =
   | CRCreativeWorkSnapshot
+  | CRTypedIdReferenceValue<'AboutPage'>
+  | CRTypedIdReferenceValue<'Article'>
   | CRTypedIdReferenceValue<'WebPage'>
   | SchemaOrgURL
   | CRIdReferenceValue
@@ -63,6 +66,9 @@ export type CROrganizationAddress =
 export type CROrganizationPlace =
   | CRPlaceSnapshot<string>
   | CRGeoShapeSnapshot
+  | CRTypedIdReferenceValue<'AdministrativeArea'>
+  | CRTypedIdReferenceValue<'GeoShape'>
+  | CRTypedIdReferenceValue<'Place'>
   | SchemaOrgText
   | CRIdReferenceValue
 
@@ -81,6 +87,11 @@ export type CROrganizationPerson = CRTypedIdReferenceValue<'Person'>
 
 /** Values accepted by Schema.org organization-organization relationship properties. */
 export type CROrganizationOrganization = CRTypedIdReferenceValue<'Organization'>
+
+/** Values accepted by Schema.org organization brand properties. */
+export type CROrganizationBrand =
+  | CRTypedIdReferenceValue<'Brand'>
+  | CROrganizationOrganization
 
 /** Values accepted by Schema.org person or organization relationship properties. */
 export type CROrganizationPersonOrOrganization =
@@ -112,14 +123,19 @@ export type CROrganizationReview =
 export type CROrganizationDefaultShape<Type = 'Organization'> = {
   /** Schema.org acceptedPaymentMethod: Payment methods accepted by an organization. */
   acceptedPaymentMethod: CRSetSnapshot<
-    CREnumerationSnapshot<'PaymentMethod'> | CRIdReferenceValue
+    | CREnumerationSnapshot<'PaymentMethod'>
+    | CRTypedIdReferenceValue<'LoanOrCredit'>
+    | CRTypedIdReferenceValue<'PaymentMethod'>
+    | CRIdReferenceValue
   >
   /** Schema.org actionableFeedbackPolicy: Public engagement policy statement. */
   actionableFeedbackPolicy: CRSetSnapshot<CROrganizationPolicy>
   /** Schema.org address: Physical address of the item. */
   address: CRSetSnapshot<CROrganizationAddress>
   /** Schema.org agentInteractionStatistic: Completed interactions for this entity. */
-  agentInteractionStatistic: CRSetSnapshot<CRIdReferenceValue>
+  agentInteractionStatistic: CRSetSnapshot<
+    CRTypedIdReferenceValue<'InteractionCounter'> | CRIdReferenceValue
+  >
   /** Schema.org aggregateRating: Overall rating based on reviews or ratings. */
   aggregateRating: CRSetSnapshot<CRAggregateRatingSnapshot | CRIdReferenceValue>
   /** Schema.org alumni: Alumni of an organization. */
@@ -129,9 +145,11 @@ export type CROrganizationDefaultShape<Type = 'Organization'> = {
   /** Schema.org award: An award won by or for this item. */
   award: CRSetSnapshot<SchemaOrgText>
   /** Schema.org brand: Brands associated with a product, service or organization. */
-  brand: CRSetSnapshot<CROrganizationOrganization>
+  brand: CRSetSnapshot<CROrganizationBrand>
   /** Schema.org companyRegistration: Official business registration information. */
-  companyRegistration: CRSetSnapshot<CRIdReferenceValue>
+  companyRegistration: CRSetSnapshot<
+    CRTypedIdReferenceValue<'Certification'> | CRIdReferenceValue
+  >
   /** Schema.org contactPoint: A contact point for a person or organization. */
   contactPoint: CRSetSnapshot<CRContactPointSnapshot | CRIdReferenceValue>
   /** Schema.org correctionsPolicy: Disclosure and correction policy for errors. */
@@ -165,27 +183,41 @@ export type CROrganizationDefaultShape<Type = 'Organization'> = {
   /** Schema.org funder: Person or organization that supports something financially. */
   funder: CRSetSnapshot<CROrganizationPersonOrOrganization>
   /** Schema.org funding: Grant that provides funding or sponsorship. */
-  funding: CRSetSnapshot<CRIdReferenceValue>
+  funding: CRSetSnapshot<CRTypedIdReferenceValue<'Grant'> | CRIdReferenceValue>
   /** Schema.org globalLocationNumber: GS1 Global Location Number. */
   globalLocationNumber: CRTextSnapshot
   /** Schema.org hasCertification: Certification information. */
-  hasCertification: CRSetSnapshot<CRIdReferenceValue>
+  hasCertification: CRSetSnapshot<
+    CRTypedIdReferenceValue<'Certification'> | CRIdReferenceValue
+  >
   /** Schema.org hasCredential: Credential awarded to the organization. */
-  hasCredential: CRSetSnapshot<CRIdReferenceValue>
+  hasCredential: CRSetSnapshot<
+    CRTypedIdReferenceValue<'Credential'> | CRIdReferenceValue
+  >
   /** Schema.org hasGS1DigitalLink: GS1 digital link URL. */
   hasGS1DigitalLink: SchemaOrgURL
   /** Schema.org hasMemberProgram: MemberProgram offered by an organization. */
-  hasMemberProgram: CRSetSnapshot<CRIdReferenceValue>
+  hasMemberProgram: CRSetSnapshot<
+    CRTypedIdReferenceValue<'MemberProgram'> | CRIdReferenceValue
+  >
   /** Schema.org hasMerchantReturnPolicy: Applicable merchant return policy. */
-  hasMerchantReturnPolicy: CRSetSnapshot<CRIdReferenceValue>
+  hasMerchantReturnPolicy: CRSetSnapshot<
+    CRTypedIdReferenceValue<'MerchantReturnPolicy'> | CRIdReferenceValue
+  >
   /** Schema.org hasOfferCatalog: OfferCatalog listing for this organization. */
-  hasOfferCatalog: CRSetSnapshot<CRIdReferenceValue>
+  hasOfferCatalog: CRSetSnapshot<
+    CRTypedIdReferenceValue<'OfferCatalog'> | CRIdReferenceValue
+  >
   /** Schema.org hasPOS: Points-of-sale operated by the organization. */
   hasPOS: CRSetSnapshot<CROrganizationPlace>
   /** Schema.org hasShippingService: Shipping service offered by the organization. */
-  hasShippingService: CRSetSnapshot<CRIdReferenceValue>
+  hasShippingService: CRSetSnapshot<
+    CRTypedIdReferenceValue<'ShippingService'> | CRIdReferenceValue
+  >
   /** Schema.org interactionStatistic: Interaction counter for this entity. */
-  interactionStatistic: CRSetSnapshot<CRIdReferenceValue>
+  interactionStatistic: CRSetSnapshot<
+    CRTypedIdReferenceValue<'InteractionCounter'> | CRIdReferenceValue
+  >
   /** Schema.org isicV4: ISIC Revision 4 code. */
   isicV4: CRTextSnapshot
   /** Schema.org iso6523Code: ISO 6523 organization identifier. */
@@ -195,7 +227,9 @@ export type CROrganizationDefaultShape<Type = 'Organization'> = {
   /** Schema.org knowsAbout: Topic that the organization knows about. */
   knowsAbout: CRSetSnapshot<CROrganizationTopic>
   /** Schema.org knowsLanguage: Language known by the organization. */
-  knowsLanguage: CRSetSnapshot<SchemaOrgText | CRIdReferenceValue>
+  knowsLanguage: CRSetSnapshot<
+    CRTypedIdReferenceValue<'Language'> | SchemaOrgText | CRIdReferenceValue
+  >
   /** Schema.org legalAddress: Official registered legal address. */
   legalAddress: CRSetSnapshot<CRPostalAddressSnapshot | CRIdReferenceValue>
   /** Schema.org legalName: Official name of the organization. */
@@ -205,21 +239,39 @@ export type CROrganizationDefaultShape<Type = 'Organization'> = {
   /** Schema.org leiCode: Legal Entity Identifier. */
   leiCode: CRTextSnapshot
   /** Schema.org location: Location of the organization. */
-  location: CRSetSnapshot<CROrganizationPlace | CRPostalAddressSnapshot>
+  location: CRSetSnapshot<
+    | CROrganizationPlace
+    | CRPostalAddressSnapshot
+    | CRTypedIdReferenceValue<'VirtualLocation'>
+    | CRIdReferenceValue
+  >
   /** Schema.org logo: Associated logo. */
   logo: CRSetSnapshot<CROrganizationLogo>
   /** Schema.org makesOffer: Products or services offered by the organization. */
-  makesOffer: CRSetSnapshot<CRIdReferenceValue>
+  makesOffer: CRSetSnapshot<
+    CRTypedIdReferenceValue<'Offer'> | CRIdReferenceValue
+  >
   /** Schema.org member: A member of an Organization or ProgramMembership. */
   member: CRSetSnapshot<CROrganizationPersonOrOrganization>
   /** Schema.org memberOf: Organization or membership this organization belongs to. */
-  memberOf: CRSetSnapshot<CROrganizationOrganization>
+  memberOf: CRSetSnapshot<
+    | CROrganizationOrganization
+    | CRTypedIdReferenceValue<'MemberProgramTier'>
+    | CRTypedIdReferenceValue<'ProgramMembership'>
+    | CRIdReferenceValue
+  >
   /** Schema.org naics: NAICS code. */
   naics: CRTextSnapshot
   /** Schema.org nonprofitStatus: Legal status of a non-profit organization. */
-  nonprofitStatus: CREnumerationSnapshot<'NonprofitType'> | CRIdReferenceValue
+  nonprofitStatus:
+    | CREnumerationSnapshot<'NonprofitType'>
+    | CRTypedIdReferenceValue<'NonprofitType'>
+    | CRIdReferenceValue
   /** Schema.org numberOfEmployees: Number of employees in an organization. */
-  numberOfEmployees: CRIdReferenceValue
+  numberOfEmployees:
+    | CRQuantitativeValueSnapshot
+    | CRTypedIdReferenceValue<'QuantitativeValue'>
+    | CRIdReferenceValue
   /** Schema.org ownershipFundingInfo: Ownership structure, funding and grants. */
   ownershipFundingInfo: CRSetSnapshot<CROrganizationPolicy | SchemaOrgText>
   /** Schema.org owns: Things owned by the organization. */
@@ -231,7 +283,7 @@ export type CROrganizationDefaultShape<Type = 'Organization'> = {
   /** Schema.org review: A review of the item. */
   review: CRSetSnapshot<CROrganizationReview>
   /** Schema.org seeks: Products or services sought by the organization. */
-  seeks: CRSetSnapshot<CRIdReferenceValue>
+  seeks: CRSetSnapshot<CRTypedIdReferenceValue<'Demand'> | CRIdReferenceValue>
   /** Schema.org skills: Competency statement. */
   skills: CRSetSnapshot<
     CRDefinedTermSnapshot | SchemaOrgText | CRIdReferenceValue
@@ -282,14 +334,21 @@ type ExtraKeys = Exclude<
 export type CROrganizationState<Type = 'Organization'> = {
   /** Schema.org acceptedPaymentMethod: Payment methods accepted by an organization. */
   acceptedPaymentMethod: Readonly<
-    CRSet<CREnumerationSnapshot<'PaymentMethod'> | CRIdReferenceValue>
+    CRSet<
+      | CREnumerationSnapshot<'PaymentMethod'>
+      | CRTypedIdReferenceValue<'LoanOrCredit'>
+      | CRTypedIdReferenceValue<'PaymentMethod'>
+      | CRIdReferenceValue
+    >
   >
   /** Schema.org actionableFeedbackPolicy: Public engagement policy statement. */
   actionableFeedbackPolicy: Readonly<CRSet<CROrganizationPolicy>>
   /** Schema.org address: Physical address of the item. */
   address: Readonly<CRSet<CROrganizationAddress>>
   /** Schema.org agentInteractionStatistic: Completed interactions for this entity. */
-  agentInteractionStatistic: Readonly<CRSet<CRIdReferenceValue>>
+  agentInteractionStatistic: Readonly<
+    CRSet<CRTypedIdReferenceValue<'InteractionCounter'> | CRIdReferenceValue>
+  >
   /** Schema.org aggregateRating: Overall rating based on reviews or ratings. */
   aggregateRating: Readonly<
     CRSet<CRAggregateRatingSnapshot | CRIdReferenceValue>
@@ -301,9 +360,11 @@ export type CROrganizationState<Type = 'Organization'> = {
   /** Schema.org award: An award won by or for this item. */
   award: Readonly<CRSet<SchemaOrgText>>
   /** Schema.org brand: Brands associated with a product, service or organization. */
-  brand: Readonly<CRSet<CROrganizationOrganization>>
+  brand: Readonly<CRSet<CROrganizationBrand>>
   /** Schema.org companyRegistration: Official business registration information. */
-  companyRegistration: Readonly<CRSet<CRIdReferenceValue>>
+  companyRegistration: Readonly<
+    CRSet<CRTypedIdReferenceValue<'Certification'> | CRIdReferenceValue>
+  >
   /** Schema.org contactPoint: A contact point for a person or organization. */
   contactPoint: Readonly<CRSet<CRContactPointSnapshot | CRIdReferenceValue>>
   /** Schema.org correctionsPolicy: Disclosure and correction policy for errors. */
@@ -337,27 +398,43 @@ export type CROrganizationState<Type = 'Organization'> = {
   /** Schema.org funder: Person or organization that supports something financially. */
   funder: Readonly<CRSet<CROrganizationPersonOrOrganization>>
   /** Schema.org funding: Grant that provides funding or sponsorship. */
-  funding: Readonly<CRSet<CRIdReferenceValue>>
+  funding: Readonly<
+    CRSet<CRTypedIdReferenceValue<'Grant'> | CRIdReferenceValue>
+  >
   /** Schema.org globalLocationNumber: GS1 Global Location Number. */
   globalLocationNumber: Readonly<CRText>
   /** Schema.org hasCertification: Certification information. */
-  hasCertification: Readonly<CRSet<CRIdReferenceValue>>
+  hasCertification: Readonly<
+    CRSet<CRTypedIdReferenceValue<'Certification'> | CRIdReferenceValue>
+  >
   /** Schema.org hasCredential: Credential awarded to the organization. */
-  hasCredential: Readonly<CRSet<CRIdReferenceValue>>
+  hasCredential: Readonly<
+    CRSet<CRTypedIdReferenceValue<'Credential'> | CRIdReferenceValue>
+  >
   /** Schema.org hasGS1DigitalLink: GS1 digital link URL. */
   hasGS1DigitalLink: SchemaOrgURL
   /** Schema.org hasMemberProgram: MemberProgram offered by an organization. */
-  hasMemberProgram: Readonly<CRSet<CRIdReferenceValue>>
+  hasMemberProgram: Readonly<
+    CRSet<CRTypedIdReferenceValue<'MemberProgram'> | CRIdReferenceValue>
+  >
   /** Schema.org hasMerchantReturnPolicy: Applicable merchant return policy. */
-  hasMerchantReturnPolicy: Readonly<CRSet<CRIdReferenceValue>>
+  hasMerchantReturnPolicy: Readonly<
+    CRSet<CRTypedIdReferenceValue<'MerchantReturnPolicy'> | CRIdReferenceValue>
+  >
   /** Schema.org hasOfferCatalog: OfferCatalog listing for this organization. */
-  hasOfferCatalog: Readonly<CRSet<CRIdReferenceValue>>
+  hasOfferCatalog: Readonly<
+    CRSet<CRTypedIdReferenceValue<'OfferCatalog'> | CRIdReferenceValue>
+  >
   /** Schema.org hasPOS: Points-of-sale operated by the organization. */
   hasPOS: Readonly<CRSet<CROrganizationPlace>>
   /** Schema.org hasShippingService: Shipping service offered by the organization. */
-  hasShippingService: Readonly<CRSet<CRIdReferenceValue>>
+  hasShippingService: Readonly<
+    CRSet<CRTypedIdReferenceValue<'ShippingService'> | CRIdReferenceValue>
+  >
   /** Schema.org interactionStatistic: Interaction counter for this entity. */
-  interactionStatistic: Readonly<CRSet<CRIdReferenceValue>>
+  interactionStatistic: Readonly<
+    CRSet<CRTypedIdReferenceValue<'InteractionCounter'> | CRIdReferenceValue>
+  >
   /** Schema.org isicV4: ISIC Revision 4 code. */
   isicV4: Readonly<CRText>
   /** Schema.org iso6523Code: ISO 6523 organization identifier. */
@@ -367,7 +444,11 @@ export type CROrganizationState<Type = 'Organization'> = {
   /** Schema.org knowsAbout: Topic that the organization knows about. */
   knowsAbout: Readonly<CRSet<CROrganizationTopic>>
   /** Schema.org knowsLanguage: Language known by the organization. */
-  knowsLanguage: Readonly<CRSet<SchemaOrgText | CRIdReferenceValue>>
+  knowsLanguage: Readonly<
+    CRSet<
+      CRTypedIdReferenceValue<'Language'> | SchemaOrgText | CRIdReferenceValue
+    >
+  >
   /** Schema.org legalAddress: Official registered legal address. */
   legalAddress: Readonly<CRSet<CRPostalAddressSnapshot | CRIdReferenceValue>>
   /** Schema.org legalName: Official name of the organization. */
@@ -377,21 +458,43 @@ export type CROrganizationState<Type = 'Organization'> = {
   /** Schema.org leiCode: Legal Entity Identifier. */
   leiCode: Readonly<CRText>
   /** Schema.org location: Location of the organization. */
-  location: Readonly<CRSet<CROrganizationPlace | CRPostalAddressSnapshot>>
+  location: Readonly<
+    CRSet<
+      | CROrganizationPlace
+      | CRPostalAddressSnapshot
+      | CRTypedIdReferenceValue<'VirtualLocation'>
+      | CRIdReferenceValue
+    >
+  >
   /** Schema.org logo: Associated logo. */
   logo: Readonly<CRSet<CROrganizationLogo>>
   /** Schema.org makesOffer: Products or services offered by the organization. */
-  makesOffer: Readonly<CRSet<CRIdReferenceValue>>
+  makesOffer: Readonly<
+    CRSet<CRTypedIdReferenceValue<'Offer'> | CRIdReferenceValue>
+  >
   /** Schema.org member: A member of an Organization or ProgramMembership. */
   member: Readonly<CRSet<CROrganizationPersonOrOrganization>>
   /** Schema.org memberOf: Organization or membership this organization belongs to. */
-  memberOf: Readonly<CRSet<CROrganizationOrganization>>
+  memberOf: Readonly<
+    CRSet<
+      | CROrganizationOrganization
+      | CRTypedIdReferenceValue<'MemberProgramTier'>
+      | CRTypedIdReferenceValue<'ProgramMembership'>
+      | CRIdReferenceValue
+    >
+  >
   /** Schema.org naics: NAICS code. */
   naics: Readonly<CRText>
   /** Schema.org nonprofitStatus: Legal status of a non-profit organization. */
-  nonprofitStatus: CREnumerationSnapshot<'NonprofitType'> | CRIdReferenceValue
+  nonprofitStatus:
+    | CREnumerationSnapshot<'NonprofitType'>
+    | CRTypedIdReferenceValue<'NonprofitType'>
+    | CRIdReferenceValue
   /** Schema.org numberOfEmployees: Number of employees in an organization. */
-  numberOfEmployees: CRIdReferenceValue
+  numberOfEmployees:
+    | CRQuantitativeValueSnapshot
+    | CRTypedIdReferenceValue<'QuantitativeValue'>
+    | CRIdReferenceValue
   /** Schema.org ownershipFundingInfo: Ownership structure, funding and grants. */
   ownershipFundingInfo: Readonly<CRSet<CROrganizationPolicy | SchemaOrgText>>
   /** Schema.org owns: Things owned by the organization. */
@@ -403,7 +506,7 @@ export type CROrganizationState<Type = 'Organization'> = {
   /** Schema.org review: A review of the item. */
   review: Readonly<CRSet<CROrganizationReview>>
   /** Schema.org seeks: Products or services sought by the organization. */
-  seeks: Readonly<CRSet<CRIdReferenceValue>>
+  seeks: Readonly<CRSet<CRTypedIdReferenceValue<'Demand'> | CRIdReferenceValue>>
   /** Schema.org skills: Competency statement. */
   skills: Readonly<
     CRSet<CRDefinedTermSnapshot | SchemaOrgText | CRIdReferenceValue>

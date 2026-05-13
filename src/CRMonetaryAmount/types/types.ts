@@ -6,10 +6,10 @@ import type {
 
 import type { CRIdReferenceValue } from '../../CRIdReference/types/types.js'
 import type {
-  CRThingDefaultShape,
-  CRThingState,
-} from '../../CRThing/types/types.js'
-import type { CRStructuredValueSnapshot } from '../../CRStructuredValue/types/types.js'
+  CRStructuredValueDefaultShape,
+  CRStructuredValueSnapshot,
+  CRStructuredValueState,
+} from '../../CRStructuredValue/types/types.js'
 import type {
   CRStructPartialSnapshot,
   SchemaOrgBoolean,
@@ -66,7 +66,7 @@ export type CRMonetaryAmountDefaultShape<Type = 'MonetaryAmount'> = {
    * Schema.org value: The value of a MonetaryAmount node.
    */
   value: CRMonetaryAmountValue
-} & CRThingDefaultShape<Type>
+} & CRStructuredValueDefaultShape<Type>
 
 /**
  * Serializable CRDT snapshot for Schema.org MonetaryAmount.
@@ -115,4 +115,4 @@ export type CRMonetaryAmountState<Type = 'MonetaryAmount'> = {
    * Schema.org value: The value of a MonetaryAmount node.
    */
   value: CRMonetaryAmountValue
-} & CRThingState<Type>
+} & CRStructuredValueState<Type>

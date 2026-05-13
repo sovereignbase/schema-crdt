@@ -13,6 +13,7 @@ import type {
   CRThingState,
 } from '../../CRThing/types/types.js'
 import type { CRAggregateRatingSnapshot } from '../../CRAggregateRating/types/types.js'
+import type { CRDefinedTermSnapshot } from '../../CRDefinedTerm/types/types.js'
 import type { CRGeoCoordinatesSnapshot } from '../../CRGeoCoordinates/types/types.js'
 import type { CRGeoShapeSnapshot } from '../../CRGeoShape/types/types.js'
 import type { CRGeospatialGeometryRelation } from '../../CRGeospatialGeometry/types/types.js'
@@ -106,13 +107,20 @@ export type CRPlaceDefaultShape<Type = 'Place'> = {
   geoTouches: CRSetSnapshot<CRGeospatialGeometryRelation>
   geoWithin: CRSetSnapshot<CRGeospatialGeometryRelation>
   globalLocationNumber: CRTextSnapshot
-  hasCertification: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
+  hasCertification: CRSetSnapshot<
+    | CRTypedIdReferenceValue<'Certification'>
+    | SchemaOrgText
+    | SchemaOrgURL
+    | CRIdReferenceValue
+  >
   hasDriveThroughService: SchemaOrgBoolean
   hasGS1DigitalLink: SchemaOrgURL
   hasMap: CRSetSnapshot<CRPlaceMap>
   isAccessibleForFree: SchemaOrgBoolean
   isicV4: CRTextSnapshot
-  keywords: CRSetSnapshot<SchemaOrgText | SchemaOrgURL>
+  keywords: CRSetSnapshot<
+    CRDefinedTermSnapshot | SchemaOrgText | SchemaOrgURL | CRIdReferenceValue
+  >
   latitude: CRTextSnapshot
   logo: CRSetSnapshot<CRPlaceImage>
   longitude: CRTextSnapshot
@@ -163,13 +171,24 @@ export type CRPlaceState<Type = 'Place'> = {
   geoTouches: Readonly<CRSet<CRGeospatialGeometryRelation>>
   geoWithin: Readonly<CRSet<CRGeospatialGeometryRelation>>
   globalLocationNumber: Readonly<CRText>
-  hasCertification: Readonly<CRSet<SchemaOrgText | SchemaOrgURL>>
+  hasCertification: Readonly<
+    CRSet<
+      | CRTypedIdReferenceValue<'Certification'>
+      | SchemaOrgText
+      | SchemaOrgURL
+      | CRIdReferenceValue
+    >
+  >
   hasDriveThroughService: SchemaOrgBoolean
   hasGS1DigitalLink: SchemaOrgURL
   hasMap: Readonly<CRSet<CRPlaceMap>>
   isAccessibleForFree: SchemaOrgBoolean
   isicV4: Readonly<CRText>
-  keywords: Readonly<CRSet<SchemaOrgText | SchemaOrgURL>>
+  keywords: Readonly<
+    CRSet<
+      CRDefinedTermSnapshot | SchemaOrgText | SchemaOrgURL | CRIdReferenceValue
+    >
+  >
   latitude: Readonly<CRText>
   logo: Readonly<CRSet<CRPlaceImage>>
   longitude: Readonly<CRText>

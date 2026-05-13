@@ -5,7 +5,10 @@ import type {
 } from '@sovereignbase/convergent-replicated-set'
 import type { ISO31661Alpha2 } from '@sovereignbase/utils'
 
-import type { CRIdReferenceValue } from '../../CRIdReference/types/types.js'
+import type {
+  CRIdReferenceValue,
+  CRTypedIdReferenceValue,
+} from '../../CRIdReference/types/types.js'
 import type { CRPostalAddressSnapshot } from '../../CRPostalAddress/types/types.js'
 import type {
   CRStructuredValueDefaultShape,
@@ -31,6 +34,14 @@ export type CRGeoShapeAddress =
   | CRIdReferenceValue
 
 /**
+ * Values accepted by Schema.org addressCountry.
+ */
+export type CRGeoShapeCountry =
+  | CRTypedIdReferenceValue<'Country'>
+  | ISO31661Alpha2
+  | CRIdReferenceValue
+
+/**
  * Serializable CRDT shape for Schema.org GeoShape.
  *
  * Schema.org: The geographic shape of a place.
@@ -43,7 +54,7 @@ export type CRGeoShapeDefaultShape<Type = 'GeoShape'> = {
   /**
    * Schema.org addressCountry: The country, recommended as ISO 3166-1 alpha-2.
    */
-  addressCountry: ISO31661Alpha2
+  addressCountry: CRGeoShapeCountry
   /**
    * Schema.org box: The area enclosed by a rectangle formed by two points.
    */
@@ -95,7 +106,7 @@ export type CRGeoShapeState<Type = 'GeoShape'> = {
   /**
    * Schema.org addressCountry: The country, recommended as ISO 3166-1 alpha-2.
    */
-  addressCountry: ISO31661Alpha2
+  addressCountry: CRGeoShapeCountry
   /**
    * Schema.org box: The area enclosed by a rectangle formed by two points.
    */

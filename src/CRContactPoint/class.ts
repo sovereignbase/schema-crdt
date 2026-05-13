@@ -1,5 +1,4 @@
 import type { CRStructSnapshot } from '@sovereignbase/convergent-replicated-struct'
-import type { CRSet } from '@sovereignbase/convergent-replicated-set'
 import type { CRText } from '@sovereignbase/convergent-replicated-text'
 
 import { CRStructuredValue } from '../CRStructuredValue/class.js'
@@ -9,10 +8,7 @@ import type {
   CRContactPointDefaultShape,
   CRContactPointState,
 } from './types/types.js'
-import type {
-  SchemaCRDTFormatValidators,
-  SchemaOrgText,
-} from '../.types/types.js'
+import type { SchemaCRDTFormatValidators } from '../.types/types.js'
 
 /**
  * CRDT-backed Schema.org ContactPoint.
@@ -38,16 +34,16 @@ export class CRContactPoint<
    * Schema.org areaServed: The geographic area where a service or offered item
    * is provided.
    */
-  declare public areaServed: Readonly<CRSet<SchemaOrgText>>
+  declare public areaServed: CRContactPointState<Type>['areaServed']
   /**
    * Schema.org availableLanguage: A language someone may use with or at the
    * item, service or place.
    */
-  declare public availableLanguage: Readonly<CRSet<SchemaOrgText>>
+  declare public availableLanguage: CRContactPointState<Type>['availableLanguage']
   /**
    * Schema.org contactOption: An option available on this contact point.
    */
-  declare public contactOption: Readonly<CRSet<SchemaOrgText>>
+  declare public contactOption: CRContactPointState<Type>['contactOption']
   /**
    * Schema.org contactType: The kind of contact point.
    */
@@ -64,12 +60,12 @@ export class CRContactPoint<
    * Schema.org hoursAvailable: The hours during which this service or contact
    * is available.
    */
-  declare public hoursAvailable: Readonly<CRSet<SchemaOrgText>>
+  declare public hoursAvailable: CRContactPointState<Type>['hoursAvailable']
   /**
    * Schema.org productSupported: The product or service this support contact
    * point is related to.
    */
-  declare public productSupported: Readonly<CRSet<SchemaOrgText>>
+  declare public productSupported: CRContactPointState<Type>['productSupported']
   /**
    * Schema.org telephone: The telephone number.
    */

@@ -5,7 +5,10 @@ import type {
 } from '@sovereignbase/convergent-replicated-set'
 
 import type { CREnumerationSnapshot } from '../../CREnumeration/types/types.js'
-import type { CRIdReferenceValue } from '../../CRIdReference/types/types.js'
+import type {
+  CRIdReferenceValue,
+  CRTypedIdReferenceValue,
+} from '../../CRIdReference/types/types.js'
 import type {
   CRStructuredValueDefaultShape,
   CRStructuredValueState,
@@ -31,6 +34,7 @@ type SchemaOrgOpeningHoursSpecification =
  */
 export type CROpeningHoursSpecificationDayOfWeek =
   | CREnumerationSnapshot<'DayOfWeek'>
+  | CRTypedIdReferenceValue<'DayOfWeek'>
   | CRIdReferenceValue
   | SchemaOrgText
 

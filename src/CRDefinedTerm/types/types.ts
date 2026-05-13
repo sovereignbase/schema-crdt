@@ -1,4 +1,4 @@
-import type { DefinedTerm, DefinedTermSet } from 'schema-dts'
+import type { DefinedTerm } from 'schema-dts'
 import type {
   CRSet,
   CRSetSnapshot,
@@ -8,16 +8,19 @@ import type {
   CRTextSnapshot,
 } from '@sovereignbase/convergent-replicated-text'
 
+import type { CRThingSnapshot } from '../../CRThing/types/types.js'
 import type {
-  CRThingDefaultShape,
-  CRThingSnapshot,
-  CRThingState,
-} from '../../CRThing/types/types.js'
+  CRIntangibleDefaultShape,
+  CRIntangibleState,
+} from '../../CRIntangible/types/types.js'
 import type {
   CRStructPartialSnapshot,
   SchemaOrgURL,
 } from '../../.types/types.js'
-import type { CRIdReferenceValue } from '../../CRIdReference/types/types.js'
+import type {
+  CRIdReferenceValue,
+  CRTypedIdReferenceValue,
+} from '../../CRIdReference/types/types.js'
 
 type SchemaOrgDefinedTermRaw = Extract<DefinedTerm, { '@type': 'DefinedTerm' }>
 
@@ -32,7 +35,7 @@ export type CRDefinedTermAbout = CRThingSnapshot | CRIdReferenceValue
  * Values accepted by Schema.org inDefinedTermSet.
  */
 export type CRDefinedTermSetReference =
-  | DefinedTermSet
+  | CRTypedIdReferenceValue<'DefinedTermSet'>
   | SchemaOrgURL
   | CRIdReferenceValue
 
@@ -55,7 +58,7 @@ export type CRDefinedTermDefaultShape<Type = 'DefinedTerm'> = {
    * DefinedTermSet.
    */
   termCode: CRTextSnapshot
-} & CRThingDefaultShape<Type>
+} & CRIntangibleDefaultShape<Type>
 
 /**
  * Serializable CRDT snapshot for Schema.org DefinedTerm.
@@ -93,4 +96,4 @@ export type CRDefinedTermState<Type = 'DefinedTerm'> = {
    * DefinedTermSet.
    */
   termCode: Readonly<CRText>
-} & CRThingState<Type>
+} & CRIntangibleState<Type>

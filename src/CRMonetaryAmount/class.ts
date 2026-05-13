@@ -1,6 +1,6 @@
 import type { CRStructSnapshot } from '@sovereignbase/convergent-replicated-struct'
 
-import { CRThing } from '../CRThing/class.js'
+import { CRStructuredValue } from '../CRStructuredValue/class.js'
 import { crTextSnapshot } from '../.shared/index.js'
 
 import type {
@@ -21,7 +21,7 @@ export class CRMonetaryAmount<
     CRStructSnapshot<Shape>
   >,
 >
-  extends CRThing<Type, Shape, Snapshot>
+  extends CRStructuredValue<Type, Shape, Snapshot>
   implements CRMonetaryAmountState<Type>
 {
   /**

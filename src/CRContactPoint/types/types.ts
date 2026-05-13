@@ -12,6 +12,11 @@ import type {
   CRStructuredValueDefaultShape,
   CRStructuredValueState,
 } from '../../CRStructuredValue/types/types.js'
+import type { CREnumerationSnapshot } from '../../CREnumeration/types/types.js'
+import type {
+  CRIdReferenceValue,
+  CRTypedIdReferenceValue,
+} from '../../CRIdReference/types/types.js'
 import type {
   CRStructPartialSnapshot,
   SchemaOrgText,
@@ -25,6 +30,48 @@ type SchemaOrgContactPointRaw = Extract<
 type SchemaOrgContactPoint = Partial<SchemaOrgContactPointRaw>
 
 /**
+ * Values accepted by Schema.org areaServed.
+ */
+export type CRContactPointAreaServed =
+  | CRTypedIdReferenceValue<'AdministrativeArea'>
+  | CRTypedIdReferenceValue<'GeoShape'>
+  | CRTypedIdReferenceValue<'Place'>
+  | SchemaOrgText
+  | CRIdReferenceValue
+
+/**
+ * Values accepted by Schema.org availableLanguage.
+ */
+export type CRContactPointAvailableLanguage =
+  | CRTypedIdReferenceValue<'Language'>
+  | SchemaOrgText
+  | CRIdReferenceValue
+
+/**
+ * Values accepted by Schema.org contactOption.
+ */
+export type CRContactPointContactOption =
+  | CREnumerationSnapshot<'ContactPointOption'>
+  | CRTypedIdReferenceValue<'ContactPointOption'>
+  | SchemaOrgText
+  | CRIdReferenceValue
+
+/**
+ * Values accepted by Schema.org hoursAvailable.
+ */
+export type CRContactPointHoursAvailable =
+  | CRTypedIdReferenceValue<'OpeningHoursSpecification'>
+  | CRIdReferenceValue
+
+/**
+ * Values accepted by Schema.org productSupported.
+ */
+export type CRContactPointProductSupported =
+  | CRTypedIdReferenceValue<'Product'>
+  | SchemaOrgText
+  | CRIdReferenceValue
+
+/**
  * Serializable CRDT shape for Schema.org ContactPoint.
  *
  * Schema.org: A contact point, for example a customer complaints department.
@@ -34,16 +81,16 @@ export type CRContactPointDefaultShape<Type = 'ContactPoint'> = {
    * Schema.org areaServed: The geographic area where a service or offered item
    * is provided.
    */
-  areaServed: CRSetSnapshot<SchemaOrgText>
+  areaServed: CRSetSnapshot<CRContactPointAreaServed>
   /**
    * Schema.org availableLanguage: A language someone may use with or at the
    * item, service or place.
    */
-  availableLanguage: CRSetSnapshot<SchemaOrgText>
+  availableLanguage: CRSetSnapshot<CRContactPointAvailableLanguage>
   /**
    * Schema.org contactOption: An option available on this contact point.
    */
-  contactOption: CRSetSnapshot<SchemaOrgText>
+  contactOption: CRSetSnapshot<CRContactPointContactOption>
   /**
    * Schema.org contactType: The kind of contact point.
    */
@@ -60,12 +107,12 @@ export type CRContactPointDefaultShape<Type = 'ContactPoint'> = {
    * Schema.org hoursAvailable: The hours during which this service or contact
    * is available.
    */
-  hoursAvailable: CRSetSnapshot<SchemaOrgText>
+  hoursAvailable: CRSetSnapshot<CRContactPointHoursAvailable>
   /**
    * Schema.org productSupported: The product or service this support contact
    * point is related to.
    */
-  productSupported: CRSetSnapshot<SchemaOrgText>
+  productSupported: CRSetSnapshot<CRContactPointProductSupported>
   /**
    * Schema.org telephone: The telephone number.
    */
@@ -103,16 +150,16 @@ export type CRContactPointState<Type = 'ContactPoint'> = {
    * Schema.org areaServed: The geographic area where a service or offered item
    * is provided.
    */
-  areaServed: Readonly<CRSet<SchemaOrgText>>
+  areaServed: Readonly<CRSet<CRContactPointAreaServed>>
   /**
    * Schema.org availableLanguage: A language someone may use with or at the
    * item, service or place.
    */
-  availableLanguage: Readonly<CRSet<SchemaOrgText>>
+  availableLanguage: Readonly<CRSet<CRContactPointAvailableLanguage>>
   /**
    * Schema.org contactOption: An option available on this contact point.
    */
-  contactOption: Readonly<CRSet<SchemaOrgText>>
+  contactOption: Readonly<CRSet<CRContactPointContactOption>>
   /**
    * Schema.org contactType: The kind of contact point.
    */
@@ -129,12 +176,12 @@ export type CRContactPointState<Type = 'ContactPoint'> = {
    * Schema.org hoursAvailable: The hours during which this service or contact
    * is available.
    */
-  hoursAvailable: Readonly<CRSet<SchemaOrgText>>
+  hoursAvailable: Readonly<CRSet<CRContactPointHoursAvailable>>
   /**
    * Schema.org productSupported: The product or service this support contact
    * point is related to.
    */
-  productSupported: Readonly<CRSet<SchemaOrgText>>
+  productSupported: Readonly<CRSet<CRContactPointProductSupported>>
   /**
    * Schema.org telephone: The telephone number.
    */

@@ -97,7 +97,11 @@ export type CRThingDefaultShape<T = 'Thing'> = {
   /**
    * Schema.org identifier.
    */
-  identifier: SchemaOrgURL | SchemaOrgText
+  identifier:
+    | SchemaOrgURL
+    | SchemaOrgText
+    | CRTypedIdReferenceValue<'PropertyValue'>
+    | CRIdReferenceValue
   /**
    * Schema.org image: An image of the item.
    */
@@ -179,7 +183,12 @@ export type CRThingState<T = 'Thing'> = {
   /**
    * Schema.org identifier.
    */
-  identifier: Readonly<SchemaOrgURL | SchemaOrgText>
+  identifier: Readonly<
+    | SchemaOrgURL
+    | SchemaOrgText
+    | CRTypedIdReferenceValue<'PropertyValue'>
+    | CRIdReferenceValue
+  >
   /**
    * Schema.org image: An image of the item.
    */

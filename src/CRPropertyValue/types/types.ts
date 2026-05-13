@@ -10,7 +10,10 @@ import type {
 
 import type { CREnumerationSnapshot } from '../../CREnumeration/types/types.js'
 import type { CRDefinedTermSnapshot } from '../../CRDefinedTerm/types/types.js'
-import type { CRIdReferenceValue } from '../../CRIdReference/types/types.js'
+import type {
+  CRIdReferenceValue,
+  CRTypedIdReferenceValue,
+} from '../../CRIdReference/types/types.js'
 import type {
   CRStructuredValueDefaultShape,
   CRStructuredValueSnapshot,
@@ -37,6 +40,8 @@ type SchemaOrgPropertyValue = Partial<SchemaOrgPropertyValueRaw>
 export type CRPropertyValueMeasurement =
   | CRDefinedTermSnapshot
   | CREnumerationSnapshot<'MeasurementMethodEnum'>
+  | CRTypedIdReferenceValue<'DefinedTerm'>
+  | CRTypedIdReferenceValue<'MeasurementMethodEnum'>
   | SchemaOrgText
   | SchemaOrgURL
   | CRIdReferenceValue
@@ -59,6 +64,13 @@ export type CRPropertyValueReference =
   | CREnumerationSnapshot
   | CREnumerationSnapshot<'MeasurementTypeEnumeration'>
   | CRStructuredValueSnapshot
+  | CRTypedIdReferenceValue<'DefinedTerm'>
+  | CRTypedIdReferenceValue<'Enumeration'>
+  | CRTypedIdReferenceValue<'MeasurementTypeEnumeration'>
+  | CRTypedIdReferenceValue<'PropertyValue'>
+  | CRTypedIdReferenceValue<'QualitativeValue'>
+  | CRTypedIdReferenceValue<'QuantitativeValue'>
+  | CRTypedIdReferenceValue<'StructuredValue'>
   | SchemaOrgText
   | CRIdReferenceValue
 

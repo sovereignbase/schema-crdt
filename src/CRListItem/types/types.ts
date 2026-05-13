@@ -5,7 +5,10 @@ import type {
   CRIntangibleState,
 } from '../../CRIntangible/types/types.js'
 import type { CRThingDefaultShape } from '../../CRThing/types/types.js'
-import type { CRIdReferenceValue } from '../../CRIdReference/types/types.js'
+import type {
+  CRIdReferenceValue,
+  CRTypedIdReferenceValue,
+} from '../../CRIdReference/types/types.js'
 import type {
   CRStructPartialSnapshot,
   SchemaOrgInteger,
@@ -24,12 +27,15 @@ export type CRListItemItem =
       CRThingDefaultShape<string>,
       '@id' | '@type' | 'identifier'
     >
+  | CRTypedIdReferenceValue<'Thing'>
   | CRIdReferenceValue
 
 /**
  * Values accepted by Schema.org nextItem and previousItem.
  */
-export type CRListItemRelation = CRIdReferenceValue
+export type CRListItemRelation =
+  | CRTypedIdReferenceValue<'ListItem'>
+  | CRIdReferenceValue
 
 /**
  * Values accepted by Schema.org position.

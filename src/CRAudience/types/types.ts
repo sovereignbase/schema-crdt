@@ -11,9 +11,9 @@ import type {
 import type { CRAdministrativeAreaSnapshot } from '../../CRAdministrativeArea/types/types.js'
 import type { CRIdReferenceValue } from '../../CRIdReference/types/types.js'
 import type {
-  CRThingDefaultShape,
-  CRThingState,
-} from '../../CRThing/types/types.js'
+  CRIntangibleDefaultShape,
+  CRIntangibleState,
+} from '../../CRIntangible/types/types.js'
 import type {
   CRStructPartialSnapshot,
   SchemaOrgText,
@@ -45,7 +45,7 @@ export type CRAudienceDefaultShape<Type = 'Audience'> = {
    * Schema.org geographicArea: The geographic area associated with the audience.
    */
   geographicArea: CRSetSnapshot<CRAudienceGeographicArea>
-} & CRThingDefaultShape<Type>
+} & CRIntangibleDefaultShape<Type>
 
 /**
  * Serializable CRDT snapshot for Schema.org Audience.
@@ -71,4 +71,4 @@ export type CRAudienceState<Type = 'Audience'> = {
    * Schema.org geographicArea: The geographic area associated with the audience.
    */
   geographicArea: Readonly<CRSet<CRAudienceGeographicArea>>
-} & CRThingState<Type>
+} & CRIntangibleState<Type>

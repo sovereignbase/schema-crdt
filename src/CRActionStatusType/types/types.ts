@@ -1,9 +1,9 @@
 import type { ActionStatusType } from 'schema-dts'
 
 import type {
-  CREnumerationDefaultShape,
-  CREnumerationState,
-} from '../../CREnumeration/types/types.js'
+  CRStatusEnumerationDefaultShape,
+  CRStatusEnumerationState,
+} from '../../CRStatusEnumeration/types/types.js'
 import type { CRStructPartialSnapshot } from '../../.types/types.js'
 
 type SchemaOrgActionStatusTypeRaw = Extract<
@@ -19,7 +19,7 @@ type SchemaOrgActionStatusType = Partial<SchemaOrgActionStatusTypeRaw>
  * Schema.org: The status of an Action.
  */
 export type CRActionStatusTypeDefaultShape<Type = 'ActionStatusType'> =
-  CREnumerationDefaultShape<Type>
+  CRStatusEnumerationDefaultShape<Type>
 
 /**
  * Serializable CRDT snapshot for Schema.org ActionStatusType.
@@ -44,4 +44,4 @@ type ExtraKeys = Exclude<
  * Runtime CRDT state surface for Schema.org ActionStatusType.
  */
 export type CRActionStatusTypeState<Type = 'ActionStatusType'> =
-  CREnumerationState<Type>
+  CRStatusEnumerationState<Type>

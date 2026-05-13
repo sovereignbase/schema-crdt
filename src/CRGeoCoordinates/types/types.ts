@@ -5,7 +5,10 @@ import type {
 } from '@sovereignbase/convergent-replicated-set'
 import type { ISO31661Alpha2 } from '@sovereignbase/utils'
 
-import type { CRIdReferenceValue } from '../../CRIdReference/types/types.js'
+import type {
+  CRIdReferenceValue,
+  CRTypedIdReferenceValue,
+} from '../../CRIdReference/types/types.js'
 import type { CRPostalAddressSnapshot } from '../../CRPostalAddress/types/types.js'
 import type {
   CRStructuredValueDefaultShape,
@@ -34,6 +37,14 @@ export type CRGeoCoordinatesAddress =
   | CRIdReferenceValue
 
 /**
+ * Values accepted by Schema.org addressCountry.
+ */
+export type CRGeoCoordinatesCountry =
+  | CRTypedIdReferenceValue<'Country'>
+  | ISO31661Alpha2
+  | CRIdReferenceValue
+
+/**
  * Serializable CRDT shape for Schema.org GeoCoordinates.
  *
  * Schema.org: The geographic coordinates of a place or event.
@@ -46,7 +57,7 @@ export type CRGeoCoordinatesDefaultShape<Type = 'GeoCoordinates'> = {
   /**
    * Schema.org addressCountry: The country, recommended as ISO 3166-1 alpha-2.
    */
-  addressCountry: ISO31661Alpha2
+  addressCountry: CRGeoCoordinatesCountry
   /**
    * Schema.org elevation: The elevation of a location in WGS 84.
    */
@@ -95,7 +106,7 @@ export type CRGeoCoordinatesState<Type = 'GeoCoordinates'> = {
   /**
    * Schema.org addressCountry: The country, recommended as ISO 3166-1 alpha-2.
    */
-  addressCountry: ISO31661Alpha2
+  addressCountry: CRGeoCoordinatesCountry
   /**
    * Schema.org elevation: The elevation of a location in WGS 84.
    */

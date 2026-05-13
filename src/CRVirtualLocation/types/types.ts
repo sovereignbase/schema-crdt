@@ -1,9 +1,9 @@
 import type { VirtualLocation } from 'schema-dts'
 
 import type {
-  CRThingDefaultShape,
-  CRThingState,
-} from '../../CRThing/types/types.js'
+  CRIntangibleDefaultShape,
+  CRIntangibleState,
+} from '../../CRIntangible/types/types.js'
 import type { CRStructPartialSnapshot } from '../../.types/types.js'
 
 type SchemaOrgVirtualLocationRaw = Extract<
@@ -19,7 +19,7 @@ type SchemaOrgVirtualLocation = Partial<SchemaOrgVirtualLocationRaw>
  * Schema.org: An online or virtual location for attending events or actions.
  */
 export type CRVirtualLocationDefaultShape<Type = 'VirtualLocation'> =
-  CRThingDefaultShape<Type>
+  CRIntangibleDefaultShape<Type>
 
 /**
  * Serializable CRDT snapshot for Schema.org VirtualLocation.
@@ -44,4 +44,4 @@ type ExtraKeys = Exclude<
  * Runtime CRDT state surface for Schema.org VirtualLocation.
  */
 export type CRVirtualLocationState<Type = 'VirtualLocation'> =
-  CRThingState<Type>
+  CRIntangibleState<Type>

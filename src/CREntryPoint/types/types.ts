@@ -11,9 +11,9 @@ import type {
 } from '../../CRIdReference/types/types.js'
 import type { CRSoftwareApplicationSnapshot } from '../../CRSoftwareApplication/types/types.js'
 import type {
-  CRThingDefaultShape,
-  CRThingState,
-} from '../../CRThing/types/types.js'
+  CRIntangibleDefaultShape,
+  CRIntangibleState,
+} from '../../CRIntangible/types/types.js'
 import type {
   CRStructPartialSnapshot,
   SchemaOrgText,
@@ -73,7 +73,7 @@ export type CREntryPointDefaultShape<Type = 'EntryPoint'> = {
    * Schema.org urlTemplate: RFC 6570 URL template used to construct the target.
    */
   urlTemplate: SchemaOrgText
-} & CRThingDefaultShape<Type>
+} & CRIntangibleDefaultShape<Type>
 
 /**
  * Serializable CRDT snapshot for Schema.org EntryPoint.
@@ -123,4 +123,4 @@ export type CREntryPointState<Type = 'EntryPoint'> = {
    * Schema.org urlTemplate: RFC 6570 URL template used to construct the target.
    */
   urlTemplate: SchemaOrgText
-} & CRThingState<Type>
+} & CRIntangibleState<Type>

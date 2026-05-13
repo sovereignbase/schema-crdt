@@ -13,6 +13,8 @@ import type { CRCountrySnapshot } from '../../CRCountry/types/types.js'
 import type { CRCreativeWorkSnapshot } from '../../CRCreativeWork/types/types.js'
 import type { CRDefinedTermSnapshot } from '../../CRDefinedTerm/types/types.js'
 import type { CREnumerationSnapshot } from '../../CREnumeration/types/types.js'
+import type { CRMonetaryAmountSnapshot } from '../../CRMonetaryAmount/types/types.js'
+import type { CRQuantitativeValueSnapshot } from '../../CRQuantitativeValue/types/types.js'
 import type {
   CRIdReferenceValue,
   CRTypedIdReferenceValue,
@@ -43,7 +45,14 @@ export type CRPersonAddress =
   | CRIdReferenceValue
 
 /** Values accepted by Schema.org person organization relationship properties. */
-export type CRPersonOrganization = CRTypedIdReferenceValue<'Organization'>
+export type CRPersonOrganization =
+  | CRTypedIdReferenceValue<'EducationalOrganization'>
+  | CRTypedIdReferenceValue<'Organization'>
+
+/** Values accepted by Schema.org person brand properties. */
+export type CRPersonBrand =
+  | CRTypedIdReferenceValue<'Brand'>
+  | CRTypedIdReferenceValue<'Organization'>
 
 /** Values accepted by Schema.org person-person relationship properties. */
 export type CRPersonRelation = CRTypedIdReferenceValue<'Person'>
@@ -79,7 +88,13 @@ export type CRPersonPolicy =
 
 /** Values accepted by Schema.org person quantitative properties. */
 export type CRPersonQuantitativeValue =
+  | CRMonetaryAmountSnapshot
+  | CRQuantitativeValueSnapshot
   | CRStructuredValueSnapshot
+  | CRTypedIdReferenceValue<'Mass'>
+  | CRTypedIdReferenceValue<'MonetaryAmount'>
+  | CRTypedIdReferenceValue<'PriceSpecification'>
+  | CRTypedIdReferenceValue<'QuantitativeValue'>
   | CRIdReferenceValue
 
 /** Values accepted by Schema.org pronouns. */
@@ -102,7 +117,9 @@ export type CRPersonDefaultShape<Type = 'Person'> = {
   /** Schema.org affiliation: An organization that this person is affiliated with. */
   affiliation: CRSetSnapshot<CRPersonOrganization>
   /** Schema.org agentInteractionStatistic: Completed interactions for this entity. */
-  agentInteractionStatistic: CRSetSnapshot<CRIdReferenceValue>
+  agentInteractionStatistic: CRSetSnapshot<
+    CRTypedIdReferenceValue<'InteractionCounter'> | CRIdReferenceValue
+  >
   /** Schema.org alumniOf: An organization that the person is an alumni of. */
   alumniOf: CRSetSnapshot<CRPersonOrganization>
   /** Schema.org award: An award won by or for this item. */
@@ -112,7 +129,7 @@ export type CRPersonDefaultShape<Type = 'Person'> = {
   /** Schema.org birthPlace: The place where the person was born. */
   birthPlace: CRSetSnapshot<CRPersonPlace>
   /** Schema.org brand: Brand associated with this person. */
-  brand: CRSetSnapshot<CRPersonOrganization>
+  brand: CRSetSnapshot<CRPersonBrand>
   /** Schema.org callSign: Callsign used in broadcasting or radio communications. */
   callSign: CRSetSnapshot<SchemaOrgText>
   /** Schema.org children: A child of the person. */
@@ -138,23 +155,34 @@ export type CRPersonDefaultShape<Type = 'Person'> = {
   /** Schema.org funder: Person or organization that supports something financially. */
   funder: CRSetSnapshot<CRPersonOrOrganization>
   /** Schema.org funding: Grant that provides funding or sponsorship. */
-  funding: CRSetSnapshot<CRIdReferenceValue>
+  funding: CRSetSnapshot<CRTypedIdReferenceValue<'Grant'> | CRIdReferenceValue>
   /** Schema.org gender: Gender of something. */
   gender: CRSetSnapshot<
-    CREnumerationSnapshot<'GenderType'> | SchemaOrgText | CRIdReferenceValue
+    | CREnumerationSnapshot<'GenderType'>
+    | CRTypedIdReferenceValue<'GenderType'>
+    | SchemaOrgText
+    | CRIdReferenceValue
   >
   /** Schema.org givenName: Given name. */
   givenName: CRTextSnapshot
   /** Schema.org globalLocationNumber: GS1 Global Location Number. */
   globalLocationNumber: CRSetSnapshot<SchemaOrgText>
   /** Schema.org hasCertification: Certification information. */
-  hasCertification: CRSetSnapshot<CRIdReferenceValue>
+  hasCertification: CRSetSnapshot<
+    CRTypedIdReferenceValue<'Certification'> | CRIdReferenceValue
+  >
   /** Schema.org hasCredential: Credential awarded to the Person. */
-  hasCredential: CRSetSnapshot<CRIdReferenceValue>
+  hasCredential: CRSetSnapshot<
+    CRTypedIdReferenceValue<'Credential'> | CRIdReferenceValue
+  >
   /** Schema.org hasOccupation: The Person's occupation. */
-  hasOccupation: CRSetSnapshot<CRIdReferenceValue>
+  hasOccupation: CRSetSnapshot<
+    CRTypedIdReferenceValue<'Occupation'> | CRIdReferenceValue
+  >
   /** Schema.org hasOfferCatalog: OfferCatalog listing for this person. */
-  hasOfferCatalog: CRSetSnapshot<CRIdReferenceValue>
+  hasOfferCatalog: CRSetSnapshot<
+    CRTypedIdReferenceValue<'OfferCatalog'> | CRIdReferenceValue
+  >
   /** Schema.org hasPOS: Points-of-sale operated by the person. */
   hasPOS: CRSetSnapshot<CRPersonPlace>
   /** Schema.org height: The height of the item. */
@@ -166,7 +194,9 @@ export type CRPersonDefaultShape<Type = 'Person'> = {
   /** Schema.org honorificSuffix: Honorific suffix following a Person's name. */
   honorificSuffix: CRSetSnapshot<SchemaOrgText>
   /** Schema.org interactionStatistic: Interaction counter for this entity. */
-  interactionStatistic: CRSetSnapshot<CRIdReferenceValue>
+  interactionStatistic: CRSetSnapshot<
+    CRTypedIdReferenceValue<'InteractionCounter'> | CRIdReferenceValue
+  >
   /** Schema.org isicV4: ISIC Revision 4 code. */
   isicV4: CRSetSnapshot<SchemaOrgText>
   /** Schema.org jobTitle: The job title of the person. */
@@ -178,13 +208,24 @@ export type CRPersonDefaultShape<Type = 'Person'> = {
   /** Schema.org knowsAbout: Topic that the person knows about. */
   knowsAbout: CRSetSnapshot<CRPersonTopic>
   /** Schema.org knowsLanguage: Language known by the person. */
-  knowsLanguage: CRSetSnapshot<SchemaOrgText | CRIdReferenceValue>
+  knowsLanguage: CRSetSnapshot<
+    CRTypedIdReferenceValue<'Language'> | SchemaOrgText | CRIdReferenceValue
+  >
   /** Schema.org lifeEvent: A life event. */
-  lifeEvent: CRSetSnapshot<CRIdReferenceValue>
+  lifeEvent: CRSetSnapshot<
+    CRTypedIdReferenceValue<'Event'> | CRIdReferenceValue
+  >
   /** Schema.org makesOffer: Products or services offered by the person. */
-  makesOffer: CRSetSnapshot<CRIdReferenceValue>
+  makesOffer: CRSetSnapshot<
+    CRTypedIdReferenceValue<'Offer'> | CRIdReferenceValue
+  >
   /** Schema.org memberOf: Organization or membership this person belongs to. */
-  memberOf: CRSetSnapshot<CRPersonOrganization>
+  memberOf: CRSetSnapshot<
+    | CRPersonOrganization
+    | CRTypedIdReferenceValue<'MemberProgramTier'>
+    | CRTypedIdReferenceValue<'ProgramMembership'>
+    | CRIdReferenceValue
+  >
   /** Schema.org naics: NAICS code. */
   naics: CRSetSnapshot<SchemaOrgText>
   /** Schema.org nationality: Nationality of the person. */
@@ -196,7 +237,9 @@ export type CRPersonDefaultShape<Type = 'Person'> = {
   /** Schema.org parent: A parent of this person. */
   parent: CRSetSnapshot<CRPersonRelation>
   /** Schema.org performerIn: Event that this person is a performer or participant in. */
-  performerIn: CRSetSnapshot<CRIdReferenceValue>
+  performerIn: CRSetSnapshot<
+    CRTypedIdReferenceValue<'Event'> | CRIdReferenceValue
+  >
   /** Schema.org pronouns: Pronouns for a person. */
   pronouns: CRSetSnapshot<CRPersonPronouns>
   /** Schema.org publishingPrinciples: Editorial principles document. */
@@ -204,7 +247,7 @@ export type CRPersonDefaultShape<Type = 'Person'> = {
   /** Schema.org relatedTo: The most generic familial relation. */
   relatedTo: CRSetSnapshot<CRPersonRelation>
   /** Schema.org seeks: Products or services sought by the person. */
-  seeks: CRSetSnapshot<CRIdReferenceValue>
+  seeks: CRSetSnapshot<CRTypedIdReferenceValue<'Demand'> | CRIdReferenceValue>
   /** Schema.org sibling: A sibling of the person. */
   sibling: CRSetSnapshot<CRPersonRelation>
   /** Schema.org skills: Competency statement. */
@@ -256,7 +299,9 @@ export type CRPersonState<Type = 'Person'> = {
   /** Schema.org affiliation: An organization that this person is affiliated with. */
   affiliation: Readonly<CRSet<CRPersonOrganization>>
   /** Schema.org agentInteractionStatistic: Completed interactions for this entity. */
-  agentInteractionStatistic: Readonly<CRSet<CRIdReferenceValue>>
+  agentInteractionStatistic: Readonly<
+    CRSet<CRTypedIdReferenceValue<'InteractionCounter'> | CRIdReferenceValue>
+  >
   /** Schema.org alumniOf: An organization that the person is an alumni of. */
   alumniOf: Readonly<CRSet<CRPersonOrganization>>
   /** Schema.org award: An award won by or for this item. */
@@ -266,7 +311,7 @@ export type CRPersonState<Type = 'Person'> = {
   /** Schema.org birthPlace: The place where the person was born. */
   birthPlace: Readonly<CRSet<CRPersonPlace>>
   /** Schema.org brand: Brand associated with this person. */
-  brand: Readonly<CRSet<CRPersonOrganization>>
+  brand: Readonly<CRSet<CRPersonBrand>>
   /** Schema.org callSign: Callsign used in broadcasting or radio communications. */
   callSign: Readonly<CRSet<SchemaOrgText>>
   /** Schema.org children: A child of the person. */
@@ -292,11 +337,16 @@ export type CRPersonState<Type = 'Person'> = {
   /** Schema.org funder: Person or organization that supports something financially. */
   funder: Readonly<CRSet<CRPersonOrOrganization>>
   /** Schema.org funding: Grant that provides funding or sponsorship. */
-  funding: Readonly<CRSet<CRIdReferenceValue>>
+  funding: Readonly<
+    CRSet<CRTypedIdReferenceValue<'Grant'> | CRIdReferenceValue>
+  >
   /** Schema.org gender: Gender of something. */
   gender: Readonly<
     CRSet<
-      CREnumerationSnapshot<'GenderType'> | SchemaOrgText | CRIdReferenceValue
+      | CREnumerationSnapshot<'GenderType'>
+      | CRTypedIdReferenceValue<'GenderType'>
+      | SchemaOrgText
+      | CRIdReferenceValue
     >
   >
   /** Schema.org givenName: Given name. */
@@ -304,13 +354,21 @@ export type CRPersonState<Type = 'Person'> = {
   /** Schema.org globalLocationNumber: GS1 Global Location Number. */
   globalLocationNumber: Readonly<CRSet<SchemaOrgText>>
   /** Schema.org hasCertification: Certification information. */
-  hasCertification: Readonly<CRSet<CRIdReferenceValue>>
+  hasCertification: Readonly<
+    CRSet<CRTypedIdReferenceValue<'Certification'> | CRIdReferenceValue>
+  >
   /** Schema.org hasCredential: Credential awarded to the Person. */
-  hasCredential: Readonly<CRSet<CRIdReferenceValue>>
+  hasCredential: Readonly<
+    CRSet<CRTypedIdReferenceValue<'Credential'> | CRIdReferenceValue>
+  >
   /** Schema.org hasOccupation: The Person's occupation. */
-  hasOccupation: Readonly<CRSet<CRIdReferenceValue>>
+  hasOccupation: Readonly<
+    CRSet<CRTypedIdReferenceValue<'Occupation'> | CRIdReferenceValue>
+  >
   /** Schema.org hasOfferCatalog: OfferCatalog listing for this person. */
-  hasOfferCatalog: Readonly<CRSet<CRIdReferenceValue>>
+  hasOfferCatalog: Readonly<
+    CRSet<CRTypedIdReferenceValue<'OfferCatalog'> | CRIdReferenceValue>
+  >
   /** Schema.org hasPOS: Points-of-sale operated by the person. */
   hasPOS: Readonly<CRSet<CRPersonPlace>>
   /** Schema.org height: The height of the item. */
@@ -322,7 +380,9 @@ export type CRPersonState<Type = 'Person'> = {
   /** Schema.org honorificSuffix: Honorific suffix following a Person's name. */
   honorificSuffix: Readonly<CRSet<SchemaOrgText>>
   /** Schema.org interactionStatistic: Interaction counter for this entity. */
-  interactionStatistic: Readonly<CRSet<CRIdReferenceValue>>
+  interactionStatistic: Readonly<
+    CRSet<CRTypedIdReferenceValue<'InteractionCounter'> | CRIdReferenceValue>
+  >
   /** Schema.org isicV4: ISIC Revision 4 code. */
   isicV4: Readonly<CRSet<SchemaOrgText>>
   /** Schema.org jobTitle: The job title of the person. */
@@ -334,13 +394,28 @@ export type CRPersonState<Type = 'Person'> = {
   /** Schema.org knowsAbout: Topic that the person knows about. */
   knowsAbout: Readonly<CRSet<CRPersonTopic>>
   /** Schema.org knowsLanguage: Language known by the person. */
-  knowsLanguage: Readonly<CRSet<SchemaOrgText | CRIdReferenceValue>>
+  knowsLanguage: Readonly<
+    CRSet<
+      CRTypedIdReferenceValue<'Language'> | SchemaOrgText | CRIdReferenceValue
+    >
+  >
   /** Schema.org lifeEvent: A life event. */
-  lifeEvent: Readonly<CRSet<CRIdReferenceValue>>
+  lifeEvent: Readonly<
+    CRSet<CRTypedIdReferenceValue<'Event'> | CRIdReferenceValue>
+  >
   /** Schema.org makesOffer: Products or services offered by the person. */
-  makesOffer: Readonly<CRSet<CRIdReferenceValue>>
+  makesOffer: Readonly<
+    CRSet<CRTypedIdReferenceValue<'Offer'> | CRIdReferenceValue>
+  >
   /** Schema.org memberOf: Organization or membership this person belongs to. */
-  memberOf: Readonly<CRSet<CRPersonOrganization>>
+  memberOf: Readonly<
+    CRSet<
+      | CRPersonOrganization
+      | CRTypedIdReferenceValue<'MemberProgramTier'>
+      | CRTypedIdReferenceValue<'ProgramMembership'>
+      | CRIdReferenceValue
+    >
+  >
   /** Schema.org naics: NAICS code. */
   naics: Readonly<CRSet<SchemaOrgText>>
   /** Schema.org nationality: Nationality of the person. */
@@ -352,7 +427,9 @@ export type CRPersonState<Type = 'Person'> = {
   /** Schema.org parent: A parent of this person. */
   parent: Readonly<CRSet<CRPersonRelation>>
   /** Schema.org performerIn: Event that this person is a performer or participant in. */
-  performerIn: Readonly<CRSet<CRIdReferenceValue>>
+  performerIn: Readonly<
+    CRSet<CRTypedIdReferenceValue<'Event'> | CRIdReferenceValue>
+  >
   /** Schema.org pronouns: Pronouns for a person. */
   pronouns: Readonly<CRSet<CRPersonPronouns>>
   /** Schema.org publishingPrinciples: Editorial principles document. */
@@ -360,7 +437,7 @@ export type CRPersonState<Type = 'Person'> = {
   /** Schema.org relatedTo: The most generic familial relation. */
   relatedTo: Readonly<CRSet<CRPersonRelation>>
   /** Schema.org seeks: Products or services sought by the person. */
-  seeks: Readonly<CRSet<CRIdReferenceValue>>
+  seeks: Readonly<CRSet<CRTypedIdReferenceValue<'Demand'> | CRIdReferenceValue>>
   /** Schema.org sibling: A sibling of the person. */
   sibling: Readonly<CRSet<CRPersonRelation>>
   /** Schema.org skills: Competency statement. */

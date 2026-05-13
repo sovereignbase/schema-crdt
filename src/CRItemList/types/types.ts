@@ -33,6 +33,7 @@ export type CRItemListAggregateElement =
       CRThingDefaultShape<string>,
       '@id' | '@type' | 'identifier'
     >
+  | CRTypedIdReferenceValue<'Thing'>
   | CRIdReferenceValue
 
 /**
@@ -44,6 +45,7 @@ export type CRItemListElement =
       CRThingDefaultShape<string>,
       '@id' | '@type' | 'identifier'
     >
+  | CRTypedIdReferenceValue<'Thing'>
   | SchemaOrgText
   | CRIdReferenceValue
 

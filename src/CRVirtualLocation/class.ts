@@ -1,6 +1,6 @@
 import type { CRStructSnapshot } from '@sovereignbase/convergent-replicated-struct'
 
-import { CRThing } from '../CRThing/class.js'
+import { CRIntangible } from '../CRIntangible/class.js'
 
 import type {
   CRVirtualLocationDefaultShape,
@@ -20,7 +20,7 @@ export class CRVirtualLocation<
     CRStructSnapshot<Shape>
   >,
 >
-  extends CRThing<Type, Shape, Snapshot>
+  extends CRIntangible<Type, Shape, Snapshot>
   implements CRVirtualLocationState<Type>
 {
   /**
