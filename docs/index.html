@@ -56,9 +56,13 @@ and adding to <code>thing.sameAs</code> emits a <code>delta</code> keyed by <cod
 </code><button type="button">Copy</button></pre>
 
 <h3 id="json-ld-references" class="tsd-anchor-link">JSON-LD references<a href="#json-ld-references" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
-<pre><code class="ts"><span class="hl-4">import</span><span class="hl-1"> { </span><span class="hl-5">CRAction</span><span class="hl-1">, </span><span class="hl-5">CRIdReference</span><span class="hl-1">, </span><span class="hl-5">CRThing</span><span class="hl-1"> } </span><span class="hl-4">from</span><span class="hl-1"> </span><span class="hl-2">&#39;@sovereignbase/schema-crdt&#39;</span><br/><br/><span class="hl-6">const</span><span class="hl-1"> </span><span class="hl-7">owner</span><span class="hl-1"> = </span><span class="hl-6">new</span><span class="hl-1"> </span><span class="hl-0">CRIdReference</span><span class="hl-1">(</span><span class="hl-2">&#39;urn:person:alice&#39;</span><span class="hl-1">)</span><br/><span class="hl-5">owner</span><span class="hl-1">[</span><span class="hl-2">&#39;@id&#39;</span><span class="hl-1">] = </span><span class="hl-2">&#39;urn:person:alice-v2&#39;</span><br/><br/><span class="hl-6">const</span><span class="hl-1"> </span><span class="hl-7">action</span><span class="hl-1"> = </span><span class="hl-6">new</span><span class="hl-1"> </span><span class="hl-0">CRAction</span><span class="hl-1">()</span><br/><span class="hl-5">action</span><span class="hl-1">.</span><span class="hl-5">agent</span><span class="hl-1">.</span><span class="hl-0">add</span><span class="hl-1">({ </span><span class="hl-2">&#39;@id&#39;</span><span class="hl-5">:</span><span class="hl-1"> </span><span class="hl-5">owner</span><span class="hl-1">[</span><span class="hl-2">&#39;@id&#39;</span><span class="hl-1">], </span><span class="hl-2">&#39;@type&#39;</span><span class="hl-5">:</span><span class="hl-1"> </span><span class="hl-2">&#39;Person&#39;</span><span class="hl-1"> })</span><br/><span class="hl-5">action</span><span class="hl-1">.</span><span class="hl-5">object</span><span class="hl-1">.</span><span class="hl-0">add</span><span class="hl-1">({ </span><span class="hl-2">&#39;@id&#39;</span><span class="hl-5">:</span><span class="hl-1"> </span><span class="hl-2">&#39;urn:thing:document&#39;</span><span class="hl-1"> })</span><br/><br/><span class="hl-6">const</span><span class="hl-1"> </span><span class="hl-7">thing</span><span class="hl-1"> = </span><span class="hl-6">new</span><span class="hl-1"> </span><span class="hl-0">CRThing</span><span class="hl-1">()</span><br/><span class="hl-5">thing</span><span class="hl-1">.</span><span class="hl-5">owner</span><span class="hl-1"> = { </span><span class="hl-2">&#39;@id&#39;</span><span class="hl-5">:</span><span class="hl-1"> </span><span class="hl-5">owner</span><span class="hl-1">[</span><span class="hl-2">&#39;@id&#39;</span><span class="hl-1">], </span><span class="hl-2">&#39;@type&#39;</span><span class="hl-5">:</span><span class="hl-1"> </span><span class="hl-2">&#39;Person&#39;</span><span class="hl-1"> }</span><br/><span class="hl-5">thing</span><span class="hl-1">.</span><span class="hl-5">potentialAction</span><span class="hl-1">.</span><span class="hl-0">add</span><span class="hl-1">({ </span><span class="hl-2">&#39;@id&#39;</span><span class="hl-5">:</span><span class="hl-1"> </span><span class="hl-2">&#39;urn:action:read&#39;</span><span class="hl-1">, </span><span class="hl-2">&#39;@type&#39;</span><span class="hl-5">:</span><span class="hl-1"> </span><span class="hl-2">&#39;Action&#39;</span><span class="hl-1"> })</span><br/><br/><span class="hl-5">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-5">thing</span><span class="hl-1">.</span><span class="hl-5">owner</span><span class="hl-1">[</span><span class="hl-2">&#39;@id&#39;</span><span class="hl-1">]) </span><span class="hl-3">// &#39;urn:person:alice-v2&#39;</span>
+<pre><code class="ts"><span class="hl-4">import</span><span class="hl-1"> { </span><span class="hl-5">CRAction</span><span class="hl-1">, </span><span class="hl-5">CRIdReference</span><span class="hl-1">, </span><span class="hl-5">CRThing</span><span class="hl-1"> } </span><span class="hl-4">from</span><span class="hl-1"> </span><span class="hl-2">&#39;@sovereignbase/schema-crdt&#39;</span><br/><br/><span class="hl-6">const</span><span class="hl-1"> </span><span class="hl-7">owner</span><span class="hl-1"> = </span><span class="hl-6">new</span><span class="hl-1"> </span><span class="hl-0">CRIdReference</span><span class="hl-1">(</span><span class="hl-2">&#39;urn:anbs:Person.alice&#39;</span><span class="hl-1">)</span><br/><br/><span class="hl-6">const</span><span class="hl-1"> </span><span class="hl-7">action</span><span class="hl-1"> = </span><span class="hl-6">new</span><span class="hl-1"> </span><span class="hl-0">CRAction</span><span class="hl-1">()</span><br/><span class="hl-5">action</span><span class="hl-1">.</span><span class="hl-5">agent</span><span class="hl-1">.</span><span class="hl-0">add</span><span class="hl-1">({ </span><span class="hl-2">&#39;@id&#39;</span><span class="hl-5">:</span><span class="hl-1"> </span><span class="hl-5">owner</span><span class="hl-1">[</span><span class="hl-2">&#39;@id&#39;</span><span class="hl-1">], </span><span class="hl-2">&#39;@type&#39;</span><span class="hl-5">:</span><span class="hl-1"> </span><span class="hl-2">&#39;Person&#39;</span><span class="hl-1"> })</span><br/><span class="hl-5">action</span><span class="hl-1">.</span><span class="hl-5">object</span><span class="hl-1">.</span><span class="hl-0">add</span><span class="hl-1">({ </span><span class="hl-2">&#39;@id&#39;</span><span class="hl-5">:</span><span class="hl-1"> </span><span class="hl-2">&#39;urn:anbs:Thing.document&#39;</span><span class="hl-1"> })</span><br/><br/><span class="hl-6">const</span><span class="hl-1"> </span><span class="hl-7">thing</span><span class="hl-1"> = </span><span class="hl-6">new</span><span class="hl-1"> </span><span class="hl-0">CRThing</span><span class="hl-1">()</span><br/><span class="hl-5">thing</span><span class="hl-1">.</span><span class="hl-5">owner</span><span class="hl-1"> = { </span><span class="hl-2">&#39;@id&#39;</span><span class="hl-5">:</span><span class="hl-1"> </span><span class="hl-5">owner</span><span class="hl-1">[</span><span class="hl-2">&#39;@id&#39;</span><span class="hl-1">], </span><span class="hl-2">&#39;@type&#39;</span><span class="hl-5">:</span><span class="hl-1"> </span><span class="hl-2">&#39;Person&#39;</span><span class="hl-1"> }</span><br/><span class="hl-5">thing</span><span class="hl-1">.</span><span class="hl-5">potentialAction</span><span class="hl-1">.</span><span class="hl-0">add</span><span class="hl-1">({ </span><span class="hl-2">&#39;@id&#39;</span><span class="hl-5">:</span><span class="hl-1"> </span><span class="hl-2">&#39;urn:anbs:Action.read&#39;</span><span class="hl-1">, </span><span class="hl-2">&#39;@type&#39;</span><span class="hl-5">:</span><span class="hl-1"> </span><span class="hl-2">&#39;Action&#39;</span><span class="hl-1"> })</span><br/><br/><span class="hl-5">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-5">thing</span><span class="hl-1">.</span><span class="hl-5">owner</span><span class="hl-1">[</span><span class="hl-2">&#39;@id&#39;</span><span class="hl-1">]) </span><span class="hl-3">// &#39;urn:anbs:Person.alice&#39;</span>
 </code><button type="button">Copy</button></pre>
 
+<p>The examples use stable application identifiers in the form
+<code>urn:anbs:{@type}.{identifier}</code>. Do not encode version numbers into <code>@id</code>
+unless the application intentionally treats every version as a separate
+<a href="http://Schema.org">Schema.org</a> node.</p>
 <p>Use typed JSON-LD references such as <code>{ '@id': '...', '@type': 'Person' }</code>
 where a <a href="http://Schema.org">Schema.org</a> property requires a more specific class. Use plain
 <code>{ '@id': '...' }</code> where the property accepts an untyped node reference.</p>
@@ -245,144 +249,144 @@ primitive CRDT operations already covered by the lower-level packages.</p>
 <td><code>CRThing empty constructor</code></td>
 <td style="text-align:right">1</td>
 <td style="text-align:right">250</td>
-<td style="text-align:right">18.10</td>
-<td style="text-align:right">0.07</td>
-<td style="text-align:right">13,810.70</td>
+<td style="text-align:right">27.44</td>
+<td style="text-align:right">0.11</td>
+<td style="text-align:right">9,111.02</td>
 </tr>
 <tr>
 <td><code>construct</code></td>
 <td><code>CRWebPage empty constructor</code></td>
 <td style="text-align:right">1</td>
 <td style="text-align:right">250</td>
-<td style="text-align:right">155.95</td>
+<td style="text-align:right">156.22</td>
 <td style="text-align:right">0.62</td>
-<td style="text-align:right">1,603.03</td>
+<td style="text-align:right">1,600.36</td>
 </tr>
 <tr>
 <td><code>construct</code></td>
 <td><code>all schema classes empty constructors</code></td>
 <td style="text-align:right">56</td>
 <td style="text-align:right">448</td>
-<td style="text-align:right">143.38</td>
-<td style="text-align:right">0.32</td>
-<td style="text-align:right">3,124.61</td>
+<td style="text-align:right">155.46</td>
+<td style="text-align:right">0.35</td>
+<td style="text-align:right">2,881.83</td>
 </tr>
 <tr>
 <td><code>populate</code></td>
 <td><code>CRPerson full setter sweep</code></td>
 <td style="text-align:right">77</td>
 <td style="text-align:right">50</td>
-<td style="text-align:right">258.85</td>
-<td style="text-align:right">5.18</td>
-<td style="text-align:right">193.16</td>
+<td style="text-align:right">261.44</td>
+<td style="text-align:right">5.23</td>
+<td style="text-align:right">191.25</td>
 </tr>
 <tr>
 <td><code>populate</code></td>
 <td><code>CRImageObject full setter sweep</code></td>
 <td style="text-align:right">147</td>
 <td style="text-align:right">50</td>
-<td style="text-align:right">406.42</td>
-<td style="text-align:right">8.13</td>
-<td style="text-align:right">123.03</td>
+<td style="text-align:right">413.33</td>
+<td style="text-align:right">8.27</td>
+<td style="text-align:right">120.97</td>
 </tr>
 <tr>
 <td><code>populate</code></td>
 <td><code>all schema classes full setter sweep</code></td>
 <td style="text-align:right">56</td>
 <td style="text-align:right">224</td>
-<td style="text-align:right">748.59</td>
-<td style="text-align:right">3.34</td>
-<td style="text-align:right">299.23</td>
+<td style="text-align:right">726.75</td>
+<td style="text-align:right">3.24</td>
+<td style="text-align:right">308.22</td>
 </tr>
 <tr>
 <td><code>hydrate</code></td>
 <td><code>CRPlace hydrate populated snapshot</code></td>
 <td style="text-align:right">55</td>
 <td style="text-align:right">50</td>
-<td style="text-align:right">12.58</td>
-<td style="text-align:right">0.25</td>
-<td style="text-align:right">3,975.64</td>
+<td style="text-align:right">14.07</td>
+<td style="text-align:right">0.28</td>
+<td style="text-align:right">3,553.48</td>
 </tr>
 <tr>
 <td><code>hydrate</code></td>
 <td><code>CRImageObject hydrate populated snapshot</code></td>
 <td style="text-align:right">147</td>
 <td style="text-align:right">50</td>
-<td style="text-align:right">42.90</td>
-<td style="text-align:right">0.86</td>
-<td style="text-align:right">1,165.51</td>
+<td style="text-align:right">46.82</td>
+<td style="text-align:right">0.94</td>
+<td style="text-align:right">1,068.03</td>
 </tr>
 <tr>
 <td><code>replica</code></td>
 <td><code>CRThing merge populated snapshot</code></td>
 <td style="text-align:right">14</td>
 <td style="text-align:right">50</td>
-<td style="text-align:right">5.88</td>
+<td style="text-align:right">5.91</td>
 <td style="text-align:right">0.12</td>
-<td style="text-align:right">8,502.97</td>
+<td style="text-align:right">8,456.23</td>
 </tr>
 <tr>
 <td><code>replica</code></td>
 <td><code>CRWebPage merge populated snapshot</code></td>
 <td style="text-align:right">134</td>
 <td style="text-align:right">50</td>
-<td style="text-align:right">49.82</td>
-<td style="text-align:right">1.00</td>
-<td style="text-align:right">1,003.69</td>
+<td style="text-align:right">48.82</td>
+<td style="text-align:right">0.98</td>
+<td style="text-align:right">1,024.22</td>
 </tr>
 <tr>
 <td><code>events</code></td>
 <td><code>CRAction nested event routing</code></td>
 <td style="text-align:right">18</td>
 <td style="text-align:right">750</td>
-<td style="text-align:right">43.36</td>
+<td style="text-align:right">43.03</td>
 <td style="text-align:right">0.06</td>
-<td style="text-align:right">17,298.76</td>
+<td style="text-align:right">17,431.40</td>
 </tr>
 <tr>
 <td><code>lifecycle</code></td>
 <td><code>CRPerson acknowledge</code></td>
 <td style="text-align:right">77</td>
 <td style="text-align:right">80</td>
-<td style="text-align:right">11.69</td>
-<td style="text-align:right">0.15</td>
-<td style="text-align:right">6,841.06</td>
+<td style="text-align:right">12.44</td>
+<td style="text-align:right">0.16</td>
+<td style="text-align:right">6,429.73</td>
 </tr>
 <tr>
 <td><code>lifecycle</code></td>
 <td><code>CRImageObject garbage collect</code></td>
 <td style="text-align:right">147</td>
 <td style="text-align:right">80</td>
-<td style="text-align:right">32.82</td>
-<td style="text-align:right">0.41</td>
-<td style="text-align:right">2,437.23</td>
+<td style="text-align:right">33.46</td>
+<td style="text-align:right">0.42</td>
+<td style="text-align:right">2,391.09</td>
 </tr>
 <tr>
 <td><code>reference</code></td>
 <td><code>CRIdReference set / snapshot / hydrate</code></td>
 <td style="text-align:right">1</td>
 <td style="text-align:right">250</td>
-<td style="text-align:right">14.24</td>
-<td style="text-align:right">0.06</td>
-<td style="text-align:right">17,561.61</td>
+<td style="text-align:right">17.82</td>
+<td style="text-align:right">0.07</td>
+<td style="text-align:right">14,031.78</td>
 </tr>
 <tr>
 <td><code>validation</code></td>
 <td><code>format validators accepted values</code></td>
 <td style="text-align:right">16</td>
 <td style="text-align:right">4000</td>
-<td style="text-align:right">313.47</td>
+<td style="text-align:right">328.01</td>
 <td style="text-align:right">0.08</td>
-<td style="text-align:right">12,760.57</td>
+<td style="text-align:right">12,194.79</td>
 </tr>
 <tr>
 <td><code>validation</code></td>
 <td><code>format validators rejected values</code></td>
 <td style="text-align:right">16</td>
 <td style="text-align:right">3250</td>
-<td style="text-align:right">887.71</td>
+<td style="text-align:right">880.75</td>
 <td style="text-align:right">0.27</td>
-<td style="text-align:right">3,661.11</td>
+<td style="text-align:right">3,690.02</td>
 </tr>
 </tbody>
 </table>
