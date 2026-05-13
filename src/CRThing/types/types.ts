@@ -1,5 +1,4 @@
 import type { Thing } from 'schema-dts'
-import type { OpaqueIdentifier } from '@sovereignbase/cryptosuite'
 import type {
   CRTextSnapshot,
   CRText,
@@ -72,7 +71,7 @@ export type CRThingDefaultShape<T = 'Thing'> = {
   /**
    * JSON-LD identifier for this node.
    */
-  '@id': OpaqueIdentifier
+  '@id': SchemaOrgURL | SchemaOrgText
   /**
    * Schema.org type name for this node.
    */
@@ -96,9 +95,9 @@ export type CRThingDefaultShape<T = 'Thing'> = {
    */
   disambiguatingDescription: CRTextSnapshot
   /**
-   * Schema.org identifier represented by this package as an opaque identifier.
+   * Schema.org identifier.
    */
-  identifier: OpaqueIdentifier
+  identifier: SchemaOrgURL | SchemaOrgText
   /**
    * Schema.org image: An image of the item.
    */
@@ -155,7 +154,7 @@ export type CRThingState<T = 'Thing'> = {
   /**
    * JSON-LD identifier for this node.
    */
-  '@id': Readonly<OpaqueIdentifier>
+  '@id': Readonly<SchemaOrgURL | SchemaOrgText>
   /**
    * Schema.org type name for this node.
    */
@@ -178,9 +177,9 @@ export type CRThingState<T = 'Thing'> = {
    */
   disambiguatingDescription: Readonly<CRText>
   /**
-   * Schema.org identifier represented by this package as an opaque identifier.
+   * Schema.org identifier.
    */
-  identifier: Readonly<OpaqueIdentifier>
+  identifier: Readonly<SchemaOrgURL | SchemaOrgText>
   /**
    * Schema.org image: An image of the item.
    */

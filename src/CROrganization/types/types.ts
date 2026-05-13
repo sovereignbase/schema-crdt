@@ -108,10 +108,6 @@ export type CROrganizationReview =
  * Serializable CRDT shape for Schema.org Organization.
  *
  * Schema.org: An organization such as a school, NGO, corporation, club, etc.
- *
- * Deprecated Schema.org properties intentionally omitted:
- * awards, contactPoints, employees, events, founders, hasProductReturnPolicy,
- * members, reviews, serviceArea.
  */
 export type CROrganizationDefaultShape<Type = 'Organization'> = {
   /** Schema.org acceptedPaymentMethod: Payment methods accepted by an organization. */

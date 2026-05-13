@@ -174,9 +174,6 @@ export type CREventReview =
  * Serializable CRDT shape for Schema.org Event.
  *
  * Schema.org: An event happening at a certain time and location.
- *
- * Deprecated Schema.org properties intentionally omitted:
- * attendees, performers, subEvents.
  */
 export type CREventDefaultShape<Type = 'Event'> = {
   /**

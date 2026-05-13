@@ -40,9 +40,6 @@ export type CRPostalAddressRegion = SchemaOrgText | CRIdReferenceValue
  * Serializable CRDT shape for Schema.org PostalAddress.
  *
  * Schema.org: The mailing address.
- *
- * Deprecated Schema.org properties intentionally omitted:
- * serviceArea.
  */
 export type CRPostalAddressDefaultShape<Type = 'PostalAddress'> = {
   /**

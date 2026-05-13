@@ -86,9 +86,6 @@ export type CRReviewRating = CRRatingSnapshot | CRIdReferenceValue
  * Serializable CRDT shape for Schema.org Review.
  *
  * Schema.org: A review of an item.
- *
- * Deprecated Schema.org properties intentionally omitted:
- * awards, encodings, fileFormat, isBasedOnUrl, reviews.
  */
 export type CRReviewDefaultShape<Type = 'Review'> = {
   /**

@@ -93,9 +93,6 @@ export type CRPersonPronouns =
  * Serializable CRDT shape for Schema.org Person.
  *
  * Schema.org: A person (alive, dead, undead, or fictional).
- *
- * Deprecated Schema.org properties intentionally omitted:
- * awards, colleagues, contactPoints, parents, siblings.
  */
 export type CRPersonDefaultShape<Type = 'Person'> = {
   /** Schema.org additionalName: An additional name for a Person. */

@@ -46,9 +46,6 @@ export type CREntryPointActionPlatform =
  * Serializable CRDT shape for Schema.org EntryPoint.
  *
  * Schema.org: An entry point, within some Web-based protocol.
- *
- * Deprecated Schema.org properties intentionally omitted:
- * application.
  */
 export type CREntryPointDefaultShape<Type = 'EntryPoint'> = {
   /**

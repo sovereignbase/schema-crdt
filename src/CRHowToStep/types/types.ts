@@ -48,9 +48,6 @@ export type CRHowToStepElement =
  * Serializable CRDT shape for Schema.org HowToStep.
  *
  * Schema.org: A step in how-to instructions.
- *
- * Deprecated Schema.org properties intentionally omitted:
- * awards, encodings, fileFormat, isBasedOnUrl, reviews.
  */
 export type CRHowToStepDefaultShape<Type = 'HowToStep'> = {
   /**

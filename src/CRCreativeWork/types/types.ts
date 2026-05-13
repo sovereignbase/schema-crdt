@@ -248,9 +248,6 @@ export type CRCreativeWorkVersion = SchemaOrgNumber | SchemaOrgText
  * Serializable CRDT shape for Schema.org CreativeWork.
  *
  * Schema.org: The most generic kind of creative work.
- *
- * Deprecated Schema.org properties intentionally omitted:
- * awards, encodings, fileFormat, isBasedOnUrl, reviews.
  */
 export type CRCreativeWorkDefaultShape<Type = 'CreativeWork'> = {
   about: CRSetSnapshot<CRCreativeWorkThing>

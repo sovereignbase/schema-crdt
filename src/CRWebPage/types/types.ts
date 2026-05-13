@@ -86,9 +86,6 @@ export type CRWebPageSpecialty =
  * Serializable CRDT shape for Schema.org WebPage.
  *
  * Schema.org: A web page.
- *
- * Deprecated Schema.org properties intentionally omitted:
- * awards, encodings, fileFormat, isBasedOnUrl, reviews, significantLinks.
  */
 export type CRWebPageDefaultShape<Type = 'WebPage'> = {
   /**

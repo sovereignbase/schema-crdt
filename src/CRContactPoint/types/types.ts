@@ -28,9 +28,6 @@ type SchemaOrgContactPoint = Partial<SchemaOrgContactPointRaw>
  * Serializable CRDT shape for Schema.org ContactPoint.
  *
  * Schema.org: A contact point, for example a customer complaints department.
- *
- * Deprecated Schema.org properties intentionally omitted:
- * serviceArea.
  */
 export type CRContactPointDefaultShape<Type = 'ContactPoint'> = {
   /**

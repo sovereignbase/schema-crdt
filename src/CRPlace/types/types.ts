@@ -84,14 +84,6 @@ export type CRPlaceReview =
   | CRTypedIdReferenceValue<'Review'>
   | CRIdReferenceValue
 
-/**
- * Serializable CRDT shape for Schema.org Place.
- *
- * Schema.org: Entities that have a somewhat fixed, physical extension.
- *
- * Deprecated Schema.org properties intentionally omitted:
- * containedIn, events, map, maps, photos, reviews.
- */
 export type CRPlaceDefaultShape<Type = 'Place'> = {
   additionalProperty: CRSetSnapshot<CRPlaceAdditionalProperty>
   address: CRSetSnapshot<CRPlaceAddress>

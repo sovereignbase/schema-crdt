@@ -83,9 +83,6 @@ export type CRHowToYield =
  * Serializable CRDT shape for Schema.org HowTo.
  *
  * Schema.org: Instructions that explain how to achieve a result.
- *
- * Deprecated Schema.org properties intentionally omitted:
- * awards, encodings, fileFormat, isBasedOnUrl, reviews, steps.
  */
 export type CRHowToDefaultShape<Type = 'HowTo'> = {
   /**

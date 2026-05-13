@@ -34,9 +34,6 @@ type SchemaOrgHowToSection = Partial<SchemaOrgHowToSectionRaw>
  * Serializable CRDT shape for Schema.org HowToSection.
  *
  * Schema.org: A sub-grouping of how-to steps.
- *
- * Deprecated Schema.org properties intentionally omitted:
- * awards, encodings, fileFormat, isBasedOnUrl, reviews, steps.
  */
 export type CRHowToSectionDefaultShape<Type = 'HowToSection'> = {
   /**

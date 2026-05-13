@@ -41,9 +41,6 @@ export type CRImageObjectExifData =
  * Serializable CRDT shape for Schema.org ImageObject.
  *
  * Schema.org: An image file.
- *
- * Deprecated Schema.org properties intentionally omitted:
- * awards, encodings, fileFormat, isBasedOnUrl, reviews.
  */
 export type CRImageObjectDefaultShape<Type = 'ImageObject'> = {
   /**

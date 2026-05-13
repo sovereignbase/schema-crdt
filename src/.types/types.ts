@@ -29,6 +29,64 @@ import type {
   CRMapAck,
 } from '@sovereignbase/convergent-replicated-map'
 
+import type { CRActionStatusTypeSnapshot } from '../CRActionStatusType/types/types.js'
+import type { CRActionSnapshot } from '../CRAction/types/types.js'
+import type { CRAdministrativeAreaSnapshot } from '../CRAdministrativeArea/types/types.js'
+import type { CRAggregateRatingSnapshot } from '../CRAggregateRating/types/types.js'
+import type { CRAudienceSnapshot } from '../CRAudience/types/types.js'
+import type { CRBreadcrumbListSnapshot } from '../CRBreadcrumbList/types/types.js'
+import type { CRContactPointSnapshot } from '../CRContactPoint/types/types.js'
+import type { CRCountrySnapshot } from '../CRCountry/types/types.js'
+import type { CRCreativeWorkSnapshot } from '../CRCreativeWork/types/types.js'
+import type { CRDefinedTermSetSnapshot } from '../CRDefinedTermSet/types/types.js'
+import type { CRDefinedTermSnapshot } from '../CRDefinedTerm/types/types.js'
+import type { CRDigitalPlatformEnumerationSnapshot } from '../CRDigitalPlatformEnumeration/types/types.js'
+import type { CREntryPointSnapshot } from '../CREntryPoint/types/types.js'
+import type { CREnumerationSnapshot } from '../CREnumeration/types/types.js'
+import type { CREventAttendanceModeEnumerationSnapshot } from '../CREventAttendanceModeEnumeration/types/types.js'
+import type { CREventStatusTypeSnapshot } from '../CREventStatusType/types/types.js'
+import type { CREventSnapshot } from '../CREvent/types/types.js'
+import type { CRGeoCoordinatesSnapshot } from '../CRGeoCoordinates/types/types.js'
+import type { CRGeoShapeSnapshot } from '../CRGeoShape/types/types.js'
+import type { CRGeospatialGeometrySnapshot } from '../CRGeospatialGeometry/types/types.js'
+import type { CRHowToDirectionSnapshot } from '../CRHowToDirection/types/types.js'
+import type { CRHowToItemSnapshot } from '../CRHowToItem/types/types.js'
+import type { CRHowToSectionSnapshot } from '../CRHowToSection/types/types.js'
+import type { CRHowToStepSnapshot } from '../CRHowToStep/types/types.js'
+import type { CRHowToSupplySnapshot } from '../CRHowToSupply/types/types.js'
+import type { CRHowToTipSnapshot } from '../CRHowToTip/types/types.js'
+import type { CRHowToToolSnapshot } from '../CRHowToTool/types/types.js'
+import type { CRHowToSnapshot } from '../CRHowTo/types/types.js'
+import type { CRIdReferenceSnapshot } from '../CRIdReference/types/types.js'
+import type { CRImageObjectSnapshot } from '../CRImageObject/types/types.js'
+import type { CRIntangibleSnapshot } from '../CRIntangible/types/types.js'
+import type { CRItemListOrderTypeSnapshot } from '../CRItemListOrderType/types/types.js'
+import type { CRItemListSnapshot } from '../CRItemList/types/types.js'
+import type { CRListItemSnapshot } from '../CRListItem/types/types.js'
+import type { CRLocationFeatureSpecificationSnapshot } from '../CRLocationFeatureSpecification/types/types.js'
+import type { CRMediaObjectSnapshot } from '../CRMediaObject/types/types.js'
+import type { CRMonetaryAmountSnapshot } from '../CRMonetaryAmount/types/types.js'
+import type { CROpeningHoursSpecificationSnapshot } from '../CROpeningHoursSpecification/types/types.js'
+import type { CROrganizationSnapshot } from '../CROrganization/types/types.js'
+import type { CRPersonSnapshot } from '../CRPerson/types/types.js'
+import type { CRPlaceSnapshot } from '../CRPlace/types/types.js'
+import type { CRPostalAddressSnapshot } from '../CRPostalAddress/types/types.js'
+import type { CRPropertyValueSnapshot } from '../CRPropertyValue/types/types.js'
+import type { CRQuantitativeValueSnapshot } from '../CRQuantitativeValue/types/types.js'
+import type { CRRatingSnapshot } from '../CRRating/types/types.js'
+import type { CRReviewSnapshot } from '../CRReview/types/types.js'
+import type { CRScheduleSnapshot } from '../CRSchedule/types/types.js'
+import type { CRSoftwareApplicationSnapshot } from '../CRSoftwareApplication/types/types.js'
+import type { CRSpeakableSpecificationSnapshot } from '../CRSpeakableSpecification/types/types.js'
+import type { CRSpecialtySnapshot } from '../CRSpecialty/types/types.js'
+import type { CRStatusEnumerationSnapshot } from '../CRStatusEnumeration/types/types.js'
+import type { CRStructuredValueSnapshot } from '../CRStructuredValue/types/types.js'
+import type { CRThingSnapshot } from '../CRThing/types/types.js'
+import type { CRVirtualLocationSnapshot } from '../CRVirtualLocation/types/types.js'
+import type { CRWebContentSnapshot } from '../CRWebContent/types/types.js'
+import type { CRWebPageElementSnapshot } from '../CRWebPageElement/types/types.js'
+import type { CRWebPageSnapshot } from '../CRWebPage/types/types.js'
+
 /**
  * Partial CRStruct snapshot where selected keys stay required.
  */
@@ -37,6 +95,68 @@ export type CRStructPartialSnapshot<
   Required extends keyof T = never,
 > = Pick<CRStructSnapshot<T>, Required> &
   Partial<Omit<CRStructSnapshot<T>, Required>>
+
+/**
+ * Snapshot union for every CRDT-backed Schema.org class in this package.
+ */
+export type SchemaCRDTSnapshot =
+  | CRActionSnapshot
+  | CRActionStatusTypeSnapshot
+  | CRAdministrativeAreaSnapshot
+  | CRAggregateRatingSnapshot
+  | CRAudienceSnapshot
+  | CRBreadcrumbListSnapshot
+  | CRContactPointSnapshot
+  | CRCountrySnapshot
+  | CRCreativeWorkSnapshot
+  | CRDefinedTermSnapshot
+  | CRDefinedTermSetSnapshot
+  | CRDigitalPlatformEnumerationSnapshot
+  | CREntryPointSnapshot
+  | CREnumerationSnapshot
+  | CREventSnapshot
+  | CREventAttendanceModeEnumerationSnapshot
+  | CREventStatusTypeSnapshot
+  | CRGeoCoordinatesSnapshot
+  | CRGeoShapeSnapshot
+  | CRGeospatialGeometrySnapshot
+  | CRHowToSnapshot
+  | CRHowToDirectionSnapshot
+  | CRHowToItemSnapshot
+  | CRHowToSectionSnapshot
+  | CRHowToStepSnapshot
+  | CRHowToSupplySnapshot
+  | CRHowToTipSnapshot
+  | CRHowToToolSnapshot
+  | CRIdReferenceSnapshot
+  | CRImageObjectSnapshot
+  | CRIntangibleSnapshot
+  | CRItemListSnapshot
+  | CRItemListOrderTypeSnapshot
+  | CRListItemSnapshot
+  | CRLocationFeatureSpecificationSnapshot
+  | CRMediaObjectSnapshot
+  | CRMonetaryAmountSnapshot
+  | CROpeningHoursSpecificationSnapshot
+  | CROrganizationSnapshot
+  | CRPersonSnapshot
+  | CRPlaceSnapshot
+  | CRPostalAddressSnapshot
+  | CRPropertyValueSnapshot
+  | CRQuantitativeValueSnapshot
+  | CRRatingSnapshot
+  | CRReviewSnapshot
+  | CRScheduleSnapshot
+  | CRSoftwareApplicationSnapshot
+  | CRSpeakableSpecificationSnapshot
+  | CRSpecialtySnapshot
+  | CRStatusEnumerationSnapshot
+  | CRStructuredValueSnapshot
+  | CRThingSnapshot
+  | CRVirtualLocationSnapshot
+  | CRWebContentSnapshot
+  | CRWebPageSnapshot
+  | CRWebPageElementSnapshot
 
 /**
  * Schema.org Boolean primitive.

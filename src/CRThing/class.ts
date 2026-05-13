@@ -20,7 +20,6 @@ import {
   CRMap,
   type CRMapSnapshot,
 } from '@sovereignbase/convergent-replicated-map'
-import { Cryptographic, OpaqueIdentifier } from '@sovereignbase/cryptosuite'
 
 import type { CRThingDefaultShape, CRThingState } from './types/types.js'
 import {
@@ -83,7 +82,7 @@ export class CRThing<
    */
   declare public readonly 'disambiguatingDescription': CRThingState['disambiguatingDescription']
   /**
-   * Schema.org identifier represented by this package as an opaque identifier.
+   * Schema.org identifier.
    */
   declare public readonly 'identifier': CRThingState['identifier']
   /**
@@ -150,7 +149,8 @@ export class CRThing<
 
     const state = new CRStruct(defaults, snapshot, true)
 
-    const id = state['identifier'] ?? Cryptographic.identifier.generate()
+    const id = state['@id'] ?? defaults['@id']
+    const identifier = state['identifier'] ?? defaults['identifier']
 
     Object.defineProperties(this, {
       state: {
@@ -211,7 +211,7 @@ export class CRThing<
         writable: false,
       },
       identifier: {
-        value: id,
+        value: identifier,
         enumerable: false,
         configurable: false,
         writable: false,

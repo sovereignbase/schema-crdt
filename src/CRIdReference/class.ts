@@ -14,7 +14,7 @@ import type {
 } from './types/types.js'
 
 /**
- * CRDT-backed opaque JSON-LD node reference.
+ * CRDT-backed JSON-LD node reference.
  */
 export class CRIdReference implements CRIdReferenceState {
   declare private readonly state: CRStruct<CRIdReferenceDefaultShape, true>

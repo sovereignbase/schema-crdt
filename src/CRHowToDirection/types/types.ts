@@ -64,9 +64,6 @@ export type CRHowToDirectionTool =
  * Serializable CRDT shape for Schema.org HowToDirection.
  *
  * Schema.org: A direction indicating a single action in how-to instructions.
- *
- * Deprecated Schema.org properties intentionally omitted:
- * awards, encodings, fileFormat, isBasedOnUrl, reviews.
  */
 export type CRHowToDirectionDefaultShape<Type = 'HowToDirection'> = {
   /**

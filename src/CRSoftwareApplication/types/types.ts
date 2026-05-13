@@ -96,9 +96,6 @@ export type CRSoftwareApplicationSupportingData =
  * Serializable CRDT shape for Schema.org SoftwareApplication.
  *
  * Schema.org: A software application.
- *
- * Deprecated Schema.org properties intentionally omitted:
- * awards, device, encodings, fileFormat, isBasedOnUrl, requirements, reviews.
  */
 export type CRSoftwareApplicationDefaultShape<Type = 'SoftwareApplication'> = {
   /**

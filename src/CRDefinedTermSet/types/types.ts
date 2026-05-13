@@ -31,9 +31,6 @@ export type CRDefinedTermSetDefinedTerm =
  *
  * Schema.org: A set of defined terms, such as categories, a classification
  * scheme, a glossary, dictionary or enumeration.
- *
- * Deprecated Schema.org properties intentionally omitted:
- * awards, encodings, fileFormat, isBasedOnUrl, reviews.
  */
 export type CRDefinedTermSetDefaultShape<Type = 'DefinedTermSet'> = {
   /**
