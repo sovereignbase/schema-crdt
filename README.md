@@ -241,6 +241,41 @@ Use typed JSON-LD references such as `{ '@id': '...', '@type': 'Person' }`
 where a Schema.org property requires a more specific class. Use plain
 `{ '@id': '...' }` where the property accepts an untyped node reference.
 
+### JSON-LD presentations
+
+```ts
+import { CRThing } from '@sovereignbase/schema-crdt'
+
+const thing = await CRThing.fromJSONLD({
+  '@context': 'https://schema.org',
+  '@id': 'urn:anbs:Thing.example',
+  '@type': 'Thing',
+  name: 'Example',
+  sameAs: ['https://example.test/'],
+})
+
+const jsonld = thing.toJSONLD()
+const expanded = await thing.toJSONLD({ format: 'expanded' })
+const canonical = await thing.getCanonicalPresentation()
+
+console.log(jsonld.name) // 'Example'
+console.log(Array.isArray(expanded)) // true
+console.log(canonical.includes('https://schema.org/name')) // true
+```
+
+`fromJSONLD()` is an async constructor-style import for compacted or expanded
+Schema.org JSON-LD. It creates a fresh CRDT instance; it does not merge JSON-LD
+into an existing replica. `toJSONLD()` exports the current live Schema.org
+presentation as compacted JSON-LD by default and can return expanded JSON-LD
+with `{ format: 'expanded' }`. `toJSON()` remains the CRDT snapshot for
+replication and persistence.
+
+`getCanonicalPresentation()` validates the live presentation with
+`@adobe/structured-data-validator` and returns jsonld.js URDNA2015 canonical
+N-Quads for signing or hashing. That canonical form covers the live JSON-LD
+presentation only. If an application needs to sign the whole CRDT state,
+canonicalize `toJSON()` separately in the application protocol.
+
 ### Validation
 
 ```ts
@@ -368,6 +403,7 @@ hex digests.
 Public field writes and incoming merge payloads can throw `SchemaCRDTError`:
 
 - `VALIDATION_FAILED`
+- `CANONICALIZATION_FAILED`
 
 Validation is intentionally narrow. Deprecated and superseded Schema.org
 property aliases are omitted instead of being implemented as runtime aliases.
@@ -378,7 +414,7 @@ property aliases are omitted instead of being implemented as runtime aliases.
 - `delta` events are the gossip payloads to send to another replica's `merge()`.
 - `change` events describe visible projection changes keyed by Schema.org property name.
 - `ack` events are acknowledgement frontiers for `garbageCollect()`.
-- `toJSON()` returns the root struct snapshot, not a compact Schema.org JSON-LD document.
+- `toJSON()` returns the root struct snapshot, not a Schema.org JSON-LD document.
 - Nested `CRText`, `CRSet`, `CRList`, and `CRMap` properties expose their own snapshots through routed event payloads.
 - Direct `CRText`, `CRSet`, `CRList`, and `CRMap` properties retain their own CRDT semantics.
 
@@ -389,6 +425,9 @@ property aliases are omitted instead of being implemented as runtime aliases.
 - A root class snapshot can hydrate scalar struct state in a fresh class instance.
 - Routed nested snapshots and deltas can be merged into the corresponding nested CRDT instance.
 - Acknowledgement frontiers are routed by property key so garbage collection can compact nested CRDT history without a second external index.
+- `fromJSONLD()` imports compacted or expanded JSON-LD into a new instance,
+  `toJSONLD()` exports the live presentation, and `getCanonicalPresentation()`
+  canonicalizes that presentation for signatures or hashes.
 
 ## Tests
 

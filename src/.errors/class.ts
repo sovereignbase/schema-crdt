@@ -1,7 +1,9 @@
 /**
  * Public error codes emitted by schema-crdt.
  */
-export type SchemaCRDTErrorCode = 'VALIDATION_FAILED'
+export type SchemaCRDTErrorCode =
+  | 'VALIDATION_FAILED'
+  | 'CANONICALIZATION_FAILED'
 
 /**
  * Typed package error for schema-crdt runtime failures.

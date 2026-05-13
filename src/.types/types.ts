@@ -1,3 +1,5 @@
+/// <reference path="./ExternalModules/type.ts" />
+
 import type {
   CRStructSnapshot,
   CRStructDelta,
@@ -86,6 +88,17 @@ import type { CRVirtualLocationSnapshot } from '../CRVirtualLocation/types/types
 import type { CRWebContentSnapshot } from '../CRWebContent/types/types.js'
 import type { CRWebPageElementSnapshot } from '../CRWebPageElement/types/types.js'
 import type { CRWebPageSnapshot } from '../CRWebPage/types/types.js'
+
+export type {
+  SchemaCRDTCanonicalPresentationOptions,
+  SchemaCRDTExpandedJSONLDDocument,
+  SchemaCRDTJSONLDContext,
+  SchemaCRDTJSONLDDocument,
+  SchemaCRDTJSONLDInput,
+  SchemaCRDTJSONLDOptions,
+  SchemaCRDTJSONLDScalar,
+  SchemaCRDTJSONLDValue,
+} from './SchemaCRDTJSONLD/type.js'
 
 /**
  * Partial CRStruct snapshot where selected keys stay required.
