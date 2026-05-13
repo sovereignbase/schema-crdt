@@ -1,20 +1,14 @@
+import type { SchemaOrgType } from '../SchemaOrgType/type.js'
+
 export type SchemaCRDTJSONLDContext =
   | 'https://schema.org'
   | Record<string, unknown>
   | Array<'https://schema.org' | Record<string, unknown>>
 
-export type SchemaCRDTJSONLDValue =
-  | string
-  | number
-  | boolean
-  | null
-  | SchemaCRDTJSONLDDocument
-  | Array<SchemaCRDTJSONLDValue>
-
 export type SchemaCRDTJSONLDDocument = {
   '@context'?: SchemaCRDTJSONLDContext
   '@id'?: string
-  '@type'?: string | Array<string>
+  '@type'?: SchemaOrgType | (string & {}) | Array<SchemaOrgType | (string & {})>
   [key: string]: unknown
 }
 

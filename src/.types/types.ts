@@ -93,8 +93,8 @@ export type {
   SchemaCRDTJSONLDDocument,
   SchemaCRDTJSONLDInput,
   SchemaCRDTJSONLDOptions,
-  SchemaCRDTJSONLDValue,
 } from './SchemaCRDTJSONLD/type.js'
+export type { SchemaOrgType } from './SchemaOrgType/type.js'
 
 /**
  * Partial CRStruct snapshot where selected keys stay required.

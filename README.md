@@ -7,8 +7,8 @@
 
 Schema.org classes modeled as convergent replicated data types.
 
-- [NPM](https://www.npmjs.com/package/@sovereignbase/schema-crdt)
 - [JSR](https://jsr.io/@sovereignbase/schema-crdt)
+- [NPM](https://www.npmjs.com/package/@sovereignbase/schema-crdt)
 - [Typedoc](https://sovereignbase.dev/schema-crdt/)
 
 ## Compatibility

@@ -141,29 +141,57 @@ test('CRThing imports JSON-LD as a new replica and exports the live presentation
   ])
   assert.equal(expanded.name.valueOf(), 'Expanded')
 
+  const arrayTyped = await api.CRThing.fromJSONLD({
+    '@type': ['Thing'],
+    name: 'Array type',
+  })
+  assert.equal(arrayTyped.name.valueOf(), 'Array type')
+
+  const untyped = await api.CRThing.fromJSONLD({ name: 'Untyped' })
+  assert.equal(untyped.name.valueOf(), 'Untyped')
+
+  const graphed = await api.CRThing.fromJSONLD({
+    '@context': 'https://schema.org',
+    '@graph': [
+      { '@id': 'urn:anbs:Person.skip', '@type': 'Person', name: 'Skip' },
+      { '@id': 'urn:anbs:Thing.graph', '@type': 'Thing', name: 'Graph' },
+    ],
+  })
+  assert.equal(graphed['@id'], 'urn:anbs:Thing.graph')
+
+  const identified = await api.CRThing.fromJSONLD({
+    '@type': 'Thing',
+    identifier: 'public-id',
+    name: { '@value': 'Value object' },
+  })
+  assert.equal(identified.identifier, 'public-id')
+  assert.equal(identified.name.valueOf(), 'Value object')
+
   const howTo = await api.CRHowTo.fromJSONLD({
     '@type': 'HowTo',
     step: [{ '@id': 'urn:anbs:HowToStep.one', '@type': 'HowToStep' }],
   })
   assert.equal(howTo.step.size, 1)
+  assert.deepEqual(howTo.toJSONLD().step, [
+    { '@id': 'urn:anbs:HowToStep.one', '@type': 'HowToStep' },
+  ])
 
-  class CRMappedThing extends api.CRThing {
+  const sparse = new api.CRThing()
+  sparse.additionalType.add('')
+  assert.equal(sparse.toJSONLD().additionalType, undefined)
+
+  class CRSparseThing extends api.CRThing {
     constructor(snapshot) {
-      super(snapshot, { data: { values: [], tombstones: [] } }, { data: 'map' })
+      super(snapshot, { data: undefined })
     }
   }
-  const mapped = await CRMappedThing.fromJSONLD({
-    '@type': 'Thing',
-    data: { key: 'value' },
-  })
-  assert.equal(mapped.data.get('key'), 'value')
-  assert.deepEqual(mapped.toJSONLD().data, { key: 'value' })
+  assert.equal(new CRSparseThing().toJSONLD().data, undefined)
 
-  const nested = new api.CRThing()
-  nested.name.insertAfter(-1, 'Nested')
   const work = new api.CRCreativeWork()
-  work.about.add(nested.toJSON())
-  assert.equal(work.toJSONLD().about[0].name, 'Nested')
+  work.about.add({ '@id': 'urn:anbs:Thing.nested', '@type': 'Thing' })
+  assert.deepEqual(work.toJSONLD().about, [
+    { '@id': 'urn:anbs:Thing.nested', '@type': 'Thing' },
+  ])
 
   await assert.rejects(() => api.CRPerson.fromJSONLD({ '@type': 'Thing' }), {
     code: 'VALIDATION_FAILED',
@@ -171,10 +199,41 @@ test('CRThing imports JSON-LD as a new replica and exports the live presentation
   await assert.rejects(() => api.CRThing.fromJSONLD(null), {
     code: 'VALIDATION_FAILED',
   })
+  await assert.rejects(
+    () => api.CRThing.fromJSONLD({ '@type': 'Thing', name: { bad: 'value' } }),
+    { code: 'VALIDATION_FAILED' }
+  )
+  await assert.rejects(
+    () => api.CRThing.fromJSONLD({ '@context': { bad: 1 }, '@graph': [] }),
+    { code: 'VALIDATION_FAILED' }
+  )
 
   const canonical = await thing.getCanonicalPresentation()
   assert.match(canonical, /<urn:anbs:Thing\.example>/)
   assert.match(canonical, /<https:\/\/schema\.org\/name>/)
+
+  const canonicalWithLoader = await thing.getCanonicalPresentation({
+    validate: false,
+    documentLoader: async () => {
+      throw new Error('unused')
+    },
+  })
+  assert.match(canonicalWithLoader, /<urn:anbs:Thing\.example>/)
+
+  await assert.rejects(
+    () => new api.CRImageObject().getCanonicalPresentation(),
+    {
+      code: 'VALIDATION_FAILED',
+    }
+  )
+  await assert.rejects(
+    () =>
+      new api.CRThing().getCanonicalPresentation({
+        context: false,
+        validate: false,
+      }),
+    { code: 'CANONICALIZATION_FAILED' }
+  )
 })
 
 test('CRThing state event router ignores internally routed keys and forwards primitive details', () => {
