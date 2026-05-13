@@ -110,6 +110,73 @@ test('CRThing exposes clone, values, entries, iterators, and inspect symbols', (
   assert.equal(thing.url, '')
 })
 
+test('CRThing imports JSON-LD as a new replica and exports the live presentation', async () => {
+  const thing = await api.CRThing.fromJSONLD({
+    '@context': 'https://schema.org',
+    '@id': 'urn:anbs:Thing.example',
+    '@type': 'Thing',
+    name: 'Example',
+    sameAs: ['https://example.test/'],
+    url: 'https://example.test/thing',
+  })
+
+  assert.equal(thing['@id'], 'urn:anbs:Thing.example')
+  assert.equal(thing.name.valueOf(), 'Example')
+  assert.equal(thing.sameAs.size, 1)
+  assert.deepEqual(thing.toJSONLD(), {
+    '@context': { '@vocab': 'https://schema.org/' },
+    '@id': 'urn:anbs:Thing.example',
+    '@type': 'Thing',
+    name: 'Example',
+    sameAs: ['https://example.test/'],
+    url: 'https://example.test/thing',
+  })
+
+  const expanded = await api.CRThing.fromJSONLD([
+    {
+      '@id': 'urn:anbs:Thing.expanded',
+      '@type': ['https://schema.org/Thing'],
+      'https://schema.org/name': [{ '@value': 'Expanded' }],
+    },
+  ])
+  assert.equal(expanded.name.valueOf(), 'Expanded')
+
+  const howTo = await api.CRHowTo.fromJSONLD({
+    '@type': 'HowTo',
+    step: [{ '@id': 'urn:anbs:HowToStep.one', '@type': 'HowToStep' }],
+  })
+  assert.equal(howTo.step.size, 1)
+
+  class CRMappedThing extends api.CRThing {
+    constructor(snapshot) {
+      super(snapshot, { data: { values: [], tombstones: [] } }, { data: 'map' })
+    }
+  }
+  const mapped = await CRMappedThing.fromJSONLD({
+    '@type': 'Thing',
+    data: { key: 'value' },
+  })
+  assert.equal(mapped.data.get('key'), 'value')
+  assert.deepEqual(mapped.toJSONLD().data, { key: 'value' })
+
+  const nested = new api.CRThing()
+  nested.name.insertAfter(-1, 'Nested')
+  const work = new api.CRCreativeWork()
+  work.about.add(nested.toJSON())
+  assert.equal(work.toJSONLD().about[0].name, 'Nested')
+
+  await assert.rejects(() => api.CRPerson.fromJSONLD({ '@type': 'Thing' }), {
+    code: 'VALIDATION_FAILED',
+  })
+  await assert.rejects(() => api.CRThing.fromJSONLD(null), {
+    code: 'VALIDATION_FAILED',
+  })
+
+  const canonical = await thing.getCanonicalPresentation()
+  assert.match(canonical, /<urn:anbs:Thing\.example>/)
+  assert.match(canonical, /<https:\/\/schema\.org\/name>/)
+})
+
 test('CRThing state event router ignores internally routed keys and forwards primitive details', () => {
   const thing = new api.CRThing()
   const deltas = []

@@ -1,5 +1,3 @@
-/// <reference path="./ExternalModules/type.ts" />
-
 import type {
   CRStructSnapshot,
   CRStructDelta,
@@ -91,12 +89,10 @@ import type { CRWebPageSnapshot } from '../CRWebPage/types/types.js'
 
 export type {
   SchemaCRDTCanonicalPresentationOptions,
-  SchemaCRDTExpandedJSONLDDocument,
   SchemaCRDTJSONLDContext,
   SchemaCRDTJSONLDDocument,
   SchemaCRDTJSONLDInput,
   SchemaCRDTJSONLDOptions,
-  SchemaCRDTJSONLDScalar,
   SchemaCRDTJSONLDValue,
 } from './SchemaCRDTJSONLD/type.js'
 

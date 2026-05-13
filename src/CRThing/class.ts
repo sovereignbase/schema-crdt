@@ -36,7 +36,6 @@ import {
 import type {
   SchemaCRDTEventListenerFor,
   SchemaCRDTEventMap,
-  SchemaCRDTExpandedJSONLDDocument,
   SchemaCRDTFormatValidators,
   SchemaCRDTCanonicalPresentationOptions,
   SchemaCRDTJSONLDDocument,
@@ -48,6 +47,20 @@ import type {
 import { SchemaCRDTError } from '../.errors/class.js'
 
 const schemaOrgJSONLDContext = { '@vocab': 'https://schema.org/' } as const
+
+type JSONLDProcessor = {
+  canonize(input: unknown, options: Record<string, unknown>): Promise<string>
+  compact(input: unknown, context: unknown): Promise<unknown>
+}
+
+type StructuredDataValidator = {
+  validate(data: unknown): Promise<
+    Array<{
+      issueMessage?: string
+      severity?: string
+    }>
+  >
+}
 
 /**
  * CRDT-backed Schema.org Thing.
@@ -491,16 +504,7 @@ export class CRThing<
    * This does not return CRDT state. `toJSON()` remains the CRStruct snapshot
    * projection used for replication and persistence.
    */
-  toJSONLD(): SchemaCRDTJSONLDDocument
-  toJSONLD(
-    options: SchemaCRDTJSONLDOptions & { format?: 'compacted' }
-  ): SchemaCRDTJSONLDDocument
-  toJSONLD(
-    options: SchemaCRDTJSONLDOptions & { format: 'expanded' }
-  ): Promise<SchemaCRDTExpandedJSONLDDocument>
-  toJSONLD(
-    options: SchemaCRDTJSONLDOptions = {}
-  ): SchemaCRDTJSONLDDocument | Promise<SchemaCRDTExpandedJSONLDDocument> {
+  toJSONLD(options: SchemaCRDTJSONLDOptions = {}): SchemaCRDTJSONLDDocument {
     const document: SchemaCRDTJSONLDDocument = {}
     const keys = new Set([...Object.keys(this), 'identifier'])
 
@@ -521,10 +525,6 @@ export class CRThing<
       }
     }
 
-    if (options.format === 'expanded') {
-      return CRThing.expandJSONLDDocument(document)
-    }
-
     return document
   }
 
@@ -538,17 +538,14 @@ export class CRThing<
   async getCanonicalPresentation(
     options: SchemaCRDTCanonicalPresentationOptions = {}
   ): Promise<string> {
-    const document = this.toJSONLD({
-      context: options.context,
-      format: 'compacted',
-    })
+    const document = this.toJSONLD({ context: options.context })
 
     try {
       if (options.validate !== false) {
         await CRThing.validateJSONLD(document, options.schemaOrgJson)
       }
 
-      const jsonld = (await import('jsonld')).default
+      const jsonld = await CRThing.loadJSONLD()
 
       return await jsonld.canonize(document, {
         algorithm: 'URDNA2015',
@@ -621,144 +618,6 @@ export class CRThing<
       void this.state.merge({
         [key]: value,
       } as CRStructDelta<Shape>)
-    }
-  }
-
-  protected validateFormat(
-    key: Extract<keyof Shape, string>,
-    value: unknown
-  ): void {
-    const validator = this.formatValidators[key]
-
-    if (!validator || typeof value !== 'string') {
-      return
-    }
-
-    validator.lastIndex = 0
-
-    if (!validator.test(value)) {
-      throw new SchemaCRDTError('VALIDATION_FAILED', `Invalid value for ${key}`)
-    }
-  }
-
-  private ensureStateEntry(
-    key: Extract<keyof Shape, string>,
-    snapshotEntry?: unknown
-  ): boolean {
-    const internalState = this.state as unknown as {
-      __state?: {
-        defaults: Record<string, unknown>
-        entries: Record<string, unknown>
-      }
-    }
-
-    if (
-      !internalState.__state ||
-      Object.hasOwn(internalState.__state.entries, key)
-    ) {
-      return false
-    }
-
-    if (
-      snapshotEntry &&
-      typeof snapshotEntry === 'object' &&
-      'uuidv7' in snapshotEntry &&
-      'value' in snapshotEntry &&
-      'predecessor' in snapshotEntry &&
-      'tombstones' in snapshotEntry
-    ) {
-      const snapshotSeed = new CRStruct(
-        {
-          [key]: internalState.__state.defaults[key],
-        } as Record<string, unknown>,
-        {
-          [key]: snapshotEntry,
-        } as Partial<CRStructSnapshot<Record<string, unknown>>>,
-        true
-      ) as unknown as {
-        __state?: {
-          entries: Record<string, unknown>
-        }
-      }
-      const snapshotSeedEntry = snapshotSeed.__state?.entries[key]
-
-      if (snapshotSeedEntry) {
-        internalState.__state.entries[key] = snapshotSeedEntry
-        return true
-      }
-    }
-
-    const seed = new CRStruct({
-      [key]: internalState.__state.defaults[key],
-    }) as unknown as {
-      __state?: {
-        entries: Record<string, unknown>
-      }
-    }
-    const entry = seed.__state?.entries[key]
-
-    if (entry) {
-      internalState.__state.entries[key] = entry
-    }
-
-    return false
-  }
-
-  private applyJSONLDDocument(document: SchemaCRDTJSONLDDocument): void {
-    for (const [key, value] of Object.entries(document)) {
-      if (key.startsWith('@') || key === 'identifier' || value === undefined) {
-        continue
-      }
-
-      const target = this[key as keyof this] as unknown
-
-      if (CRThing.isCRText(target)) {
-        const text = CRThing.textFromJSONLDValue(value)
-
-        if (text) {
-          target.insertAfter(target.size - 1, text)
-        }
-
-        continue
-      }
-
-      if (CRThing.isCRSet(target)) {
-        for (const item of Array.isArray(value) ? value : [value]) {
-          target.add(CRThing.cleanJSONLDInput(item))
-        }
-
-        continue
-      }
-
-      if (CRThing.isCRList(target)) {
-        for (const item of Array.isArray(value) ? value : [value]) {
-          target.append(CRThing.cleanJSONLDInput(item))
-        }
-
-        continue
-      }
-
-      if (CRThing.isCRMap(target)) {
-        if (!CRThing.isRecord(value)) {
-          throw new SchemaCRDTError(
-            'VALIDATION_FAILED',
-            `JSON-LD ${key} must be an object.`
-          )
-        }
-
-        for (const [entryKey, entryValue] of Object.entries(value)) {
-          if (entryValue !== undefined) {
-            target.set(entryKey, CRThing.cleanJSONLDInput(entryValue))
-          }
-        }
-
-        continue
-      }
-
-      if (Object.hasOwn(this, key)) {
-        ;(this as Record<string, unknown>)[key] =
-          CRThing.cleanJSONLDInput(value)
-      }
     }
   }
 
@@ -950,7 +809,12 @@ export class CRThing<
     document: SchemaCRDTJSONLDDocument,
     schemaOrgJson: unknown
   ): Promise<void> {
-    const Validator = (await import('@adobe/structured-data-validator')).default
+    const packageName: string = '@adobe/structured-data-validator'
+    const Validator = (
+      (await import(packageName)) as unknown as {
+        default: new (schemaOrgJson?: unknown) => StructuredDataValidator
+      }
+    ).default
     const validator = new Validator(schemaOrgJson)
     const rootType = CRThing.documentType(document) ?? 'Thing'
     const issues = await validator.validate({
@@ -975,38 +839,23 @@ export class CRThing<
     document: SchemaCRDTJSONLDInput,
     expectedType: string
   ): Promise<SchemaCRDTJSONLDDocument> {
-    if (!CRThing.needsJSONLDCompaction(document)) {
-      return CRThing.selectJSONLDNode(document, expectedType)
-    }
+    const needsCompaction =
+      Array.isArray(document) ||
+      Object.keys(document).some(
+        (key) =>
+          key === '@graph' ||
+          key.startsWith('https://schema.org/') ||
+          key.startsWith('http://schema.org/')
+      )
 
     try {
-      const jsonld = (await import('jsonld')).default
-      const compacted = await jsonld.compact(document, schemaOrgJSONLDContext)
+      const compacted = needsCompaction
+        ? await (
+            await CRThing.loadJSONLD()
+          ).compact(document, schemaOrgJSONLDContext)
+        : document
 
       return CRThing.selectJSONLDNode(compacted, expectedType)
-    } catch (error) {
-      throw new SchemaCRDTError(
-        'VALIDATION_FAILED',
-        error instanceof Error ? error.message : String(error)
-      )
-    }
-  }
-
-  private static async expandJSONLDDocument(
-    document: SchemaCRDTJSONLDDocument
-  ): Promise<SchemaCRDTExpandedJSONLDDocument> {
-    try {
-      const jsonld = (await import('jsonld')).default
-      const expanded = await jsonld.expand(document)
-
-      if (!Array.isArray(expanded)) {
-        throw new SchemaCRDTError(
-          'VALIDATION_FAILED',
-          'Expanded JSON-LD document must be an array.'
-        )
-      }
-
-      return expanded.filter(CRThing.isRecord)
     } catch (error) {
       if (error instanceof SchemaCRDTError) {
         throw error
@@ -1017,6 +866,10 @@ export class CRThing<
         error instanceof Error ? error.message : String(error)
       )
     }
+  }
+
+  private static async loadJSONLD(): Promise<JSONLDProcessor> {
+    return (await import('jsonld')).default as unknown as JSONLDProcessor
   }
 
   private static selectJSONLDNode(
@@ -1031,7 +884,7 @@ export class CRThing<
           ? [document]
           : []
     const node =
-      nodes.find((item) => CRThing.nodeHasJSONLDType(item, expectedType)) ??
+      nodes.find((item) => CRThing.documentType(item) === expectedType) ??
       nodes[0]
 
     if (!node) {
@@ -1039,19 +892,6 @@ export class CRThing<
     }
 
     return node as SchemaCRDTJSONLDDocument
-  }
-
-  private static nodeHasJSONLDType(
-    node: Record<string, unknown>,
-    expectedType: string
-  ): boolean {
-    const type = node['@type']
-    const values = Array.isArray(type) ? type : [type]
-
-    return values.some(
-      (value) =>
-        value === expectedType || value === `https://schema.org/${expectedType}`
-    )
   }
 
   private static identitySnapshot(
@@ -1118,23 +958,33 @@ export class CRThing<
       return undefined
     }
 
-    if (CRThing.isCRText(value)) {
+    if (
+      typeof value.valueOf === 'function' &&
+      typeof value.insertAfter === 'function'
+    ) {
       const text = value.valueOf()
-      return text.length > 0 ? text : undefined
+      return typeof text === 'string' && text.length > 0 ? text : undefined
     }
 
-    if (CRThing.isCRSet(value)) {
-      return CRThing.cleanJSONLDArray(value.values())
+    if (typeof value.add === 'function' && typeof value.values === 'function') {
+      return CRThing.cleanJSONLDArray(
+        (value as { values(): Array<unknown> }).values()
+      )
     }
 
-    if (CRThing.isCRList(value)) {
-      return CRThing.cleanJSONLDArray([...value])
+    if (typeof value.append === 'function' && Symbol.iterator in value) {
+      return CRThing.cleanJSONLDArray([...(value as Iterable<unknown>)])
     }
 
-    if (CRThing.isCRMap(value)) {
+    if (
+      typeof value.set === 'function' &&
+      typeof value.entries === 'function'
+    ) {
       const object: Record<string, SchemaCRDTJSONLDValue> = {}
 
-      for (const [entryKey, entryValue] of value.entries()) {
+      for (const [entryKey, entryValue] of (
+        value as { entries(): Array<[string, unknown]> }
+      ).entries()) {
         const next = CRThing.toJSONLDValue(entryValue)
 
         if (next !== undefined) {
@@ -1257,40 +1107,23 @@ export class CRThing<
     document: SchemaCRDTJSONLDDocument
   ): string | undefined {
     const type = document['@type']
+    const normalize = (value: string): string =>
+      value
+        .replace(/^https:\/\/schema\.org\//, '')
+        .replace(/^http:\/\/schema\.org\//, '')
 
     if (typeof type === 'string') {
-      return CRThing.normalizeJSONLDType(type)
+      return normalize(type)
     }
 
     if (Array.isArray(type)) {
       const first = type.find(
         (item): item is string => typeof item === 'string'
       )
-      return first ? CRThing.normalizeJSONLDType(first) : undefined
+      return first ? normalize(first) : undefined
     }
 
     return undefined
-  }
-
-  private static normalizeJSONLDType(value: string): string {
-    return value
-      .replace(/^https:\/\/schema\.org\//, '')
-      .replace(/^http:\/\/schema\.org\//, '')
-  }
-
-  private static needsJSONLDCompaction(
-    document: SchemaCRDTJSONLDInput
-  ): boolean {
-    if (Array.isArray(document)) {
-      return true
-    }
-
-    return Object.keys(document).some(
-      (key) =>
-        key === '@graph' ||
-        key.startsWith('https://schema.org/') ||
-        key.startsWith('http://schema.org/')
-    )
   }
 
   private static isRecord(value: unknown): value is Record<string, unknown> {
@@ -1314,37 +1147,164 @@ export class CRThing<
     return Array.isArray(value.values) && Array.isArray(value.tombstones)
   }
 
-  private static isCRText(value: unknown): value is CRText {
-    return (
-      CRThing.isRecord(value) &&
-      typeof value.insertAfter === 'function' &&
-      typeof value.removeAfter === 'function' &&
-      typeof value.valueOf === 'function'
-    )
+  protected validateFormat(
+    key: Extract<keyof Shape, string>,
+    value: unknown
+  ): void {
+    const validator = this.formatValidators[key]
+
+    if (!validator || typeof value !== 'string') {
+      return
+    }
+
+    validator.lastIndex = 0
+
+    if (!validator.test(value)) {
+      throw new SchemaCRDTError('VALIDATION_FAILED', `Invalid value for ${key}`)
+    }
   }
 
-  private static isCRSet(value: unknown): value is CRSet<unknown> {
-    return (
-      CRThing.isRecord(value) &&
-      typeof value.add === 'function' &&
-      typeof value.values === 'function'
-    )
+  private ensureStateEntry(
+    key: Extract<keyof Shape, string>,
+    snapshotEntry?: unknown
+  ): boolean {
+    const internalState = this.state as unknown as {
+      __state?: {
+        defaults: Record<string, unknown>
+        entries: Record<string, unknown>
+      }
+    }
+
+    if (
+      !internalState.__state ||
+      Object.hasOwn(internalState.__state.entries, key)
+    ) {
+      return false
+    }
+
+    if (
+      snapshotEntry &&
+      typeof snapshotEntry === 'object' &&
+      'uuidv7' in snapshotEntry &&
+      'value' in snapshotEntry &&
+      'predecessor' in snapshotEntry &&
+      'tombstones' in snapshotEntry
+    ) {
+      const snapshotSeed = new CRStruct(
+        {
+          [key]: internalState.__state.defaults[key],
+        } as Record<string, unknown>,
+        {
+          [key]: snapshotEntry,
+        } as Partial<CRStructSnapshot<Record<string, unknown>>>,
+        true
+      ) as unknown as {
+        __state?: {
+          entries: Record<string, unknown>
+        }
+      }
+      const snapshotSeedEntry = snapshotSeed.__state?.entries[key]
+
+      if (snapshotSeedEntry) {
+        internalState.__state.entries[key] = snapshotSeedEntry
+        return true
+      }
+    }
+
+    const seed = new CRStruct({
+      [key]: internalState.__state.defaults[key],
+    }) as unknown as {
+      __state?: {
+        entries: Record<string, unknown>
+      }
+    }
+    const entry = seed.__state?.entries[key]
+
+    if (entry) {
+      internalState.__state.entries[key] = entry
+    }
+
+    return false
   }
 
-  private static isCRList(value: unknown): value is CRList<unknown> {
-    return (
-      CRThing.isRecord(value) &&
-      typeof value.append === 'function' &&
-      typeof value.remove === 'function'
-    )
-  }
+  private applyJSONLDDocument(document: SchemaCRDTJSONLDDocument): void {
+    for (const [key, value] of Object.entries(document)) {
+      if (key.startsWith('@') || key === 'identifier' || value === undefined) {
+        continue
+      }
 
-  private static isCRMap(value: unknown): value is CRMap<unknown> {
-    return (
-      CRThing.isRecord(value) &&
-      typeof value.set === 'function' &&
-      typeof value.entries === 'function'
-    )
+      const target = this[key as keyof this] as unknown
+
+      if (
+        CRThing.isRecord(target) &&
+        typeof target.insertAfter === 'function' &&
+        typeof target.valueOf === 'function' &&
+        'size' in target
+      ) {
+        const text = CRThing.textFromJSONLDValue(value)
+
+        if (text) {
+          ;(
+            target as { insertAfter(index: number, text: string): void }
+          ).insertAfter(Number(target.size) - 1, text)
+        }
+
+        continue
+      }
+
+      if (
+        CRThing.isRecord(target) &&
+        typeof target.add === 'function' &&
+        typeof target.values === 'function'
+      ) {
+        for (const item of Array.isArray(value) ? value : [value]) {
+          ;(target as { add(value: unknown): void }).add(
+            CRThing.cleanJSONLDInput(item)
+          )
+        }
+
+        continue
+      }
+
+      if (CRThing.isRecord(target) && typeof target.append === 'function') {
+        for (const item of Array.isArray(value) ? value : [value]) {
+          ;(target as { append(value: unknown): void }).append(
+            CRThing.cleanJSONLDInput(item)
+          )
+        }
+
+        continue
+      }
+
+      if (
+        CRThing.isRecord(target) &&
+        typeof target.set === 'function' &&
+        typeof target.entries === 'function'
+      ) {
+        if (!CRThing.isRecord(value)) {
+          throw new SchemaCRDTError(
+            'VALIDATION_FAILED',
+            `JSON-LD ${key} must be an object.`
+          )
+        }
+
+        for (const [entryKey, entryValue] of Object.entries(value)) {
+          if (entryValue !== undefined) {
+            ;(target as { set(key: string, value: unknown): void }).set(
+              entryKey,
+              CRThing.cleanJSONLDInput(entryValue)
+            )
+          }
+        }
+
+        continue
+      }
+
+      if (Object.hasOwn(this, key)) {
+        ;(this as Record<string, unknown>)[key] =
+          CRThing.cleanJSONLDInput(value)
+      }
+    }
   }
 }
 

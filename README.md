@@ -255,19 +255,16 @@ const thing = await CRThing.fromJSONLD({
 })
 
 const jsonld = thing.toJSONLD()
-const expanded = await thing.toJSONLD({ format: 'expanded' })
 const canonical = await thing.getCanonicalPresentation()
 
 console.log(jsonld.name) // 'Example'
-console.log(Array.isArray(expanded)) // true
 console.log(canonical.includes('https://schema.org/name')) // true
 ```
 
 `fromJSONLD()` is an async constructor-style import for compacted or expanded
 Schema.org JSON-LD. It creates a fresh CRDT instance; it does not merge JSON-LD
 into an existing replica. `toJSONLD()` exports the current live Schema.org
-presentation as compacted JSON-LD by default and can return expanded JSON-LD
-with `{ format: 'expanded' }`. `toJSON()` remains the CRDT snapshot for
+presentation as compacted JSON-LD. `toJSON()` remains the CRDT snapshot for
 replication and persistence.
 
 `getCanonicalPresentation()` validates the live presentation with
