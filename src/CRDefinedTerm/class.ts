@@ -1,7 +1,7 @@
 import type { CRStructSnapshot } from '@sovereignbase/convergent-replicated-struct'
 
 import { CRIntangible } from '../CRIntangible/class.js'
-import { crSetSnapshot, crTextSnapshot } from '../.shared/index.js'
+import { crSetSnapshot } from '../.shared/index.js'
 
 import type {
   CRDefinedTermDefaultShape,
@@ -55,13 +55,12 @@ export class CRDefinedTerm<
         '@type': 'DefinedTerm' as Type,
         about: crSetSnapshot,
         inDefinedTermSet: crSetSnapshot,
-        termCode: crTextSnapshot,
+        termCode: '',
         ...defaultShape,
       } as Partial<Shape>,
       {
         about: 'set',
         inDefinedTermSet: 'set',
-        termCode: 'text',
         ...crdtProperties,
       } as Partial<
         Record<Extract<keyof Shape, string>, 'text' | 'set' | 'list' | 'map'>

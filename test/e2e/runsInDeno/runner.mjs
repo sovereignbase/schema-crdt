@@ -2,10 +2,10 @@ import * as api from '../../../dist/index.js'
 import {
   ensurePassing,
   printResults,
-  runBytecodecSuite,
+  runSchemaCRDTSuite,
 } from '../shared/suite.mjs'
 
-const results = await runBytecodecSuite(api, { label: 'deno esm' })
+const results = await runSchemaCRDTSuite(api, { label: 'deno esm' })
 printResults(results)
 ensurePassing(results)
 /** update to current package */

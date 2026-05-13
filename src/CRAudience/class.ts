@@ -1,7 +1,7 @@
 import type { CRStructSnapshot } from '@sovereignbase/convergent-replicated-struct'
 
 import { CRIntangible } from '../CRIntangible/class.js'
-import { crSetSnapshot, crTextSnapshot } from '../.shared/index.js'
+import { crSetSnapshot } from '../.shared/index.js'
 
 import type { CRAudienceDefaultShape, CRAudienceState } from './types/types.js'
 
@@ -45,12 +45,11 @@ export class CRAudience<
       snapshot,
       {
         '@type': 'Audience' as Type,
-        audienceType: crTextSnapshot,
+        audienceType: '',
         geographicArea: crSetSnapshot,
         ...defaultShape,
       } as Partial<Shape>,
       {
-        audienceType: 'text',
         geographicArea: 'set',
         ...crdtProperties,
       } as Partial<

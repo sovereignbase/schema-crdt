@@ -90,11 +90,11 @@ export type CRPlaceDefaultShape<Type = 'Place'> = {
   address: CRSetSnapshot<CRPlaceAddress>
   aggregateRating: CRSetSnapshot<CRPlaceAggregateRating>
   amenityFeature: CRSetSnapshot<CRPlaceAmenityFeature>
-  branchCode: CRTextSnapshot
+  branchCode: SchemaOrgText
   containedInPlace: CRSetSnapshot<CRPlaceRelation>
   containsPlace: CRSetSnapshot<CRPlaceRelation>
   event: CRSetSnapshot<CRPlaceEvent>
-  faxNumber: CRTextSnapshot
+  faxNumber: SchemaOrgText
   geo: CRSetSnapshot<CRPlaceGeo>
   geoContains: CRSetSnapshot<CRGeospatialGeometryRelation>
   geoCoveredBy: CRSetSnapshot<CRGeospatialGeometryRelation>
@@ -106,7 +106,7 @@ export type CRPlaceDefaultShape<Type = 'Place'> = {
   geoOverlaps: CRSetSnapshot<CRGeospatialGeometryRelation>
   geoTouches: CRSetSnapshot<CRGeospatialGeometryRelation>
   geoWithin: CRSetSnapshot<CRGeospatialGeometryRelation>
-  globalLocationNumber: CRTextSnapshot
+  globalLocationNumber: SchemaOrgText
   hasCertification: CRSetSnapshot<
     | CRTypedIdReferenceValue<'Certification'>
     | SchemaOrgText
@@ -117,13 +117,13 @@ export type CRPlaceDefaultShape<Type = 'Place'> = {
   hasGS1DigitalLink: SchemaOrgURL
   hasMap: CRSetSnapshot<CRPlaceMap>
   isAccessibleForFree: SchemaOrgBoolean
-  isicV4: CRTextSnapshot
+  isicV4: SchemaOrgText
   keywords: CRSetSnapshot<
     CRDefinedTermSnapshot | SchemaOrgText | SchemaOrgURL | CRIdReferenceValue
   >
-  latitude: CRTextSnapshot
+  latitude: SchemaOrgText
   logo: CRSetSnapshot<CRPlaceImage>
-  longitude: CRTextSnapshot
+  longitude: SchemaOrgText
   maximumAttendeeCapacity: SchemaOrgInteger
   openingHoursSpecification: CRSetSnapshot<CRPlaceOpeningHoursSpecification>
   photo: CRSetSnapshot<CRPlaceImage>
@@ -132,7 +132,7 @@ export type CRPlaceDefaultShape<Type = 'Place'> = {
   slogan: CRTextSnapshot
   smokingAllowed: SchemaOrgBoolean
   specialOpeningHoursSpecification: CRSetSnapshot<CRPlaceOpeningHoursSpecification>
-  telephone: CRTextSnapshot
+  telephone: SchemaOrgText
   tourBookingPage: SchemaOrgURL
 } & CRThingDefaultShape<Type>
 
@@ -154,11 +154,11 @@ export type CRPlaceState<Type = 'Place'> = {
   address: Readonly<CRSet<CRPlaceAddress>>
   aggregateRating: Readonly<CRSet<CRPlaceAggregateRating>>
   amenityFeature: Readonly<CRSet<CRPlaceAmenityFeature>>
-  branchCode: Readonly<CRText>
+  branchCode: SchemaOrgText
   containedInPlace: Readonly<CRSet<CRPlaceRelation>>
   containsPlace: Readonly<CRSet<CRPlaceRelation>>
   event: Readonly<CRSet<CRPlaceEvent>>
-  faxNumber: Readonly<CRText>
+  faxNumber: SchemaOrgText
   geo: Readonly<CRSet<CRPlaceGeo>>
   geoContains: Readonly<CRSet<CRGeospatialGeometryRelation>>
   geoCoveredBy: Readonly<CRSet<CRGeospatialGeometryRelation>>
@@ -170,7 +170,7 @@ export type CRPlaceState<Type = 'Place'> = {
   geoOverlaps: Readonly<CRSet<CRGeospatialGeometryRelation>>
   geoTouches: Readonly<CRSet<CRGeospatialGeometryRelation>>
   geoWithin: Readonly<CRSet<CRGeospatialGeometryRelation>>
-  globalLocationNumber: Readonly<CRText>
+  globalLocationNumber: SchemaOrgText
   hasCertification: Readonly<
     CRSet<
       | CRTypedIdReferenceValue<'Certification'>
@@ -183,15 +183,15 @@ export type CRPlaceState<Type = 'Place'> = {
   hasGS1DigitalLink: SchemaOrgURL
   hasMap: Readonly<CRSet<CRPlaceMap>>
   isAccessibleForFree: SchemaOrgBoolean
-  isicV4: Readonly<CRText>
+  isicV4: SchemaOrgText
   keywords: Readonly<
     CRSet<
       CRDefinedTermSnapshot | SchemaOrgText | SchemaOrgURL | CRIdReferenceValue
     >
   >
-  latitude: Readonly<CRText>
+  latitude: SchemaOrgText
   logo: Readonly<CRSet<CRPlaceImage>>
-  longitude: Readonly<CRText>
+  longitude: SchemaOrgText
   maximumAttendeeCapacity: SchemaOrgInteger
   openingHoursSpecification: Readonly<CRSet<CRPlaceOpeningHoursSpecification>>
   photo: Readonly<CRSet<CRPlaceImage>>
@@ -202,6 +202,6 @@ export type CRPlaceState<Type = 'Place'> = {
   specialOpeningHoursSpecification: Readonly<
     CRSet<CRPlaceOpeningHoursSpecification>
   >
-  telephone: Readonly<CRText>
+  telephone: SchemaOrgText
   tourBookingPage: SchemaOrgURL
 } & CRThingState<Type>

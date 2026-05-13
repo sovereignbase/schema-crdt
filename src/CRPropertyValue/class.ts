@@ -1,7 +1,7 @@
 import type { CRStructSnapshot } from '@sovereignbase/convergent-replicated-struct'
 
 import { CRStructuredValue } from '../CRStructuredValue/class.js'
-import { crSetSnapshot, crTextSnapshot } from '../.shared/index.js'
+import { crSetSnapshot } from '../.shared/index.js'
 
 import type {
   CRPropertyValueDefaultShape,
@@ -86,9 +86,9 @@ export class CRPropertyValue<
         measurementMethod: crSetSnapshot,
         measurementTechnique: crSetSnapshot,
         minValue: 0,
-        propertyID: crTextSnapshot,
-        unitCode: crTextSnapshot,
-        unitText: crTextSnapshot,
+        propertyID: '',
+        unitCode: '',
+        unitText: '',
         value: '',
         valueReference: crSetSnapshot,
         ...defaultShape,
@@ -96,9 +96,6 @@ export class CRPropertyValue<
       {
         measurementMethod: 'set',
         measurementTechnique: 'set',
-        propertyID: 'text',
-        unitCode: 'text',
-        unitText: 'text',
         valueReference: 'set',
         ...crdtProperties,
       } as Partial<

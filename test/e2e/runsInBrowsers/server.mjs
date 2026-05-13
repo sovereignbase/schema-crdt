@@ -1,9 +1,18 @@
 import http from 'node:http'
 import { readFile } from 'node:fs/promises'
 import { extname, resolve } from 'node:path'
+import { build } from 'esbuild'
 
 const root = resolve(process.cwd())
 const testRoot = resolve(root, 'test', 'e2e')
+const runnerBundle = await build({
+  bundle: true,
+  entryPoints: [resolve(testRoot, 'runsInBrowsers', 'runner.js')],
+  format: 'esm',
+  platform: 'browser',
+  target: 'es2024',
+  write: false,
+})
 
 const mimeTypes = {
   '.html': 'text/html',
@@ -24,6 +33,13 @@ const server = http.createServer(async (req, res) => {
   const url = new URL(req.url ?? '/', 'http://127.0.0.1')
   let pathname = url.pathname
   if (pathname === '/') pathname = '/runsInBrowsers/index.html'
+
+  if (pathname === '/runsInBrowsers/runner.js') {
+    res.statusCode = 200
+    res.setHeader('Content-Type', 'text/javascript')
+    res.end(runnerBundle.outputFiles[0].text)
+    return
+  }
 
   let filePath
   if (pathname.startsWith('/dist/')) filePath = safeResolve(root, pathname)
@@ -51,7 +67,7 @@ const server = http.createServer(async (req, res) => {
 
 const port = Number.parseInt(process.env.PORT || '4173', 10)
 server.listen(port, '127.0.0.1', () => {
-  console.log(`bytecodec test server running at http://127.0.0.1:${port}`)
+  console.log(`schema-crdt test server running at http://127.0.0.1:${port}`)
 })
 
 function shutdown() {

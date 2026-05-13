@@ -3,11 +3,6 @@ import type {
   CRSet,
   CRSetSnapshot,
 } from '@sovereignbase/convergent-replicated-set'
-import type {
-  CRText,
-  CRTextSnapshot,
-} from '@sovereignbase/convergent-replicated-text'
-
 import type { CRDefinedTermSnapshot } from '../../CRDefinedTerm/types/types.js'
 import type { CREnumerationSnapshot } from '../../CREnumeration/types/types.js'
 import type {
@@ -94,11 +89,11 @@ export type CRQuantitativeValueDefaultShape<Type = 'QuantitativeValue'> = {
   /**
    * Schema.org unitCode: The unit of measurement as a UN/CEFACT code or URL.
    */
-  unitCode: CRTextSnapshot
+  unitCode: SchemaOrgText | SchemaOrgURL
   /**
    * Schema.org unitText: A string indicating the unit of measurement.
    */
-  unitText: CRTextSnapshot
+  unitText: SchemaOrgText
   /**
    * Schema.org value: The value of a QuantitativeValue node.
    */
@@ -147,11 +142,11 @@ export type CRQuantitativeValueState<Type = 'QuantitativeValue'> = {
   /**
    * Schema.org unitCode: The unit of measurement as a UN/CEFACT code or URL.
    */
-  unitCode: Readonly<CRText>
+  unitCode: SchemaOrgText | SchemaOrgURL
   /**
    * Schema.org unitText: A string indicating the unit of measurement.
    */
-  unitText: Readonly<CRText>
+  unitText: SchemaOrgText
   /**
    * Schema.org value: The value of a QuantitativeValue node.
    */

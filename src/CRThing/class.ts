@@ -224,6 +224,7 @@ export class CRThing<
         },
         set(value: CRThingState<Type>['image']): void {
           this.validateFormat('image' as Extract<keyof Shape, string>, value)
+          this.ensureStateEntry('image' as Extract<keyof Shape, string>)
           state['image'] = value
         },
       },
@@ -237,6 +238,9 @@ export class CRThing<
           this.validateFormat(
             'mainEntityOfPage' as Extract<keyof Shape, string>,
             value
+          )
+          this.ensureStateEntry(
+            'mainEntityOfPage' as Extract<keyof Shape, string>
           )
           state['mainEntityOfPage'] = value
         },
@@ -255,6 +259,7 @@ export class CRThing<
         },
         set(value: CRThingState<Type>['owner']): void {
           this.validateFormat('owner' as Extract<keyof Shape, string>, value)
+          this.ensureStateEntry('owner' as Extract<keyof Shape, string>)
           state['owner'] = value
         },
       },
@@ -286,6 +291,7 @@ export class CRThing<
         },
         set(value: string): void {
           this.validateFormat('url' as Extract<keyof Shape, string>, value)
+          this.ensureStateEntry('url' as Extract<keyof Shape, string>)
           state['url'] = value
         },
       },
@@ -328,6 +334,7 @@ export class CRThing<
         },
         set(value: Shape[typeof key]): void {
           this.validateFormat(key, value)
+          this.ensureStateEntry(key)
           ;(state as Record<string, unknown>)[key] = value
         },
       })
@@ -391,7 +398,9 @@ export class CRThing<
       })
     }
 
-    for (const key of this.state.keys<Extract<keyof Shape, string>>()) {
+    for (const key of Object.keys(this) as Array<
+      Extract<keyof Shape, string>
+    >) {
       const value = this[key as keyof this] as unknown
 
       if (
@@ -454,6 +463,21 @@ export class CRThing<
           ? (value as { value: unknown }).value
           : value
       this.validateFormat(key as Extract<keyof Shape, string>, deltaValue)
+      const installed = this.ensureStateEntry(
+        key as Extract<keyof Shape, string>,
+        value
+      )
+
+      if (installed) {
+        void this.eventTarget.dispatchEvent(
+          new CustomEvent<SchemaCRDTEventMap<Shape>['change']>('change', {
+            detail: {
+              [key]: deltaValue,
+            } as SchemaCRDTEventMap<Shape>['change'],
+          })
+        )
+        continue
+      }
 
       void this.state.merge({
         [key]: value,
@@ -478,13 +502,78 @@ export class CRThing<
     }
   }
 
+  private ensureStateEntry(
+    key: Extract<keyof Shape, string>,
+    snapshotEntry?: unknown
+  ): boolean {
+    const internalState = this.state as unknown as {
+      __state?: {
+        defaults: Record<string, unknown>
+        entries: Record<string, unknown>
+      }
+    }
+
+    if (
+      !internalState.__state ||
+      Object.hasOwn(internalState.__state.entries, key)
+    ) {
+      return false
+    }
+
+    if (
+      snapshotEntry &&
+      typeof snapshotEntry === 'object' &&
+      'uuidv7' in snapshotEntry &&
+      'value' in snapshotEntry &&
+      'predecessor' in snapshotEntry &&
+      'tombstones' in snapshotEntry
+    ) {
+      const snapshotSeed = new CRStruct(
+        {
+          [key]: internalState.__state.defaults[key],
+        } as Record<string, unknown>,
+        {
+          [key]: snapshotEntry,
+        } as Partial<CRStructSnapshot<Record<string, unknown>>>,
+        true
+      ) as unknown as {
+        __state?: {
+          entries: Record<string, unknown>
+        }
+      }
+      const snapshotSeedEntry = snapshotSeed.__state?.entries[key]
+
+      if (snapshotSeedEntry) {
+        internalState.__state.entries[key] = snapshotSeedEntry
+        return true
+      }
+    }
+
+    const seed = new CRStruct({
+      [key]: internalState.__state.defaults[key],
+    }) as unknown as {
+      __state?: {
+        entries: Record<string, unknown>
+      }
+    }
+    const entry = seed.__state?.entries[key]
+
+    if (entry) {
+      internalState.__state.entries[key] = entry
+    }
+
+    return false
+  }
+
   /**
    * Emits the current acknowledgement frontier for each field.
    */
   acknowledge(): void {
     void this.state.acknowledge()
 
-    for (const key of this.state.keys<Extract<keyof Shape, string>>()) {
+    for (const key of Object.keys(this) as Array<
+      Extract<keyof Shape, string>
+    >) {
       const value = this[key as keyof this] as unknown
 
       if (
@@ -555,7 +644,9 @@ export class CRThing<
    * Resets every field in the replica back to its default value.
    */
   clear(): void {
-    void this.state.clear()
+    for (const key of this.state.keys<Extract<keyof Shape, string>>()) {
+      delete (this.state as Record<string, unknown>)[key]
+    }
   }
 
   /**

@@ -47,7 +47,7 @@ export class CRIdReference implements CRIdReferenceState {
         ? (reference as CRIdReferenceSnapshot)
         : undefined
 
-    const state = new CRStruct(defaults, snapshot, true)
+    const state = new CRStruct(defaults, snapshot)
 
     Object.defineProperties(this, {
       state: {

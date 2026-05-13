@@ -1,8 +1,7 @@
 import type { CRStructSnapshot } from '@sovereignbase/convergent-replicated-struct'
-import type { CRText } from '@sovereignbase/convergent-replicated-text'
 
 import { CRStructuredValue } from '../CRStructuredValue/class.js'
-import { additionalType, description } from '../.shared/index.js'
+import { additionalType } from '../.shared/index.js'
 
 import type {
   CRContactPointDefaultShape,
@@ -47,15 +46,15 @@ export class CRContactPoint<
   /**
    * Schema.org contactType: The kind of contact point.
    */
-  declare public contactType: Readonly<CRText>
+  declare public contactType: CRContactPointState<Type>['contactType']
   /**
    * Schema.org email: Email address.
    */
-  declare public email: Readonly<CRText>
+  declare public email: CRContactPointState<Type>['email']
   /**
    * Schema.org faxNumber: The fax number.
    */
-  declare public faxNumber: Readonly<CRText>
+  declare public faxNumber: CRContactPointState<Type>['faxNumber']
   /**
    * Schema.org hoursAvailable: The hours during which this service or contact
    * is available.
@@ -69,7 +68,7 @@ export class CRContactPoint<
   /**
    * Schema.org telephone: The telephone number.
    */
-  declare public telephone: Readonly<CRText>
+  declare public telephone: CRContactPointState<Type>['telephone']
 
   constructor(
     snapshot?: Snapshot,
@@ -86,24 +85,20 @@ export class CRContactPoint<
         areaServed: additionalType,
         availableLanguage: additionalType,
         contactOption: additionalType,
-        contactType: description,
-        email: description,
-        faxNumber: description,
+        contactType: '',
+        email: '',
+        faxNumber: '',
         hoursAvailable: additionalType,
         productSupported: additionalType,
-        telephone: description,
+        telephone: '',
         ...defaultShape,
       } as Partial<Shape>,
       {
         areaServed: 'set',
         availableLanguage: 'set',
         contactOption: 'set',
-        contactType: 'text',
-        email: 'text',
-        faxNumber: 'text',
         hoursAvailable: 'set',
         productSupported: 'set',
-        telephone: 'text',
         ...crdtProperties,
       } as Partial<
         Record<Extract<keyof Shape, string>, 'text' | 'set' | 'list' | 'map'>

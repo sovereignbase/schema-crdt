@@ -3,11 +3,6 @@ import type {
   CRSet,
   CRSetSnapshot,
 } from '@sovereignbase/convergent-replicated-set'
-import type {
-  CRText,
-  CRTextSnapshot,
-} from '@sovereignbase/convergent-replicated-text'
-
 import type { CREnumerationSnapshot } from '../../CREnumeration/types/types.js'
 import type { CRDefinedTermSnapshot } from '../../CRDefinedTerm/types/types.js'
 import type {
@@ -103,16 +98,16 @@ export type CRPropertyValueDefaultShape<Type = 'PropertyValue'> = {
    * Schema.org propertyID: A commonly used identifier for the characteristic
    * represented by the property.
    */
-  propertyID: CRTextSnapshot
+  propertyID: SchemaOrgText | SchemaOrgURL
   /**
    * Schema.org unitCode: The unit of measurement as a UN/CEFACT Common Code or
    * URL.
    */
-  unitCode: CRTextSnapshot
+  unitCode: SchemaOrgText | SchemaOrgURL
   /**
    * Schema.org unitText: A string or text indicating the unit of measurement.
    */
-  unitText: CRTextSnapshot
+  unitText: SchemaOrgText
   /**
    * Schema.org value: The value of a QuantitativeValue or property value node.
    */
@@ -169,16 +164,16 @@ export type CRPropertyValueState<Type = 'PropertyValue'> = {
    * Schema.org propertyID: A commonly used identifier for the characteristic
    * represented by the property.
    */
-  propertyID: Readonly<CRText>
+  propertyID: SchemaOrgText | SchemaOrgURL
   /**
    * Schema.org unitCode: The unit of measurement as a UN/CEFACT Common Code or
    * URL.
    */
-  unitCode: Readonly<CRText>
+  unitCode: SchemaOrgText | SchemaOrgURL
   /**
    * Schema.org unitText: A string or text indicating the unit of measurement.
    */
-  unitText: Readonly<CRText>
+  unitText: SchemaOrgText
   /**
    * Schema.org value: The value of a QuantitativeValue or property value node.
    */

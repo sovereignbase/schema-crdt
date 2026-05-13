@@ -1,7 +1,5 @@
-import type { CRText } from '@sovereignbase/convergent-replicated-text'
-
 import { CRContactPoint } from '../CRContactPoint/class.js'
-import { addressCountry, description } from '../.shared/index.js'
+import { addressCountry } from '../.shared/index.js'
 
 import type {
   CRPostalAddressDefaultShape,
@@ -33,7 +31,7 @@ export class CRPostalAddress
   /**
    * Schema.org addressLocality: The locality in which the street address is.
    */
-  declare public addressLocality: Readonly<CRText>
+  declare public addressLocality: CRPostalAddressState['addressLocality']
   /**
    * Schema.org addressRegion: The region in which the locality is.
    */
@@ -63,19 +61,14 @@ export class CRPostalAddress
       {
         '@type': 'PostalAddress',
         addressCountry,
-        addressLocality: description,
+        addressLocality: '',
         addressRegion: '',
-        extendedAddress: description,
+        extendedAddress: '',
         postalCode: '',
-        postOfficeBoxNumber: description,
-        streetAddress: description,
+        postOfficeBoxNumber: '',
+        streetAddress: '',
       },
-      {
-        addressLocality: 'text',
-        extendedAddress: 'text',
-        postOfficeBoxNumber: 'text',
-        streetAddress: 'text',
-      },
+      {},
       {
         addressCountry: /^[A-Z]{2}$/,
       }

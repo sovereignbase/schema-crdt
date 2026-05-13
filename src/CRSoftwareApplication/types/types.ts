@@ -4,11 +4,6 @@ import type {
   CRSetSnapshot,
 } from '@sovereignbase/convergent-replicated-set'
 import type {
-  CRText,
-  CRTextSnapshot,
-} from '@sovereignbase/convergent-replicated-text'
-
-import type {
   CRCreativeWorkDefaultShape,
   CRCreativeWorkSnapshot,
   CRCreativeWorkState,
@@ -109,7 +104,7 @@ export type CRSoftwareApplicationDefaultShape<Type = 'SoftwareApplication'> = {
   /**
    * Schema.org applicationSuite: Name of the application suite.
    */
-  applicationSuite: CRTextSnapshot
+  applicationSuite: SchemaOrgText
   /**
    * Schema.org availableOnDevice: Device required to run the application.
    */
@@ -133,7 +128,7 @@ export type CRSoftwareApplicationDefaultShape<Type = 'SoftwareApplication'> = {
   /**
    * Schema.org fileSize: Size of the application package.
    */
-  fileSize: CRTextSnapshot
+  fileSize: SchemaOrgText
   /**
    * Schema.org installUrl: URL at which the app may be installed.
    */
@@ -153,7 +148,7 @@ export type CRSoftwareApplicationDefaultShape<Type = 'SoftwareApplication'> = {
   /**
    * Schema.org processorRequirements: Processor architecture required.
    */
-  processorRequirements: CRTextSnapshot
+  processorRequirements: SchemaOrgText
   /**
    * Schema.org releaseNotes: Description of what changed in this version.
    */
@@ -181,7 +176,7 @@ export type CRSoftwareApplicationDefaultShape<Type = 'SoftwareApplication'> = {
   /**
    * Schema.org softwareVersion: Version of the software instance.
    */
-  softwareVersion: CRTextSnapshot
+  softwareVersion: SchemaOrgText
   /**
    * Schema.org storageRequirements: Free storage required.
    */
@@ -230,7 +225,7 @@ export type CRSoftwareApplicationState<Type = 'SoftwareApplication'> = {
   /**
    * Schema.org applicationSuite: Name of the application suite.
    */
-  applicationSuite: Readonly<CRText>
+  applicationSuite: SchemaOrgText
   /**
    * Schema.org availableOnDevice: Device required to run the application.
    */
@@ -254,7 +249,7 @@ export type CRSoftwareApplicationState<Type = 'SoftwareApplication'> = {
   /**
    * Schema.org fileSize: Size of the application package.
    */
-  fileSize: Readonly<CRText>
+  fileSize: SchemaOrgText
   /**
    * Schema.org installUrl: URL at which the app may be installed.
    */
@@ -274,7 +269,7 @@ export type CRSoftwareApplicationState<Type = 'SoftwareApplication'> = {
   /**
    * Schema.org processorRequirements: Processor architecture required.
    */
-  processorRequirements: Readonly<CRText>
+  processorRequirements: SchemaOrgText
   /**
    * Schema.org releaseNotes: Description of what changed in this version.
    */
@@ -302,7 +297,7 @@ export type CRSoftwareApplicationState<Type = 'SoftwareApplication'> = {
   /**
    * Schema.org softwareVersion: Version of the software instance.
    */
-  softwareVersion: Readonly<CRText>
+  softwareVersion: SchemaOrgText
   /**
    * Schema.org storageRequirements: Free storage required.
    */

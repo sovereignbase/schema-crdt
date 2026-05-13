@@ -3,11 +3,6 @@ import type {
   CRSet,
   CRSetSnapshot,
 } from '@sovereignbase/convergent-replicated-set'
-import type {
-  CRText,
-  CRTextSnapshot,
-} from '@sovereignbase/convergent-replicated-text'
-
 import type { CRThingSnapshot } from '../../CRThing/types/types.js'
 import type {
   CRIntangibleDefaultShape,
@@ -15,6 +10,7 @@ import type {
 } from '../../CRIntangible/types/types.js'
 import type {
   CRStructPartialSnapshot,
+  SchemaOrgText,
   SchemaOrgURL,
 } from '../../.types/types.js'
 import type {
@@ -57,7 +53,7 @@ export type CRDefinedTermDefaultShape<Type = 'DefinedTerm'> = {
    * Schema.org termCode: A code that identifies this DefinedTerm within a
    * DefinedTermSet.
    */
-  termCode: CRTextSnapshot
+  termCode: SchemaOrgText
 } & CRIntangibleDefaultShape<Type>
 
 /**
@@ -95,5 +91,5 @@ export type CRDefinedTermState<Type = 'DefinedTerm'> = {
    * Schema.org termCode: A code that identifies this DefinedTerm within a
    * DefinedTermSet.
    */
-  termCode: Readonly<CRText>
+  termCode: SchemaOrgText
 } & CRIntangibleState<Type>

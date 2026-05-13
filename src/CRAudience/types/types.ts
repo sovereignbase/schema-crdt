@@ -3,11 +3,6 @@ import type {
   CRSet,
   CRSetSnapshot,
 } from '@sovereignbase/convergent-replicated-set'
-import type {
-  CRText,
-  CRTextSnapshot,
-} from '@sovereignbase/convergent-replicated-text'
-
 import type { CRAdministrativeAreaSnapshot } from '../../CRAdministrativeArea/types/types.js'
 import type { CRIdReferenceValue } from '../../CRIdReference/types/types.js'
 import type {
@@ -40,7 +35,7 @@ export type CRAudienceDefaultShape<Type = 'Audience'> = {
   /**
    * Schema.org audienceType: The target group associated with a given audience.
    */
-  audienceType: CRTextSnapshot
+  audienceType: SchemaOrgText
   /**
    * Schema.org geographicArea: The geographic area associated with the audience.
    */
@@ -66,7 +61,7 @@ export type CRAudienceState<Type = 'Audience'> = {
   /**
    * Schema.org audienceType: The target group associated with a given audience.
    */
-  audienceType: Readonly<CRText>
+  audienceType: SchemaOrgText
   /**
    * Schema.org geographicArea: The geographic area associated with the audience.
    */

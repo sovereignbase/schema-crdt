@@ -4,11 +4,6 @@ import type {
   CRSetSnapshot,
 } from '@sovereignbase/convergent-replicated-set'
 import type {
-  CRText,
-  CRTextSnapshot,
-} from '@sovereignbase/convergent-replicated-text'
-
-import type {
   CRStructuredValueDefaultShape,
   CRStructuredValueState,
 } from '../../CRStructuredValue/types/types.js'
@@ -94,15 +89,15 @@ export type CRContactPointDefaultShape<Type = 'ContactPoint'> = {
   /**
    * Schema.org contactType: The kind of contact point.
    */
-  contactType: CRTextSnapshot
+  contactType: SchemaOrgText
   /**
    * Schema.org email: Email address.
    */
-  email: CRTextSnapshot
+  email: SchemaOrgText
   /**
    * Schema.org faxNumber: The fax number.
    */
-  faxNumber: CRTextSnapshot
+  faxNumber: SchemaOrgText
   /**
    * Schema.org hoursAvailable: The hours during which this service or contact
    * is available.
@@ -116,7 +111,7 @@ export type CRContactPointDefaultShape<Type = 'ContactPoint'> = {
   /**
    * Schema.org telephone: The telephone number.
    */
-  telephone: CRTextSnapshot
+  telephone: SchemaOrgText
 } & CRStructuredValueDefaultShape<Type>
 
 /**
@@ -163,15 +158,15 @@ export type CRContactPointState<Type = 'ContactPoint'> = {
   /**
    * Schema.org contactType: The kind of contact point.
    */
-  contactType: Readonly<CRText>
+  contactType: SchemaOrgText
   /**
    * Schema.org email: Email address.
    */
-  email: Readonly<CRText>
+  email: SchemaOrgText
   /**
    * Schema.org faxNumber: The fax number.
    */
-  faxNumber: Readonly<CRText>
+  faxNumber: SchemaOrgText
   /**
    * Schema.org hoursAvailable: The hours during which this service or contact
    * is available.
@@ -185,5 +180,5 @@ export type CRContactPointState<Type = 'ContactPoint'> = {
   /**
    * Schema.org telephone: The telephone number.
    */
-  telephone: Readonly<CRText>
+  telephone: SchemaOrgText
 } & CRStructuredValueState<Type>

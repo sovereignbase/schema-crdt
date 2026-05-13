@@ -1,9 +1,4 @@
 import type { MonetaryAmount } from 'schema-dts'
-import type {
-  CRText,
-  CRTextSnapshot,
-} from '@sovereignbase/convergent-replicated-text'
-
 import type { CRIdReferenceValue } from '../../CRIdReference/types/types.js'
 import type {
   CRStructuredValueDefaultShape,
@@ -45,7 +40,7 @@ export type CRMonetaryAmountDefaultShape<Type = 'MonetaryAmount'> = {
   /**
    * Schema.org currency: The currency in which the monetary amount is expressed.
    */
-  currency: CRTextSnapshot
+  currency: SchemaOrgText
   /**
    * Schema.org maxValue: The upper value of some characteristic or property.
    */
@@ -94,7 +89,7 @@ export type CRMonetaryAmountState<Type = 'MonetaryAmount'> = {
   /**
    * Schema.org currency: The currency in which the monetary amount is expressed.
    */
-  currency: Readonly<CRText>
+  currency: SchemaOrgText
   /**
    * Schema.org maxValue: The upper value of some characteristic or property.
    */

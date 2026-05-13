@@ -1,7 +1,7 @@
 import type { CRStructSnapshot } from '@sovereignbase/convergent-replicated-struct'
 
 import { CRIntangible } from '../CRIntangible/class.js'
-import { crSetSnapshot, crTextSnapshot } from '../.shared/index.js'
+import { crSetSnapshot } from '../.shared/index.js'
 
 import type { CRScheduleDefaultShape, CRScheduleState } from './types/types.js'
 
@@ -60,7 +60,7 @@ export class CRSchedule<
         exceptDate: crSetSnapshot,
         repeatCount: 0,
         repeatFrequency: '',
-        scheduleTimezone: crTextSnapshot,
+        scheduleTimezone: '',
         startDate: '',
         startTime: '',
         ...defaultShape,
@@ -71,7 +71,6 @@ export class CRSchedule<
         byMonthDay: 'set',
         byMonthWeek: 'set',
         exceptDate: 'set',
-        scheduleTimezone: 'text',
         ...crdtProperties,
       } as Partial<
         Record<Extract<keyof Shape, string>, 'text' | 'set' | 'list' | 'map'>

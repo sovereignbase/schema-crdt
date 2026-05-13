@@ -374,7 +374,7 @@ export type CRCreativeWorkDefaultShape<Type = 'CreativeWork'> = {
   timeRequired: SchemaOrgDuration
   translationOfWork: CRSetSnapshot<CRCreativeWorkReference>
   translator: CRSetSnapshot<CRCreativeWorkPersonOrOrganization>
-  typicalAgeRange: CRTextSnapshot
+  typicalAgeRange: SchemaOrgText
   usageInfo: CRSetSnapshot<CRCreativeWorkReferenceOrURL>
   version: CRCreativeWorkVersion
   video: CRSetSnapshot<CRCreativeWorkVideo>

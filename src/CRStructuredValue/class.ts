@@ -38,7 +38,15 @@ export class CRStructuredValue<
     >,
     formatValidators?: SchemaCRDTFormatValidators<Shape>
   ) {
-    super(snapshot, defaultShape, crdtProperties, formatValidators)
+    super(
+      snapshot,
+      {
+        '@type': 'StructuredValue' as Type,
+        ...defaultShape,
+      } as Partial<Shape>,
+      crdtProperties,
+      formatValidators
+    )
   }
 }
 

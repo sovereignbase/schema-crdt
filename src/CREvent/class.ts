@@ -1,7 +1,7 @@
 import type { CRStructSnapshot } from '@sovereignbase/convergent-replicated-struct'
 
 import { CRThing } from '../CRThing/class.js'
-import { crSetSnapshot, crTextSnapshot } from '../.shared/index.js'
+import { crSetSnapshot } from '../.shared/index.js'
 
 import type { CREventDefaultShape, CREventState } from './types/types.js'
 
@@ -113,7 +113,7 @@ export class CREvent<
         subEvent: crSetSnapshot,
         superEvent: crSetSnapshot,
         translator: crSetSnapshot,
-        typicalAgeRange: crTextSnapshot,
+        typicalAgeRange: '',
         workFeatured: crSetSnapshot,
         workPerformed: crSetSnapshot,
         ...defaultShape,
@@ -145,7 +145,6 @@ export class CREvent<
         subEvent: 'set',
         superEvent: 'set',
         translator: 'set',
-        typicalAgeRange: 'text',
         workFeatured: 'set',
         workPerformed: 'set',
         ...crdtProperties,

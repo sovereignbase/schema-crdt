@@ -4,11 +4,6 @@ import type {
   CRSetSnapshot,
 } from '@sovereignbase/convergent-replicated-set'
 import type {
-  CRText,
-  CRTextSnapshot,
-} from '@sovereignbase/convergent-replicated-text'
-
-import type {
   CRIdReferenceValue,
   CRTypedIdReferenceValue,
 } from '../../CRIdReference/types/types.js'
@@ -102,7 +97,7 @@ export type CRScheduleDefaultShape<Type = 'Schedule'> = {
   /**
    * Schema.org scheduleTimezone: IANA timezone for schedule times.
    */
-  scheduleTimezone: CRTextSnapshot
+  scheduleTimezone: SchemaOrgText
   /**
    * Schema.org startDate: Date or date-time when the schedule starts applying.
    */
@@ -172,7 +167,7 @@ export type CRScheduleState<Type = 'Schedule'> = {
   /**
    * Schema.org scheduleTimezone: IANA timezone for schedule times.
    */
-  scheduleTimezone: Readonly<CRText>
+  scheduleTimezone: SchemaOrgText
   /**
    * Schema.org startDate: Date or date-time when the schedule starts applying.
    */

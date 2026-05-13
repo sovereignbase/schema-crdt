@@ -163,9 +163,9 @@ export type CROrganizationDefaultShape<Type = 'Organization'> = {
   /** Schema.org diversityStaffingReport: Staffing diversity report. */
   diversityStaffingReport: CRSetSnapshot<CROrganizationPolicy>
   /** Schema.org duns: Dun & Bradstreet DUNS number. */
-  duns: CRTextSnapshot
+  duns: SchemaOrgText
   /** Schema.org email: Email address. */
-  email: CRTextSnapshot
+  email: SchemaOrgText
   /** Schema.org employee: Someone working for this organization. */
   employee: CRSetSnapshot<CROrganizationPerson>
   /** Schema.org ethicsPolicy: Ethics policy statement. */
@@ -173,7 +173,7 @@ export type CROrganizationDefaultShape<Type = 'Organization'> = {
   /** Schema.org event: Upcoming or past event associated with this organization. */
   event: CRSetSnapshot<CROrganizationEvent>
   /** Schema.org faxNumber: The fax number. */
-  faxNumber: CRTextSnapshot
+  faxNumber: SchemaOrgText
   /** Schema.org founder: Person or organization who founded this organization. */
   founder: CRSetSnapshot<CROrganizationPersonOrOrganization>
   /** Schema.org foundingDate: Date this organization was founded. */
@@ -185,7 +185,7 @@ export type CROrganizationDefaultShape<Type = 'Organization'> = {
   /** Schema.org funding: Grant that provides funding or sponsorship. */
   funding: CRSetSnapshot<CRTypedIdReferenceValue<'Grant'> | CRIdReferenceValue>
   /** Schema.org globalLocationNumber: GS1 Global Location Number. */
-  globalLocationNumber: CRTextSnapshot
+  globalLocationNumber: SchemaOrgText
   /** Schema.org hasCertification: Certification information. */
   hasCertification: CRSetSnapshot<
     CRTypedIdReferenceValue<'Certification'> | CRIdReferenceValue
@@ -219,9 +219,9 @@ export type CROrganizationDefaultShape<Type = 'Organization'> = {
     CRTypedIdReferenceValue<'InteractionCounter'> | CRIdReferenceValue
   >
   /** Schema.org isicV4: ISIC Revision 4 code. */
-  isicV4: CRTextSnapshot
+  isicV4: SchemaOrgText
   /** Schema.org iso6523Code: ISO 6523 organization identifier. */
-  iso6523Code: CRTextSnapshot
+  iso6523Code: SchemaOrgText
   /** Schema.org keywords: Keywords or tags used to describe the item. */
   keywords: CRSetSnapshot<CROrganizationTopic>
   /** Schema.org knowsAbout: Topic that the organization knows about. */
@@ -233,11 +233,11 @@ export type CROrganizationDefaultShape<Type = 'Organization'> = {
   /** Schema.org legalAddress: Official registered legal address. */
   legalAddress: CRSetSnapshot<CRPostalAddressSnapshot | CRIdReferenceValue>
   /** Schema.org legalName: Official name of the organization. */
-  legalName: CRTextSnapshot
+  legalName: SchemaOrgText
   /** Schema.org legalRepresentative: Person who legally represents this organization. */
   legalRepresentative: CRSetSnapshot<CROrganizationPerson>
   /** Schema.org leiCode: Legal Entity Identifier. */
-  leiCode: CRTextSnapshot
+  leiCode: SchemaOrgText
   /** Schema.org location: Location of the organization. */
   location: CRSetSnapshot<
     | CROrganizationPlace
@@ -261,7 +261,7 @@ export type CROrganizationDefaultShape<Type = 'Organization'> = {
     | CRIdReferenceValue
   >
   /** Schema.org naics: NAICS code. */
-  naics: CRTextSnapshot
+  naics: SchemaOrgText
   /** Schema.org nonprofitStatus: Legal status of a non-profit organization. */
   nonprofitStatus:
     | CREnumerationSnapshot<'NonprofitType'>
@@ -295,13 +295,13 @@ export type CROrganizationDefaultShape<Type = 'Organization'> = {
   /** Schema.org subOrganization: Organization included by this organization. */
   subOrganization: CRSetSnapshot<CROrganizationOrganization>
   /** Schema.org taxID: Tax or fiscal identifier. */
-  taxID: CRTextSnapshot
+  taxID: SchemaOrgText
   /** Schema.org telephone: The telephone number. */
-  telephone: CRTextSnapshot
+  telephone: SchemaOrgText
   /** Schema.org unnamedSourcesPolicy: Policy on use of unnamed sources. */
   unnamedSourcesPolicy: CRSetSnapshot<CROrganizationPolicy>
   /** Schema.org vatID: Value-added tax identifier. */
-  vatID: CRTextSnapshot
+  vatID: SchemaOrgText
 } & CRThingDefaultShape<Type>
 
 /**
@@ -378,9 +378,9 @@ export type CROrganizationState<Type = 'Organization'> = {
   /** Schema.org diversityStaffingReport: Staffing diversity report. */
   diversityStaffingReport: Readonly<CRSet<CROrganizationPolicy>>
   /** Schema.org duns: Dun & Bradstreet DUNS number. */
-  duns: Readonly<CRText>
+  duns: SchemaOrgText
   /** Schema.org email: Email address. */
-  email: Readonly<CRText>
+  email: SchemaOrgText
   /** Schema.org employee: Someone working for this organization. */
   employee: Readonly<CRSet<CROrganizationPerson>>
   /** Schema.org ethicsPolicy: Ethics policy statement. */
@@ -388,7 +388,7 @@ export type CROrganizationState<Type = 'Organization'> = {
   /** Schema.org event: Upcoming or past event associated with this organization. */
   event: Readonly<CRSet<CROrganizationEvent>>
   /** Schema.org faxNumber: The fax number. */
-  faxNumber: Readonly<CRText>
+  faxNumber: SchemaOrgText
   /** Schema.org founder: Person or organization who founded this organization. */
   founder: Readonly<CRSet<CROrganizationPersonOrOrganization>>
   /** Schema.org foundingDate: Date this organization was founded. */
@@ -402,7 +402,7 @@ export type CROrganizationState<Type = 'Organization'> = {
     CRSet<CRTypedIdReferenceValue<'Grant'> | CRIdReferenceValue>
   >
   /** Schema.org globalLocationNumber: GS1 Global Location Number. */
-  globalLocationNumber: Readonly<CRText>
+  globalLocationNumber: SchemaOrgText
   /** Schema.org hasCertification: Certification information. */
   hasCertification: Readonly<
     CRSet<CRTypedIdReferenceValue<'Certification'> | CRIdReferenceValue>
@@ -436,9 +436,9 @@ export type CROrganizationState<Type = 'Organization'> = {
     CRSet<CRTypedIdReferenceValue<'InteractionCounter'> | CRIdReferenceValue>
   >
   /** Schema.org isicV4: ISIC Revision 4 code. */
-  isicV4: Readonly<CRText>
+  isicV4: SchemaOrgText
   /** Schema.org iso6523Code: ISO 6523 organization identifier. */
-  iso6523Code: Readonly<CRText>
+  iso6523Code: SchemaOrgText
   /** Schema.org keywords: Keywords or tags used to describe the item. */
   keywords: Readonly<CRSet<CROrganizationTopic>>
   /** Schema.org knowsAbout: Topic that the organization knows about. */
@@ -452,11 +452,11 @@ export type CROrganizationState<Type = 'Organization'> = {
   /** Schema.org legalAddress: Official registered legal address. */
   legalAddress: Readonly<CRSet<CRPostalAddressSnapshot | CRIdReferenceValue>>
   /** Schema.org legalName: Official name of the organization. */
-  legalName: Readonly<CRText>
+  legalName: SchemaOrgText
   /** Schema.org legalRepresentative: Person who legally represents this organization. */
   legalRepresentative: Readonly<CRSet<CROrganizationPerson>>
   /** Schema.org leiCode: Legal Entity Identifier. */
-  leiCode: Readonly<CRText>
+  leiCode: SchemaOrgText
   /** Schema.org location: Location of the organization. */
   location: Readonly<
     CRSet<
@@ -484,7 +484,7 @@ export type CROrganizationState<Type = 'Organization'> = {
     >
   >
   /** Schema.org naics: NAICS code. */
-  naics: Readonly<CRText>
+  naics: SchemaOrgText
   /** Schema.org nonprofitStatus: Legal status of a non-profit organization. */
   nonprofitStatus:
     | CREnumerationSnapshot<'NonprofitType'>
@@ -518,11 +518,11 @@ export type CROrganizationState<Type = 'Organization'> = {
   /** Schema.org subOrganization: Organization included by this organization. */
   subOrganization: Readonly<CRSet<CROrganizationOrganization>>
   /** Schema.org taxID: Tax or fiscal identifier. */
-  taxID: Readonly<CRText>
+  taxID: SchemaOrgText
   /** Schema.org telephone: The telephone number. */
-  telephone: Readonly<CRText>
+  telephone: SchemaOrgText
   /** Schema.org unnamedSourcesPolicy: Policy on use of unnamed sources. */
   unnamedSourcesPolicy: Readonly<CRSet<CROrganizationPolicy>>
   /** Schema.org vatID: Value-added tax identifier. */
-  vatID: Readonly<CRText>
+  vatID: SchemaOrgText
 } & CRThingState<Type>

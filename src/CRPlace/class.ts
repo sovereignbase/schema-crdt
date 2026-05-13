@@ -80,11 +80,11 @@ export class CRPlace<
           additionalType as unknown as CRPlaceDefaultShape<Type>['aggregateRating'],
         amenityFeature:
           additionalType as unknown as CRPlaceDefaultShape<Type>['amenityFeature'],
-        branchCode: description,
+        branchCode: '',
         containedInPlace: additionalType,
         containsPlace: additionalType,
         event: additionalType,
-        faxNumber: description,
+        faxNumber: '',
         geo: additionalType as unknown as CRPlaceDefaultShape<Type>['geo'],
         geoContains:
           additionalType as unknown as CRPlaceDefaultShape<Type>['geoContains'],
@@ -106,17 +106,17 @@ export class CRPlace<
           additionalType as unknown as CRPlaceDefaultShape<Type>['geoTouches'],
         geoWithin:
           additionalType as unknown as CRPlaceDefaultShape<Type>['geoWithin'],
-        globalLocationNumber: description,
+        globalLocationNumber: '',
         hasCertification: additionalType,
         hasDriveThroughService: false,
         hasGS1DigitalLink: '',
         hasMap: additionalType,
         isAccessibleForFree: false,
-        isicV4: description,
+        isicV4: '',
         keywords: additionalType,
-        latitude: description,
+        latitude: '',
         logo: additionalType,
-        longitude: description,
+        longitude: '',
         maximumAttendeeCapacity: 0,
         openingHoursSpecification:
           additionalType as unknown as CRPlaceDefaultShape<Type>['openingHoursSpecification'],
@@ -127,7 +127,7 @@ export class CRPlace<
         smokingAllowed: false,
         specialOpeningHoursSpecification:
           additionalType as unknown as CRPlaceDefaultShape<Type>['specialOpeningHoursSpecification'],
-        telephone: description,
+        telephone: '',
         tourBookingPage: '',
         ...defaultShape,
       } as Partial<Shape>,
@@ -136,11 +136,9 @@ export class CRPlace<
         address: 'set',
         aggregateRating: 'set',
         amenityFeature: 'set',
-        branchCode: 'text',
         containedInPlace: 'set',
         containsPlace: 'set',
         event: 'set',
-        faxNumber: 'text',
         geo: 'set',
         geoContains: 'set',
         geoCoveredBy: 'set',
@@ -152,24 +150,23 @@ export class CRPlace<
         geoOverlaps: 'set',
         geoTouches: 'set',
         geoWithin: 'set',
-        globalLocationNumber: 'text',
         hasCertification: 'set',
         hasMap: 'set',
-        isicV4: 'text',
         keywords: 'set',
-        latitude: 'text',
         logo: 'set',
-        longitude: 'text',
         openingHoursSpecification: 'set',
         photo: 'set',
         review: 'set',
         slogan: 'text',
         specialOpeningHoursSpecification: 'set',
-        telephone: 'text',
         ...crdtProperties,
       } as Partial<
         Record<Extract<keyof Shape, string>, 'text' | 'set' | 'list' | 'map'>
-      >
+      >,
+      {
+        latitude: /^-?(?:[0-8]?\d(?:\.\d+)?|90(?:\.0+)?)$/,
+        longitude: /^-?(?:(?:[0-9]?\d|1[0-7]\d)(?:\.\d+)?|180(?:\.0+)?)$/,
+      } as Partial<Record<Extract<keyof Shape, string>, RegExp>>
     )
   }
 }

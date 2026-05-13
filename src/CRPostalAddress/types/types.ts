@@ -1,9 +1,5 @@
 import type { PostalAddress } from 'schema-dts'
 import type { ISO31661Alpha2 } from '@sovereignbase/utils'
-import type {
-  CRText,
-  CRTextSnapshot,
-} from '@sovereignbase/convergent-replicated-text'
 
 import type {
   CRContactPointDefaultShape,
@@ -56,7 +52,7 @@ export type CRPostalAddressDefaultShape<Type = 'PostalAddress'> = {
   /**
    * Schema.org addressLocality: The locality in which the street address is.
    */
-  addressLocality: CRTextSnapshot
+  addressLocality: SchemaOrgText
   /**
    * Schema.org addressRegion: The region in which the locality is.
    */
@@ -65,7 +61,7 @@ export type CRPostalAddressDefaultShape<Type = 'PostalAddress'> = {
    * Schema.org extendedAddress: An address extension such as an apartment
    * number, C/O or alternative name.
    */
-  extendedAddress: CRTextSnapshot
+  extendedAddress: SchemaOrgText
   /**
    * Schema.org postalCode: The postal code.
    */
@@ -74,11 +70,11 @@ export type CRPostalAddressDefaultShape<Type = 'PostalAddress'> = {
    * Schema.org postOfficeBoxNumber: The post office box number for PO box
    * addresses.
    */
-  postOfficeBoxNumber: CRTextSnapshot
+  postOfficeBoxNumber: SchemaOrgText
   /**
    * Schema.org streetAddress: The street address.
    */
-  streetAddress: CRTextSnapshot
+  streetAddress: SchemaOrgText
 } & CRContactPointDefaultShape<Type>
 
 /**
@@ -115,7 +111,7 @@ export type CRPostalAddressState<Type = 'PostalAddress'> = {
   /**
    * Schema.org addressLocality: The locality in which the street address is.
    */
-  addressLocality: Readonly<CRText>
+  addressLocality: SchemaOrgText
   /**
    * Schema.org addressRegion: The region in which the locality is.
    */
@@ -124,7 +120,7 @@ export type CRPostalAddressState<Type = 'PostalAddress'> = {
    * Schema.org extendedAddress: An address extension such as an apartment
    * number, C/O or alternative name.
    */
-  extendedAddress: Readonly<CRText>
+  extendedAddress: SchemaOrgText
   /**
    * Schema.org postalCode: The postal code.
    */
@@ -133,9 +129,9 @@ export type CRPostalAddressState<Type = 'PostalAddress'> = {
    * Schema.org postOfficeBoxNumber: The post office box number for PO box
    * addresses.
    */
-  postOfficeBoxNumber: Readonly<CRText>
+  postOfficeBoxNumber: SchemaOrgText
   /**
    * Schema.org streetAddress: The street address.
    */
-  streetAddress: Readonly<CRText>
+  streetAddress: SchemaOrgText
 } & CRContactPointState<Type>

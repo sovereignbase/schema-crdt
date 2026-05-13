@@ -4,11 +4,6 @@ import type {
   CRSetSnapshot,
 } from '@sovereignbase/convergent-replicated-set'
 import type {
-  CRText,
-  CRTextSnapshot,
-} from '@sovereignbase/convergent-replicated-text'
-
-import type {
   CRCreativeWorkDefaultShape,
   CRCreativeWorkSnapshot,
   CRCreativeWorkState,
@@ -87,11 +82,11 @@ export type CRMediaObjectDefaultShape<Type = 'MediaObject'> = {
   /**
    * Schema.org bitrate: The bitrate of the media object.
    */
-  bitrate: CRTextSnapshot
+  bitrate: SchemaOrgText
   /**
    * Schema.org contentSize: File size in bytes, kilobytes or megabytes.
    */
-  contentSize: CRTextSnapshot
+  contentSize: SchemaOrgText
   /**
    * Schema.org contentUrl: Actual bytes of the media object.
    */
@@ -135,7 +130,7 @@ export type CRMediaObjectDefaultShape<Type = 'MediaObject'> = {
   /**
    * Schema.org playerType: Player type required.
    */
-  playerType: CRTextSnapshot
+  playerType: SchemaOrgText
   /**
    * Schema.org productionCompany: Organization responsible for the item.
    */
@@ -153,7 +148,7 @@ export type CRMediaObjectDefaultShape<Type = 'MediaObject'> = {
   /**
    * Schema.org sha256: SHA-2 SHA256 hash of the content.
    */
-  sha256: CRTextSnapshot
+  sha256: SchemaOrgText
   /**
    * Schema.org startTime: Start time or media clip offset.
    */
@@ -202,11 +197,11 @@ export type CRMediaObjectState<Type = 'MediaObject'> = {
   /**
    * Schema.org bitrate: The bitrate of the media object.
    */
-  bitrate: Readonly<CRText>
+  bitrate: SchemaOrgText
   /**
    * Schema.org contentSize: File size in bytes, kilobytes or megabytes.
    */
-  contentSize: Readonly<CRText>
+  contentSize: SchemaOrgText
   /**
    * Schema.org contentUrl: Actual bytes of the media object.
    */
@@ -252,7 +247,7 @@ export type CRMediaObjectState<Type = 'MediaObject'> = {
   /**
    * Schema.org playerType: Player type required.
    */
-  playerType: Readonly<CRText>
+  playerType: SchemaOrgText
   /**
    * Schema.org productionCompany: Organization responsible for the item.
    */
@@ -270,7 +265,7 @@ export type CRMediaObjectState<Type = 'MediaObject'> = {
   /**
    * Schema.org sha256: SHA-2 SHA256 hash of the content.
    */
-  sha256: Readonly<CRText>
+  sha256: SchemaOrgText
   /**
    * Schema.org startTime: Start time or media clip offset.
    */

@@ -37,7 +37,15 @@ export class CRIntangible<
     >,
     formatValidators?: SchemaCRDTFormatValidators<Shape>
   ) {
-    super(snapshot, defaultShape, crdtProperties, formatValidators)
+    super(
+      snapshot,
+      {
+        '@type': 'Intangible' as Type,
+        ...defaultShape,
+      } as Partial<Shape>,
+      crdtProperties,
+      formatValidators
+    )
   }
 }
 

@@ -1,7 +1,6 @@
 import type { CRStructSnapshot } from '@sovereignbase/convergent-replicated-struct'
 
 import { CRStructuredValue } from '../CRStructuredValue/class.js'
-import { crTextSnapshot } from '../.shared/index.js'
 
 import type {
   CRMonetaryAmountDefaultShape,
@@ -46,7 +45,7 @@ export class CRMonetaryAmount<
       snapshot,
       {
         '@type': 'MonetaryAmount' as Type,
-        currency: crTextSnapshot,
+        currency: '',
         maxValue: 0,
         minValue: 0,
         validFrom: '',
@@ -55,7 +54,6 @@ export class CRMonetaryAmount<
         ...defaultShape,
       } as Partial<Shape>,
       {
-        currency: 'text',
         ...crdtProperties,
       } as Partial<
         Record<Extract<keyof Shape, string>, 'text' | 'set' | 'list' | 'map'>

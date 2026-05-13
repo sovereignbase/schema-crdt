@@ -3,11 +3,6 @@ import type {
   CRSet,
   CRSetSnapshot,
 } from '@sovereignbase/convergent-replicated-set'
-import type {
-  CRText,
-  CRTextSnapshot,
-} from '@sovereignbase/convergent-replicated-text'
-
 import type { CRAggregateRatingSnapshot } from '../../CRAggregateRating/types/types.js'
 import type { CRAudienceSnapshot } from '../../CRAudience/types/types.js'
 import type { CRCreativeWorkSnapshot } from '../../CRCreativeWork/types/types.js'
@@ -327,7 +322,7 @@ export type CREventDefaultShape<Type = 'Event'> = {
   /**
    * Schema.org typicalAgeRange: Typical expected age range.
    */
-  typicalAgeRange: CRTextSnapshot
+  typicalAgeRange: SchemaOrgText
   /**
    * Schema.org workFeatured: CreativeWork featured in the event.
    */
@@ -399,7 +394,7 @@ export type CREventState<Type = 'Event'> = {
   subEvent: Readonly<CRSet<CREventReference>>
   superEvent: Readonly<CRSet<CREventReference>>
   translator: Readonly<CRSet<CREventPersonOrOrganization>>
-  typicalAgeRange: Readonly<CRText>
+  typicalAgeRange: SchemaOrgText
   workFeatured: Readonly<CRSet<CRCreativeWorkSnapshot | CRIdReferenceValue>>
   workPerformed: Readonly<CRSet<CRCreativeWorkSnapshot | CRIdReferenceValue>>
 } & CRThingState<Type>

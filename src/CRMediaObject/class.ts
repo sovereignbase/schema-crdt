@@ -1,7 +1,7 @@
 import type { CRStructSnapshot } from '@sovereignbase/convergent-replicated-struct'
 
 import { CRCreativeWork } from '../CRCreativeWork/class.js'
-import { crSetSnapshot, crTextSnapshot } from '../.shared/index.js'
+import { crSetSnapshot } from '../.shared/index.js'
 
 import type {
   CRMediaObjectDefaultShape,
@@ -62,8 +62,8 @@ export class CRMediaObject<
       {
         '@type': 'MediaObject' as Type,
         associatedArticle: crSetSnapshot,
-        bitrate: crTextSnapshot,
-        contentSize: crTextSnapshot,
+        bitrate: '',
+        contentSize: '',
         contentUrl: '',
         duration: '',
         embedUrl: '',
@@ -73,11 +73,11 @@ export class CRMediaObject<
         height: '',
         ineligibleRegion: crSetSnapshot,
         interpretedAsClaim: crSetSnapshot,
-        playerType: crTextSnapshot,
+        playerType: '',
         productionCompany: crSetSnapshot,
         regionsAllowed: crSetSnapshot,
         requiresSubscription: false,
-        sha256: crTextSnapshot,
+        sha256: '',
         startTime: '',
         uploadDate: '',
         width: '',
@@ -85,16 +85,12 @@ export class CRMediaObject<
       } as unknown as Partial<Shape>,
       {
         associatedArticle: 'set',
-        bitrate: 'text',
-        contentSize: 'text',
         encodesCreativeWork: 'set',
         encodingFormat: 'set',
         ineligibleRegion: 'set',
         interpretedAsClaim: 'set',
-        playerType: 'text',
         productionCompany: 'set',
         regionsAllowed: 'set',
-        sha256: 'text',
         ...crdtProperties,
       } as Partial<
         Record<Extract<keyof Shape, string>, 'text' | 'set' | 'list' | 'map'>
