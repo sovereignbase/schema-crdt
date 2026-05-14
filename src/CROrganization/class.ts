@@ -1,7 +1,11 @@
 import type { CRStructSnapshot } from '@sovereignbase/convergent-replicated-struct'
 
 import { CRThing } from '../CRThing/class.js'
-import { crSetSnapshot, crTextSnapshot } from '../.shared/index.js'
+import {
+  crIdReferenceValue,
+  crSetSnapshot,
+  crTextSnapshot,
+} from '../.shared/index.js'
 
 import type {
   CROrganizationDefaultShape,
@@ -158,8 +162,8 @@ export class CROrganization<
         member: crSetSnapshot,
         memberOf: crSetSnapshot,
         naics: '',
-        nonprofitStatus: { '@id': '' },
-        numberOfEmployees: { '@id': '' },
+        nonprofitStatus: crIdReferenceValue,
+        numberOfEmployees: crIdReferenceValue,
         ownershipFundingInfo: crSetSnapshot,
         owns: crSetSnapshot,
         parentOrganization: crSetSnapshot,

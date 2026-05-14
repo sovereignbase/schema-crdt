@@ -1,7 +1,7 @@
 import type { CRStructSnapshot } from '@sovereignbase/convergent-replicated-struct'
 
 import { CRStructuredValue } from '../CRStructuredValue/class.js'
-import { additionalType } from '../.shared/index.js'
+import { crSetSnapshot } from '../.shared/index.js'
 
 import type {
   CRContactPointDefaultShape,
@@ -82,14 +82,14 @@ export class CRContactPoint<
       snapshot,
       {
         '@type': 'ContactPoint' as Type,
-        areaServed: additionalType,
-        availableLanguage: additionalType,
-        contactOption: additionalType,
+        areaServed: crSetSnapshot,
+        availableLanguage: crSetSnapshot,
+        contactOption: crSetSnapshot,
         contactType: '',
         email: '',
         faxNumber: '',
-        hoursAvailable: additionalType,
-        productSupported: additionalType,
+        hoursAvailable: crSetSnapshot,
+        productSupported: crSetSnapshot,
         telephone: '',
         ...defaultShape,
       } as Partial<Shape>,

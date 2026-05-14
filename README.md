@@ -111,8 +111,8 @@ page.primaryImageOfPage.add(image.toJSON())
 
 place.address.add(address.toJSON())
 place.geo.add(geo.toJSON())
-place.image = 'https://example.test/place.jpg'
-place.mainEntityOfPage = 'https://example.test/place'
+place.image.add('https://example.test/place.jpg')
+place.mainEntityOfPage.add('https://example.test/place')
 
 console.log(place['@type']) // 'Place'
 console.log(place.geo.size) // 1
@@ -226,10 +226,10 @@ action.agent.add({ '@id': owner['@id'], '@type': 'Person' })
 action.object.add({ '@id': 'urn:anbs:Thing.document' })
 
 const thing = new CRThing()
-thing.owner = { '@id': owner['@id'], '@type': 'Person' }
+thing.owner.add({ '@id': owner['@id'], '@type': 'Person' })
 thing.potentialAction.add({ '@id': 'urn:anbs:Action.read', '@type': 'Action' })
 
-console.log(thing.owner['@id']) // 'urn:anbs:Person.alice'
+console.log(thing.owner.values()[0]?.['@id']) // 'urn:anbs:Person.alice'
 ```
 
 The examples use stable application identifiers in the form

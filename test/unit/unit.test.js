@@ -124,7 +124,7 @@ test('CRThing imports JSON-LD as a new replica and exports the live presentation
   assert.equal(thing.name.valueOf(), 'Example')
   assert.equal(thing.sameAs.size, 1)
   assert.deepEqual(thing.toJSONLD(), {
-    '@context': { '@vocab': 'https://schema.org/' },
+    '@context': 'https://schema.org',
     '@id': 'urn:anbs:Thing.example',
     '@type': 'Thing',
     name: 'Example',
@@ -147,8 +147,20 @@ test('CRThing imports JSON-LD as a new replica and exports the live presentation
   })
   assert.equal(arrayTyped.name.valueOf(), 'Array type')
 
+  const invalidArrayTyped = await api.CRThing.fromJSONLD({
+    '@type': [1],
+    name: 'Invalid array type',
+  })
+  assert.equal(invalidArrayTyped.name.valueOf(), 'Invalid array type')
+
   const untyped = await api.CRThing.fromJSONLD({ name: 'Untyped' })
   assert.equal(untyped.name.valueOf(), 'Untyped')
+
+  const scalarSet = await api.CRThing.fromJSONLD({
+    '@type': 'Thing',
+    sameAs: 'https://example.test/scalar',
+  })
+  assert.equal(scalarSet.sameAs.size, 1)
 
   const graphed = await api.CRThing.fromJSONLD({
     '@context': 'https://schema.org',
@@ -176,16 +188,23 @@ test('CRThing imports JSON-LD as a new replica and exports the live presentation
     { '@id': 'urn:anbs:HowToStep.one', '@type': 'HowToStep' },
   ])
 
+  const scalarHowTo = await api.CRHowTo.fromJSONLD({
+    '@type': 'HowTo',
+    step: { '@id': 'urn:anbs:HowToStep.scalar', '@type': 'HowToStep' },
+  })
+  assert.equal(scalarHowTo.step.size, 1)
+
   const sparse = new api.CRThing()
   sparse.additionalType.add('')
   assert.equal(sparse.toJSONLD().additionalType, undefined)
 
   class CRSparseThing extends api.CRThing {
     constructor(snapshot) {
-      super(snapshot, { data: undefined })
+      super(snapshot, { data: undefined, emptyObject: {} })
     }
   }
   assert.equal(new CRSparseThing().toJSONLD().data, undefined)
+  assert.equal(new CRSparseThing().toJSONLD().emptyObject, undefined)
 
   const work = new api.CRCreativeWork()
   work.about.add({ '@id': 'urn:anbs:Thing.nested', '@type': 'Thing' })
@@ -219,6 +238,21 @@ test('CRThing imports JSON-LD as a new replica and exports the live presentation
     },
   })
   assert.match(canonicalWithLoader, /<urn:anbs:Thing\.example>/)
+
+  class CRUntypedPresentation extends api.CRThing {
+    constructor(snapshot) {
+      super(snapshot, { '@type': undefined })
+    }
+
+    toJSONLD(options) {
+      const document = super.toJSONLD(options)
+      delete document['@type']
+      return document
+    }
+  }
+  const untypedPresentation = new CRUntypedPresentation()
+  untypedPresentation.name.insertAfter(-1, 'No type')
+  await untypedPresentation.getCanonicalPresentation()
 
   await assert.rejects(
     () => new api.CRImageObject().getCanonicalPresentation(),

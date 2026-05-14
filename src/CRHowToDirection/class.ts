@@ -1,7 +1,7 @@
 import type { CRStructSnapshot } from '@sovereignbase/convergent-replicated-struct'
 
 import { CRCreativeWork } from '../CRCreativeWork/class.js'
-import { crSetSnapshot } from '../.shared/index.js'
+import { crIdReferenceValue, crSetSnapshot } from '../.shared/index.js'
 
 import type {
   CRHowToDirectionDefaultShape,
@@ -55,12 +55,12 @@ export class CRHowToDirection<
         afterMedia: crSetSnapshot,
         beforeMedia: crSetSnapshot,
         duringMedia: crSetSnapshot,
-        item: { '@id': '' },
-        nextItem: { '@id': '' },
+        item: crIdReferenceValue,
+        nextItem: crIdReferenceValue,
         performTime: '',
         position: 0,
         prepTime: '',
-        previousItem: { '@id': '' },
+        previousItem: crIdReferenceValue,
         supply: crSetSnapshot,
         tool: crSetSnapshot,
         totalTime: '',

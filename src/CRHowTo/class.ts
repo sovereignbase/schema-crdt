@@ -1,7 +1,7 @@
 import type { CRStructSnapshot } from '@sovereignbase/convergent-replicated-struct'
 
 import { CRCreativeWork } from '../CRCreativeWork/class.js'
-import { crSetSnapshot, itemListElement } from '../.shared/index.js'
+import { crListSnapshot, crSetSnapshot } from '../.shared/index.js'
 
 import type { CRHowToDefaultShape, CRHowToState } from './types/types.js'
 
@@ -47,7 +47,7 @@ export class CRHowTo<
         estimatedCost: crSetSnapshot,
         performTime: '',
         prepTime: '',
-        step: itemListElement,
+        step: crListSnapshot,
         supply: crSetSnapshot,
         tool: crSetSnapshot,
         totalTime: '',

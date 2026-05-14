@@ -1,6 +1,7 @@
 import type { CRStructSnapshot } from '@sovereignbase/convergent-replicated-struct'
 
 import { CRIntangible } from '../CRIntangible/class.js'
+import { crIdReferenceValue } from '../.shared/index.js'
 
 import type { CRListItemDefaultShape, CRListItemState } from './types/types.js'
 
@@ -52,10 +53,10 @@ export class CRListItem<
       snapshot,
       {
         '@type': 'ListItem' as Type,
-        item: { '@id': '' },
-        nextItem: { '@id': '' },
+        item: crIdReferenceValue,
+        nextItem: crIdReferenceValue,
         position: 0,
-        previousItem: { '@id': '' },
+        previousItem: crIdReferenceValue,
         ...defaultShape,
       } as Partial<Shape>,
       crdtProperties

@@ -1,7 +1,11 @@
 import type { CRStructSnapshot } from '@sovereignbase/convergent-replicated-struct'
 
 import { CRThing } from '../CRThing/class.js'
-import { crSetSnapshot, crTextSnapshot } from '../.shared/index.js'
+import {
+  crIdReferenceValue,
+  crSetSnapshot,
+  crTextSnapshot,
+} from '../.shared/index.js'
 
 import type { CRPersonDefaultShape, CRPersonState } from './types/types.js'
 
@@ -127,7 +131,7 @@ export class CRPerson<
         hasOccupation: crSetSnapshot,
         hasOfferCatalog: crSetSnapshot,
         hasPOS: crSetSnapshot,
-        height: { '@id': '' },
+        height: crIdReferenceValue,
         homeLocation: crSetSnapshot,
         honorificPrefix: crSetSnapshot,
         honorificSuffix: crSetSnapshot,
@@ -142,7 +146,7 @@ export class CRPerson<
         memberOf: crSetSnapshot,
         naics: crSetSnapshot,
         nationality: crSetSnapshot,
-        netWorth: { '@id': '' },
+        netWorth: crIdReferenceValue,
         owns: crSetSnapshot,
         parent: crSetSnapshot,
         performerIn: crSetSnapshot,
@@ -157,7 +161,7 @@ export class CRPerson<
         taxID: crSetSnapshot,
         telephone: crSetSnapshot,
         vatID: crSetSnapshot,
-        weight: { '@id': '' },
+        weight: crIdReferenceValue,
         workLocation: crSetSnapshot,
         worksFor: crSetSnapshot,
         ...defaultShape,

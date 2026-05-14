@@ -105,12 +105,12 @@ export type CRThingDefaultShape<T = 'Thing'> = {
   /**
    * Schema.org image: An image of the item.
    */
-  image: CRThingImage
+  image: CRSetSnapshot<CRThingImage>
   /**
    * Schema.org mainEntityOfPage: A page or other CreativeWork for which this
    * thing is the main entity being described.
    */
-  mainEntityOfPage: CRThingMainEntityOfPage
+  mainEntityOfPage: CRSetSnapshot<CRThingMainEntityOfPage>
   /**
    * Schema.org name: The name of the item.
    */
@@ -118,7 +118,7 @@ export type CRThingDefaultShape<T = 'Thing'> = {
   /**
    * Schema.org owner: A person or organization who owns this Thing.
    */
-  owner: CRThingOwner
+  owner: CRSetSnapshot<CRThingOwner>
   /**
    * Schema.org potentialAction: A potential Action describing an idealized
    * action in which this thing would play an object role.
@@ -192,12 +192,12 @@ export type CRThingState<T = 'Thing'> = {
   /**
    * Schema.org image: An image of the item.
    */
-  image: CRThingImage
+  image: Readonly<CRSet<CRThingImage>>
   /**
    * Schema.org mainEntityOfPage: A page or other CreativeWork for which this
    * thing is the main entity being described.
    */
-  mainEntityOfPage: CRThingMainEntityOfPage
+  mainEntityOfPage: Readonly<CRSet<CRThingMainEntityOfPage>>
   /**
    * Schema.org name: The name of the item.
    */
@@ -205,7 +205,7 @@ export type CRThingState<T = 'Thing'> = {
   /**
    * Schema.org owner: A person or organization who owns this Thing.
    */
-  owner: CRThingOwner
+  owner: Readonly<CRSet<CRThingOwner>>
   /**
    * Schema.org potentialAction: A potential Action for this Thing.
    */

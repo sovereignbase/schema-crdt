@@ -1,7 +1,7 @@
 import type { CRStructSnapshot } from '@sovereignbase/convergent-replicated-struct'
 
 import { CRCreativeWork } from '../CRCreativeWork/class.js'
-import { itemListElement } from '../.shared/index.js'
+import { crIdReferenceValue, crListSnapshot } from '../.shared/index.js'
 
 import type {
   CRHowToStepDefaultShape,
@@ -47,14 +47,14 @@ export class CRHowToStep<
       snapshot,
       {
         '@type': 'HowToStep' as Type,
-        aggregateElement: { '@id': '' },
-        item: { '@id': '' },
-        itemListElement,
+        aggregateElement: crIdReferenceValue,
+        item: crIdReferenceValue,
+        itemListElement: crListSnapshot,
         itemListOrder: '',
-        nextItem: { '@id': '' },
+        nextItem: crIdReferenceValue,
         numberOfItems: 0,
         position: 0,
-        previousItem: { '@id': '' },
+        previousItem: crIdReferenceValue,
         ...defaultShape,
       } as unknown as Partial<Shape>,
       {

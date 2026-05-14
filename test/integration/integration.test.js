@@ -44,20 +44,24 @@ test('shared schema-crdt suite passes against CJS build', async () => {
 test('JSON-LD references for Person, Organization, ImageObject, WebPage, and Action merge through Thing', () => {
   const thing = new esmApi.CRThing()
 
-  thing.owner = typedReference('Person', 'owner-person')
-  assert.deepEqual(thing.owner, typedReference('Person', 'owner-person'))
+  thing.owner.add(typedReference('Person', 'owner-person'))
+  assert.deepEqual(thing.owner.values(), [
+    typedReference('Person', 'owner-person'),
+  ])
 
-  thing.owner = typedReference('Organization', 'owner-organization')
-  assert.deepEqual(
-    thing.owner,
-    typedReference('Organization', 'owner-organization')
-  )
+  thing.owner.add(typedReference('Organization', 'owner-organization'))
+  assert.deepEqual(thing.owner.values(), [
+    typedReference('Person', 'owner-person'),
+    typedReference('Organization', 'owner-organization'),
+  ])
 
-  thing.image = 'https://example.test/image.png'
-  assert.equal(thing.image, 'https://example.test/image.png')
+  thing.image.add('https://example.test/image.png')
+  assert.deepEqual(thing.image.values(), ['https://example.test/image.png'])
 
-  thing.mainEntityOfPage = 'https://example.test/main-page'
-  assert.equal(thing.mainEntityOfPage, 'https://example.test/main-page')
+  thing.mainEntityOfPage.add('https://example.test/main-page')
+  assert.deepEqual(thing.mainEntityOfPage.values(), [
+    'https://example.test/main-page',
+  ])
 
   thing.potentialAction.add(typedReference('Action', 'potential-action'))
   assert.equal(thing.potentialAction.size, 1)
@@ -68,8 +72,8 @@ test('creative work and place properties accept currently implemented CRDT class
   work.about.add(referenceValue('about-thing'))
   work.author.add(typedReference('Person', 'author-person'))
   work.publisher.add(typedReference('Organization', 'publisher-organization'))
-  work.image = 'https://example.test/image-object'
-  work.mainEntityOfPage = 'https://example.test/main-page'
+  work.image.add('https://example.test/image-object')
+  work.mainEntityOfPage.add('https://example.test/main-page')
   assert.equal(work.about.size, 1)
   assert.equal(work.author.size, 1)
   assert.equal(work.publisher.size, 1)

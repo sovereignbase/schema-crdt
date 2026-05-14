@@ -20,18 +20,11 @@ import {
   CRMap,
   type CRMapSnapshot,
 } from '@sovereignbase/convergent-replicated-map'
+import type { ContextDefinition, JsonLdDocument, Options } from 'jsonld'
 import { v7 as uuidv7 } from 'uuid'
 
 import type { CRThingDefaultShape, CRThingState } from './types/types.js'
-import {
-  additionalType,
-  alternateName,
-  description,
-  disambiguatingDescription,
-  name,
-  sameAs,
-  subjectOf,
-} from '../.shared/index.js'
+import { crSetSnapshot, crTextSnapshot } from '../.shared/index.js'
 
 import type {
   SchemaCRDTEventListenerFor,
@@ -44,22 +37,6 @@ import type {
   SchemaCRDTPropertyEventMap,
 } from '../.types/types.js'
 import { SchemaCRDTError } from '../.errors/class.js'
-
-const schemaOrgJSONLDContext = { '@vocab': 'https://schema.org/' } as const
-
-type JSONLDProcessor = {
-  canonize(input: unknown, options: Record<string, unknown>): Promise<string>
-  compact(input: unknown, context: unknown): Promise<unknown>
-}
-
-type StructuredDataValidator = {
-  validate(data: unknown): Promise<
-    Array<{
-      issueMessage?: string
-      severity?: string
-    }>
-  >
-}
 
 /**
  * CRDT-backed Schema.org Thing.
@@ -152,18 +129,18 @@ export class CRThing<
     const defaults = {
       '@id': '',
       '@type': 'Thing' as Type,
-      additionalType,
-      alternateName,
-      description,
-      disambiguatingDescription,
+      additionalType: crSetSnapshot,
+      alternateName: crSetSnapshot,
+      description: crTextSnapshot,
+      disambiguatingDescription: crTextSnapshot,
       identifier: '',
-      image: '',
-      mainEntityOfPage: '',
-      name,
-      owner: { '@id': '' },
-      potentialAction: additionalType,
-      sameAs,
-      subjectOf,
+      image: crSetSnapshot,
+      mainEntityOfPage: crSetSnapshot,
+      name: crTextSnapshot,
+      owner: crSetSnapshot,
+      potentialAction: crSetSnapshot,
+      sameAs: crSetSnapshot,
+      subjectOf: crSetSnapshot,
       url: '',
       ...defaultShape,
     } as Shape
@@ -238,29 +215,18 @@ export class CRThing<
         writable: false,
       },
       image: {
+        value: new CRSet(state['image'] ?? defaults['image']),
         enumerable: true,
         configurable: true,
-        get(): CRThingState<Type>['image'] {
-          return state['image'] ?? defaults['image']
-        },
-        set(value: CRThingState<Type>['image']): void {
-          this.validateFormat('image' as Extract<keyof Shape, string>, value)
-          state['image'] = value
-        },
+        writable: false,
       },
       mainEntityOfPage: {
+        value: new CRSet(
+          state['mainEntityOfPage'] ?? defaults['mainEntityOfPage']
+        ),
         enumerable: true,
         configurable: true,
-        get(): CRThingState<Type>['mainEntityOfPage'] {
-          return state['mainEntityOfPage'] ?? defaults['mainEntityOfPage']
-        },
-        set(value: CRThingState<Type>['mainEntityOfPage']): void {
-          this.validateFormat(
-            'mainEntityOfPage' as Extract<keyof Shape, string>,
-            value
-          )
-          state['mainEntityOfPage'] = value
-        },
+        writable: false,
       },
       name: {
         value: new CRText(state['name'] ?? defaults['name']),
@@ -269,15 +235,10 @@ export class CRThing<
         writable: false,
       },
       owner: {
+        value: new CRSet(state['owner'] ?? defaults['owner']),
         enumerable: true,
         configurable: true,
-        get(): CRThingState<Type>['owner'] {
-          return state['owner'] ?? defaults['owner']
-        },
-        set(value: CRThingState<Type>['owner']): void {
-          this.validateFormat('owner' as Extract<keyof Shape, string>, value)
-          state['owner'] = value
-        },
+        writable: false,
       },
       potentialAction: {
         value: new CRSet(
@@ -453,8 +414,7 @@ export class CRThing<
    *
    * @param document - Compacted or expanded Schema.org JSON-LD document to import.
    */
-  static async fromJSONLD<Instance extends CRThing>(
-    this: new (snapshot?: never) => Instance,
+  static async fromJSONLD<Instance extends CRThing = CRThing>(
     document: SchemaCRDTJSONLDInput
   ): Promise<Instance> {
     if (!Array.isArray(document) && !CRThing.isRecord(document)) {
@@ -464,7 +424,8 @@ export class CRThing<
       )
     }
 
-    const empty = new this()
+    const Constructor = this as unknown as new (snapshot?: never) => Instance
+    const empty = new Constructor()
     const needsCompaction =
       Array.isArray(document) ||
       Object.keys(document).some(
@@ -478,10 +439,13 @@ export class CRThing<
 
     try {
       if (needsCompaction) {
-        const jsonldPackage: string = 'jsonld'
-        const jsonld = (await import(jsonldPackage))
-          .default as unknown as JSONLDProcessor
-        compacted = await jsonld.compact(document, schemaOrgJSONLDContext)
+        const jsonld = (await import('jsonld')) as unknown as {
+          default: typeof import('jsonld')
+        }
+        compacted = await jsonld.default.compact(
+          document as JsonLdDocument,
+          { '@vocab': 'https://schema.org/' } as ContextDefinition
+        )
       } else {
         compacted = document
       }
@@ -542,7 +506,7 @@ export class CRThing<
       snapshot.identifier = entry(selected.identifier)
     }
 
-    const replica = new this(snapshot as never)
+    const replica = new Constructor(snapshot as never)
 
     for (const [key, value] of Object.entries(selected)) {
       if (key.startsWith('@') || key === 'identifier' || value === undefined) {
@@ -619,7 +583,7 @@ export class CRThing<
     const keys = new Set([...Object.keys(this), 'identifier'])
 
     if (options.context !== false) {
-      document['@context'] = options.context ?? schemaOrgJSONLDContext
+      document['@context'] = options.context ?? 'https://schema.org'
     }
 
     for (const key of keys) {
@@ -648,14 +612,20 @@ export class CRThing<
   async getCanonicalPresentation(
     options: SchemaCRDTCanonicalPresentationOptions = {}
   ): Promise<string> {
-    const document = this.toJSONLD({ context: options.context })
+    const document = this.toJSONLD({
+      context: options.context ?? { '@vocab': 'https://schema.org/' },
+    })
 
     try {
       if (options.validate !== false) {
         const packageName: string = '@adobe/structured-data-validator'
         const Validator = (
           (await import(packageName)) as unknown as {
-            default: new (schemaOrgJson?: unknown) => StructuredDataValidator
+            default: new (schemaOrgJson?: unknown) => {
+              validate(
+                data: unknown
+              ): Promise<Array<{ issueMessage?: string; severity?: string }>>
+            }
           }
         ).default
         const validator = new Validator(options.schemaOrgJson)
@@ -671,25 +641,25 @@ export class CRThing<
         const error = issues.find((issue) => issue.severity === 'ERROR')
 
         if (error) {
-          throw new SchemaCRDTError(
-            'VALIDATION_FAILED',
-            error.issueMessage ?? 'Invalid JSON-LD presentation.'
-          )
+          throw new SchemaCRDTError('VALIDATION_FAILED', error.issueMessage)
         }
       }
 
-      const jsonldPackage: string = 'jsonld'
-      const jsonld = (await import(jsonldPackage))
-        .default as unknown as JSONLDProcessor
+      const jsonld = (await import('jsonld')) as unknown as {
+        default: typeof import('jsonld')
+      }
 
-      return await jsonld.canonize(document, {
-        algorithm: 'URDNA2015',
-        format: 'application/n-quads',
-        safe: options.safe ?? true,
-        ...(options.documentLoader
-          ? { documentLoader: options.documentLoader }
-          : {}),
-      })
+      return await jsonld.default.canonize(
+        document as JsonLdDocument,
+        {
+          algorithm: 'URDNA2015',
+          format: 'application/n-quads',
+          safe: options.safe ?? true,
+          ...(options.documentLoader
+            ? { documentLoader: options.documentLoader }
+            : {}),
+        } as Options.Normalize
+      )
     } catch (error) {
       if (error instanceof SchemaCRDTError) {
         throw error

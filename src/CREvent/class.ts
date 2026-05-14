@@ -1,7 +1,7 @@
 import type { CRStructSnapshot } from '@sovereignbase/convergent-replicated-struct'
 
 import { CRThing } from '../CRThing/class.js'
-import { crSetSnapshot } from '../.shared/index.js'
+import { crIdReferenceValue, crSetSnapshot } from '../.shared/index.js'
 
 import type { CREventDefaultShape, CREventState } from './types/types.js'
 
@@ -87,9 +87,9 @@ export class CREvent<
         doorTime: '',
         duration: '',
         endDate: '',
-        eventAttendanceMode: { '@id': '' },
+        eventAttendanceMode: crIdReferenceValue,
         eventSchedule: crSetSnapshot,
-        eventStatus: { '@id': '' },
+        eventStatus: crIdReferenceValue,
         funder: crSetSnapshot,
         funding: crSetSnapshot,
         hasParticipationOffer: crSetSnapshot,

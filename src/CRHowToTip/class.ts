@@ -1,6 +1,7 @@
 import type { CRStructSnapshot } from '@sovereignbase/convergent-replicated-struct'
 
 import { CRCreativeWork } from '../CRCreativeWork/class.js'
+import { crIdReferenceValue } from '../.shared/index.js'
 
 import type { CRHowToTipDefaultShape, CRHowToTipState } from './types/types.js'
 
@@ -39,10 +40,10 @@ export class CRHowToTip<
       snapshot,
       {
         '@type': 'HowToTip' as Type,
-        item: { '@id': '' },
-        nextItem: { '@id': '' },
+        item: crIdReferenceValue,
+        nextItem: crIdReferenceValue,
         position: 0,
-        previousItem: { '@id': '' },
+        previousItem: crIdReferenceValue,
         ...defaultShape,
       } as Partial<Shape>,
       crdtProperties

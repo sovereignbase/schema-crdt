@@ -1,7 +1,7 @@
 import type { CRStructSnapshot } from '@sovereignbase/convergent-replicated-struct'
 
 import { CRThing } from '../CRThing/class.js'
-import { additionalType, description } from '../.shared/index.js'
+import { crSetSnapshot, crTextSnapshot } from '../.shared/index.js'
 
 import type {
   CRPlaceDefaultShape,
@@ -74,59 +74,59 @@ export class CRPlace<
       {
         '@type': 'Place' as Type,
         additionalProperty:
-          additionalType as unknown as CRPlaceDefaultShape<Type>['additionalProperty'],
-        address: additionalType,
+          crSetSnapshot as unknown as CRPlaceDefaultShape<Type>['additionalProperty'],
+        address: crSetSnapshot,
         aggregateRating:
-          additionalType as unknown as CRPlaceDefaultShape<Type>['aggregateRating'],
+          crSetSnapshot as unknown as CRPlaceDefaultShape<Type>['aggregateRating'],
         amenityFeature:
-          additionalType as unknown as CRPlaceDefaultShape<Type>['amenityFeature'],
+          crSetSnapshot as unknown as CRPlaceDefaultShape<Type>['amenityFeature'],
         branchCode: '',
-        containedInPlace: additionalType,
-        containsPlace: additionalType,
-        event: additionalType,
+        containedInPlace: crSetSnapshot,
+        containsPlace: crSetSnapshot,
+        event: crSetSnapshot,
         faxNumber: '',
-        geo: additionalType as unknown as CRPlaceDefaultShape<Type>['geo'],
+        geo: crSetSnapshot as unknown as CRPlaceDefaultShape<Type>['geo'],
         geoContains:
-          additionalType as unknown as CRPlaceDefaultShape<Type>['geoContains'],
+          crSetSnapshot as unknown as CRPlaceDefaultShape<Type>['geoContains'],
         geoCoveredBy:
-          additionalType as unknown as CRPlaceDefaultShape<Type>['geoCoveredBy'],
+          crSetSnapshot as unknown as CRPlaceDefaultShape<Type>['geoCoveredBy'],
         geoCovers:
-          additionalType as unknown as CRPlaceDefaultShape<Type>['geoCovers'],
+          crSetSnapshot as unknown as CRPlaceDefaultShape<Type>['geoCovers'],
         geoCrosses:
-          additionalType as unknown as CRPlaceDefaultShape<Type>['geoCrosses'],
+          crSetSnapshot as unknown as CRPlaceDefaultShape<Type>['geoCrosses'],
         geoDisjoint:
-          additionalType as unknown as CRPlaceDefaultShape<Type>['geoDisjoint'],
+          crSetSnapshot as unknown as CRPlaceDefaultShape<Type>['geoDisjoint'],
         geoEquals:
-          additionalType as unknown as CRPlaceDefaultShape<Type>['geoEquals'],
+          crSetSnapshot as unknown as CRPlaceDefaultShape<Type>['geoEquals'],
         geoIntersects:
-          additionalType as unknown as CRPlaceDefaultShape<Type>['geoIntersects'],
+          crSetSnapshot as unknown as CRPlaceDefaultShape<Type>['geoIntersects'],
         geoOverlaps:
-          additionalType as unknown as CRPlaceDefaultShape<Type>['geoOverlaps'],
+          crSetSnapshot as unknown as CRPlaceDefaultShape<Type>['geoOverlaps'],
         geoTouches:
-          additionalType as unknown as CRPlaceDefaultShape<Type>['geoTouches'],
+          crSetSnapshot as unknown as CRPlaceDefaultShape<Type>['geoTouches'],
         geoWithin:
-          additionalType as unknown as CRPlaceDefaultShape<Type>['geoWithin'],
+          crSetSnapshot as unknown as CRPlaceDefaultShape<Type>['geoWithin'],
         globalLocationNumber: '',
-        hasCertification: additionalType,
+        hasCertification: crSetSnapshot,
         hasDriveThroughService: false,
         hasGS1DigitalLink: '',
-        hasMap: additionalType,
+        hasMap: crSetSnapshot,
         isAccessibleForFree: false,
         isicV4: '',
-        keywords: additionalType,
+        keywords: crSetSnapshot,
         latitude: '',
-        logo: additionalType,
+        logo: crSetSnapshot,
         longitude: '',
         maximumAttendeeCapacity: 0,
         openingHoursSpecification:
-          additionalType as unknown as CRPlaceDefaultShape<Type>['openingHoursSpecification'],
-        photo: additionalType,
+          crSetSnapshot as unknown as CRPlaceDefaultShape<Type>['openingHoursSpecification'],
+        photo: crSetSnapshot,
         publicAccess: false,
-        review: additionalType,
-        slogan: description,
+        review: crSetSnapshot,
+        slogan: crTextSnapshot,
         smokingAllowed: false,
         specialOpeningHoursSpecification:
-          additionalType as unknown as CRPlaceDefaultShape<Type>['specialOpeningHoursSpecification'],
+          crSetSnapshot as unknown as CRPlaceDefaultShape<Type>['specialOpeningHoursSpecification'],
         telephone: '',
         tourBookingPage: '',
         ...defaultShape,
